@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Playfair_Display, Inter } from "next/font/google";
 import type { Metadata } from "next";
-import "../globals.css";
+import "../../globals.css";
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
