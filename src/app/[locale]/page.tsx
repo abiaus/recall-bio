@@ -1,8 +1,13 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 
-export default function HomePage() {
-  const t = useTranslations("home");
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home" });
 
   return (
     <div className="min-h-dvh bg-[#F6F1E7] flex items-center justify-center px-4">

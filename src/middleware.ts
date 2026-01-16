@@ -7,10 +7,18 @@ const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
   // Handle i18n routing first
-  const response = intlMiddleware(request);
+  const intlResponse = intlMiddleware(request);
+  
+  // If intl middleware returns a redirect response, return it immediately
+  if (intlResponse && intlResponse.status >= 300 && intlResponse.status < 400) {
+    return intlResponse;
+  }
 
+  // Use the response from intl middleware or create a new one
+  const response = intlResponse || NextResponse.next({ request });
+  
   // Then handle Supabase auth
-  let supabaseResponse = response || NextResponse.next({ request });
+  let supabaseResponse = response;
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

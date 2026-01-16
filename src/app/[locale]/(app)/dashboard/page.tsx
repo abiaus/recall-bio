@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-export default function DashboardPage({
+export default async function DashboardPage({
   params,
 }: {
   params: Promise<{ locale: string }>;

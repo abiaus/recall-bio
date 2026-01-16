@@ -1,88 +1,113 @@
 # Recall.bio
 
-Plataforma de legado digital que permite a los usuarios documentar su historia de vida mediante respuestas diarias (texto, audio, video) para crear un archivo emocional para sus familias.
+A digital legacy platform that allows users to document their life story through daily responses (text, audio, video) to create an emotional archive for their families.
 
-## Stack Tecnológico
+## Stack
 
 - **Framework**: Next.js 14+ (App Router)
-- **Lenguaje**: TypeScript (Tipado estricto)
-- **Backend/Base de Datos**: Supabase (Auth, PostgreSQL, Storage para media, Realtime)
-- **Estilizado**: Tailwind CSS + Framer Motion
-- **Componentes**: shadcn/ui
-- **Estado/Data Fetching**: TanStack Query (React Query) + Server Actions
+- **Language**: TypeScript (Strict typing)
+- **Backend/Database**: Supabase (Auth, PostgreSQL, Storage for media, Realtime)
+- **Styling**: Tailwind CSS + Framer Motion
+- **Components**: shadcn/ui
+- **State/Data Fetching**: TanStack Query (React Query) + Server Actions
+- **Internationalization**: next-intl (English default, Spanish support)
 
-## Configuración
+## Setup
 
-1. Clona el repositorio
-2. Instala las dependencias:
+1. Clone the repository
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. Configura las variables de entorno:
+3. Configure environment variables:
    ```bash
    cp .env.local.example .env.local
    ```
    
-   Edita `.env.local` con tus credenciales de Supabase:
+   Edit `.env.local` with your Supabase credentials:
    ```
-   NEXT_PUBLIC_SUPABASE_URL=tu_url_de_supabase
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
-4. Configura Supabase:
-   - Las migraciones ya están aplicadas en el schema `recallbio`
-   - Crea un bucket de Storage llamado `media` (privado) desde el dashboard de Supabase
-   - Configura las políticas de Storage para permitir uploads autenticados
+4. Configure Supabase:
+   - Migrations are already applied in the `recallbio` schema
+   - Create a Storage bucket named `media` (private) from Supabase dashboard
+   - Configure Storage policies for authenticated uploads (see `SETUP.md`)
 
-5. Ejecuta el servidor de desarrollo:
+5. Run the development server:
    ```bash
    npm run dev
    ```
 
-## Estructura del Proyecto
+## Internationalization
+
+The app supports multiple languages:
+- **English (en)** - Default language
+- **Spanish (es)**
+
+Routes are automatically prefixed with locale (e.g., `/en/app/today` or `/es/app/today`). The default locale (`en`) can be accessed without prefix.
+
+### Adding New Languages
+
+1. Add locale to `src/i18n/config.ts` and `src/i18n/routing.ts`
+2. Create translation file in `messages/{locale}.json`
+3. Copy structure from `messages/en.json` and translate
+
+## Project Structure
 
 ```
 src/
 ├── app/
-│   ├── (app)/          # Rutas autenticadas
-│   │   ├── today/      # Prompt del día
-│   │   ├── memories/   # Lista y detalle de recuerdos
-│   │   ├── legacy/     # Gestión de herederos
-│   │   └── settings/   # Configuración
-│   ├── auth/           # Páginas de autenticación
-│   └── page.tsx         # Landing page
+│   ├── [locale]/          # Localized routes
+│   │   ├── (app)/         # Authenticated routes
+│   │   │   ├── today/     # Daily prompt
+│   │   │   ├── memories/  # List and detail of memories
+│   │   │   ├── legacy/    # Heir management
+│   │   │   └── settings/  # Settings
+│   │   └── auth/          # Authentication pages
+│   └── layout.tsx         # Root layout (redirects to /en)
 ├── components/
-│   ├── memories/       # Componentes de recuerdos
-│   ├── recording/      # Grabadores de audio/video
-│   └── legacy/          # Componentes de legado
+│   ├── memories/          # Memory components
+│   ├── recording/         # Audio/video recorders
+│   └── legacy/            # Legacy components
 ├── lib/
-│   ├── supabase/       # Clientes de Supabase (server/client)
-│   └── prompts/        # Lógica de prompts diarios
-└── server/
-    └── actions/        # Server Actions
+│   ├── supabase/          # Supabase clients (server/client)
+│   └── prompts/           # Daily prompt logic
+├── server/
+│   └── actions/          # Server Actions
+├── i18n/                 # Internationalization config
+└── messages/             # Translation files
 ```
 
-## Funcionalidades MVP
+## MVP Features
 
-- ✅ Autenticación con Supabase (email/password)
-- ✅ Onboarding con etapa de vida y timezone
-- ✅ Sistema de prompts diarios (asignación estable)
-- ✅ Creación de recuerdos (texto + audio)
-- ✅ Lista y detalle de recuerdos
-- ✅ Gestión de legado (invitar herederos, activar acceso)
-- ✅ Auditoría básica
+- ✅ Authentication with Supabase (email/password)
+- ✅ Onboarding with life stage and timezone
+- ✅ Daily prompt system (stable assignment)
+- ✅ Memory creation (text + audio)
+- ✅ Memory list and detail views
+- ✅ Legacy management (invite heirs, activate access)
+- ✅ Basic audit logging
+- ✅ Multi-language support (English/Spanish)
 
-## Próximos Pasos (V1.5)
+## Next Steps (V1.5)
 
 - Video recording
-- Prompt engine híbrido mejorado
-- Dashboard con estadísticas
-- Suscripción Stripe
-- Legado híbrido (inactividad + verificación)
+- Enhanced hybrid prompt engine
+- Dashboard with statistics
+- Stripe subscription integration
+- Hybrid legacy (inactivity + verification)
 
-## Notas
+## Notes
 
-- El schema de base de datos está aislado en `recallbio` para no interferir con otras tablas
-- Las políticas RLS están configuradas para máxima privacidad
-- El bucket de Storage debe crearse manualmente desde el dashboard de Supabase
+- Database schema is isolated in `recallbio` to avoid conflicts
+- RLS policies are configured for maximum privacy
+- Storage bucket must be created manually from Supabase dashboard
+- All user-facing text is internationalized
+
+## Documentation
+
+- `SETUP.md` - Detailed setup guide
+- `I18N_MIGRATION.md` - Internationalization migration status
