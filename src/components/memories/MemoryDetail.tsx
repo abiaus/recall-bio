@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 interface Question {
   text: string;
@@ -23,6 +24,7 @@ interface MemoryDetailProps {
 }
 
 export function MemoryDetail({ memory }: MemoryDetailProps) {
+  const t = useTranslations("memories");
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const supabase = createClient();
 
@@ -79,7 +81,7 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
         href="/app/memories"
         className="text-[#8B7355] hover:underline text-sm"
       >
-        ← Volver a Recuerdos
+        ← {t("backToMemories")}
       </Link>
 
       <div className="space-y-4">
@@ -101,7 +103,7 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
 
         {audioUrl && (
           <div className="p-6 rounded-2xl bg-white border border-[#D4C5B0]">
-            <h3 className="font-medium text-[#2B241B] mb-2">Audio</h3>
+            <h3 className="font-medium text-[#2B241B] mb-2">{t("audio")}</h3>
             <audio src={audioUrl} controls className="w-full" />
           </div>
         )}

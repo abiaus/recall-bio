@@ -1,6 +1,7 @@
 "use client";
 
 import { MemoryCard } from "./MemoryCard";
+import { useTranslations } from "next-intl";
 
 interface Question {
   text: string;
@@ -21,13 +22,12 @@ interface MemoryListProps {
 }
 
 export function MemoryList({ memories }: MemoryListProps) {
+  const t = useTranslations("memories");
+
   if (memories.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-[#5A4A3A]">
-          Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt
-          del día.
-        </p>
+        <p className="text-[#5A4A3A]">{t("noMemories")}</p>
       </div>
     );
   }

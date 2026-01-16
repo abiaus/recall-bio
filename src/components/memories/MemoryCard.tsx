@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Question {
   text: string;
@@ -23,6 +24,7 @@ interface MemoryCardProps {
 }
 
 export function MemoryCard({ memory }: MemoryCardProps) {
+  const t = useTranslations("memories");
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const supabase = createClient();
 

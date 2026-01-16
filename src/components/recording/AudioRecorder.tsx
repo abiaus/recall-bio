@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface AudioRecorderProps {
   memoryId: string;
@@ -9,6 +10,7 @@ interface AudioRecorderProps {
 }
 
 export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps) {
+  const t = useTranslations("recording");
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -71,7 +73,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
       }, 1000);
     } catch (error) {
       console.error("Error accessing microphone:", error);
-      alert("No se pudo acceder al micrófono. Por favor, verifica los permisos.");
+      alert(t("microphoneError"));
     }
   };
 
@@ -162,7 +164,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
       onUploadComplete?.();
     } catch (error) {
       console.error("Error uploading audio:", error);
-      alert("Error al subir el audio. Por favor, intenta de nuevo.");
+      alert("Error uploading audio. Please try again.");
     } finally {
       setUploading(false);
     }
@@ -184,7 +186,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
             className="px-6 py-3 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors flex items-center gap-2"
           >
             <span>🎤</span>
-            <span>Grabar Audio</span>
+            <span>{t("recordAudio")}</span>
           </button>
         )}
 
@@ -202,7 +204,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
                 onClick={pauseRecording}
                 className="px-4 py-2 rounded-lg border border-[#D4C5B0] text-[#2B241B] hover:bg-[#F6F1E7] transition-colors"
               >
-                Pausar
+                {t("pause")}
               </button>
             ) : (
               <button
@@ -210,7 +212,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
                 onClick={resumeRecording}
                 className="px-4 py-2 rounded-lg border border-[#D4C5B0] text-[#2B241B] hover:bg-[#F6F1E7] transition-colors"
               >
-                Reanudar
+                {t("resume")}
               </button>
             )}
             <button
@@ -218,7 +220,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
               onClick={stopRecording}
               className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
             >
-              Detener
+              {t("stop")}
             </button>
           </div>
         )}
@@ -235,7 +237,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
                 disabled={uploading}
                 className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors disabled:opacity-50"
               >
-                {uploading ? `Subiendo... ${uploadProgress}%` : "Subir Audio"}
+                {uploading ? `${t("uploading")} ${uploadProgress}%` : t("uploadAudio")}
               </button>
               <button
                 type="button"
@@ -246,7 +248,7 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
                 }}
                 className="px-4 py-2 rounded-lg border border-[#D4C5B0] text-[#2B241B] hover:bg-[#F6F1E7] transition-colors"
               >
-                Descartar
+                {t("discard")}
               </button>
             </div>
           </div>

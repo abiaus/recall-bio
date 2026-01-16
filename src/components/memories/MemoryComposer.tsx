@@ -4,12 +4,14 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { AudioRecorder } from "@/components/recording/AudioRecorder";
+import { useTranslations } from "next-intl";
 
 interface MemoryComposerProps {
   questionId: string;
 }
 
 export function MemoryComposer({ questionId }: MemoryComposerProps) {
+  const t = useTranslations("today");
   const [content, setContent] = useState("");
   const [mood, setMood] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,7 +72,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
           htmlFor="content"
           className="block text-sm font-medium text-[#2B241B] mb-2"
         >
-          Tu respuesta
+          {t("yourAnswer")}
         </label>
         <textarea
           id="content"
@@ -79,7 +81,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
           required
           rows={6}
           className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent resize-none"
-          placeholder="Escribe tu respuesta aquí..."
+          placeholder={t("answerPlaceholder")}
         />
       </div>
 
@@ -88,7 +90,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
           htmlFor="mood"
           className="block text-sm font-medium text-[#2B241B] mb-2"
         >
-          Estado de ánimo (opcional)
+          {t("mood")}
         </label>
         <select
           id="mood"
@@ -96,13 +98,13 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
           onChange={(e) => setMood(e.target.value)}
           className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
         >
-          <option value="">Selecciona...</option>
-          <option value="happy">Feliz</option>
-          <option value="grateful">Agradecido</option>
-          <option value="contemplative">Contemplativo</option>
-          <option value="nostalgic">Nostálgico</option>
-          <option value="peaceful">Tranquilo</option>
-          <option value="excited">Emocionado</option>
+          <option value="">{t("moodPlaceholder")}</option>
+          <option value="happy">{t("moodHappy")}</option>
+          <option value="grateful">{t("moodGrateful")}</option>
+          <option value="contemplative">{t("moodContemplative")}</option>
+          <option value="nostalgic">{t("moodNostalgic")}</option>
+          <option value="peaceful">{t("moodPeaceful")}</option>
+          <option value="excited">{t("moodExcited")}</option>
         </select>
       </div>
 
@@ -111,13 +113,13 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
         disabled={loading || (!content.trim() && !savedMemoryId)}
         className="px-6 py-3 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Guardando..." : "Guardar Recuerdo"}
+        {loading ? t("savingMemory") : t("saveMemory")}
       </button>
 
       {savedMemoryId && (
         <div className="mt-4 p-4 rounded-lg bg-[#F6F1E7] border border-[#D4C5B0]">
           <p className="text-sm text-[#5A4A3A] mb-2">
-            Recuerdo guardado. Puedes agregar un audio si lo deseas:
+            {t("memorySaved")}
           </p>
           <AudioRecorder
             memoryId={savedMemoryId}

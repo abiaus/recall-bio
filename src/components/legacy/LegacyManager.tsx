@@ -8,6 +8,7 @@ import {
   revokeLegacyAccess,
 } from "@/server/actions/legacy";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface LegacyAccess {
   id: string;
@@ -27,6 +28,8 @@ interface LegacyManagerProps {
 }
 
 export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
+  const t = useTranslations("legacy");
+  const tErrors = useTranslations("errors");
   const [showInviteForm, setShowInviteForm] = useState(false);
   const [heirEmail, setHeirEmail] = useState("");
   const [relationship, setRelationship] = useState("");
@@ -45,7 +48,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
       setShowInviteForm(false);
       router.refresh();
     } else {
-      alert(result.error || "Error al invitar heredero");
+      alert(result.error || tErrors("genericError"));
     }
 
     setLoading(false);
@@ -57,31 +60,31 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
     if (result.success) {
       router.refresh();
     } else {
-      alert(result.error || "Error al aceptar invitación");
+      alert(result.error || tErrors("genericError"));
     }
     setLoading(false);
   };
 
   const handleActivate = async (id: string) => {
-    if (!confirm("¿Estás seguro de activar el acceso ahora?")) return;
+    if (!confirm(t("activateConfirm"))) return;
     setLoading(true);
     const result = await activateLegacyAccess(id);
     if (result.success) {
       router.refresh();
     } else {
-      alert(result.error || "Error al activar acceso");
+      alert(result.error || tErrors("genericError"));
     }
     setLoading(false);
   };
 
   const handleRevoke = async (id: string) => {
-    if (!confirm("¿Estás seguro de revocar el acceso?")) return;
+    if (!confirm(t("revokeConfirm"))) return;
     setLoading(true);
     const result = await revokeLegacyAccess(id);
     if (result.success) {
       router.refresh();
     } else {
-      alert(result.error || "Error al revocar acceso");
+      alert(result.error || tErrors("genericError"));
     }
     setLoading(false);
   };
@@ -94,17 +97,20 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
       revoked: "bg-red-100 text-red-800",
       paused: "bg-gray-100 text-gray-800",
     };
+    const statusLabels: Record<string, string> = {
+      invited: t("statusInvited"),
+      accepted: t("statusAccepted"),
+      active: t("statusActive"),
+      revoked: t("statusRevoked"),
+      paused: t("statusPaused"),
+    };
     return (
       <span
         className={`px-2 py-1 rounded text-xs font-medium ${
           styles[status] || styles.invited
         }`}
       >
-        {status === "invited" && "Invitado"}
-        {status === "accepted" && "Aceptado"}
-        {status === "active" && "Activo"}
-        {status === "revoked" && "Revocado"}
-        {status === "paused" && "Pausado"}
+        {statusLabels[status] || statusLabels.invited}
       </span>
     );
   };
@@ -115,13 +121,13 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-serif text-xl font-semibold text-[#2B241B]">
-            Herederos Designados
+            {t("designatedHeirs")}
           </h2>
           <button
             onClick={() => setShowInviteForm(!showInviteForm)}
             className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors"
           >
-            {showInviteForm ? "Cancelar" : "+ Invitar Heredero"}
+            {showInviteForm ? t("cancel") : t("inviteHeir")}
           </button>
         </div>
 
@@ -132,7 +138,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                 htmlFor="heirEmail"
                 className="block text-sm font-medium text-[#2B241B] mb-2"
               >
-                Email del heredero
+                {t("heirEmail")}
               </label>
               <input
                 id="heirEmail"
@@ -141,7 +147,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                 onChange={(e) => setHeirEmail(e.target.value)}
                 required
                 className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
-                placeholder="heredero@email.com"
+                placeholder={t("heirEmailPlaceholder")}
               />
             </div>
 
@@ -150,7 +156,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                 htmlFor="relationship"
                 className="block text-sm font-medium text-[#2B241B] mb-2"
               >
-                Relación (opcional)
+                {t("relationship")}
               </label>
               <input
                 id="relationship"
@@ -158,7 +164,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                 value={relationship}
                 onChange={(e) => setRelationship(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
-                placeholder="Ej: Hijo/a, Cónyuge, Amigo/a"
+                placeholder={t("relationshipPlaceholder")}
               />
             </div>
 
@@ -167,14 +173,14 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
               disabled={loading}
               className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors disabled:opacity-50"
             >
-              {loading ? "Enviando..." : "Enviar Invitación"}
+              {loading ? t("sending") : t("sendInvitation")}
             </button>
           </form>
         )}
 
         {ownedLegacy.length === 0 ? (
           <p className="text-[#5A4A3A] text-sm">
-            No has designado herederos aún.
+            {t("noHeirs")}
           </p>
         ) : (
           <div className="space-y-3">
@@ -201,7 +207,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                       disabled={loading}
                       className="px-3 py-1 rounded text-sm bg-green-500 text-white hover:bg-green-600 disabled:opacity-50"
                     >
-                      Activar
+                      {t("activate")}
                     </button>
                   )}
                   {legacy.status !== "revoked" && (
@@ -210,7 +216,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                       disabled={loading}
                       className="px-3 py-1 rounded text-sm bg-red-500 text-white hover:bg-red-600 disabled:opacity-50"
                     >
-                      Revocar
+                      {t("revoke")}
                     </button>
                   )}
                 </div>
@@ -224,7 +230,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
       {heirLegacy.length > 0 && (
         <div>
           <h2 className="font-serif text-xl font-semibold text-[#2B241B] mb-4">
-            Invitaciones Recibidas
+            {t("invitationsReceived")}
           </h2>
           <div className="space-y-3">
             {heirLegacy.map((legacy) => (
@@ -234,7 +240,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
               >
                 <div>
                   <p className="font-medium text-[#2B241B]">
-                    Invitación de {legacy.owner_user_id}
+                    {t("invitationFrom")} {legacy.owner_user_id}
                   </p>
                   <div className="mt-2">{getStatusBadge(legacy.status)}</div>
                 </div>
@@ -244,7 +250,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                     disabled={loading}
                     className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] disabled:opacity-50"
                   >
-                    Aceptar
+                    {t("accept")}
                   </button>
                 )}
               </div>
