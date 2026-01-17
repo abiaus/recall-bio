@@ -1,124 +1,270 @@
 {
-  "common": {
-    "appName": "Recall",
-    "loading": "Cargando...",
-    "save": "Guardar",
-    "cancel": "Cancelar",
-    "delete": "Eliminar",
-    "edit": "Editar",
-    "back": "Volver",
-    "next": "Siguiente",
-    "previous": "Anterior",
-    "submit": "Enviar",
-    "close": "Cerrar"
-  },
-  "nav": {
-    "today": "Hoy",
-    "memories": "Recuerdos",
-    "legacy": "Legado",
-    "settings": "Configuración"
-  },
-  "auth": {
-    "login": "Iniciar Sesión",
-    "signup": "Crear Cuenta",
-    "logout": "Cerrar Sesión",
-    "email": "Email",
-    "password": "Contraseña",
-    "displayName": "Nombre",
-    "signingIn": "Iniciando sesión...",
-    "creatingAccount": "Creando cuenta...",
-    "alreadyHaveAccount": "¿Ya tienes cuenta?",
-    "noAccount": "¿No tienes cuenta?",
-    "signInHere": "Inicia sesión aquí",
-    "signUpHere": "Regístrate aquí",
-    "emailPlaceholder": "tu@email.com",
-    "passwordPlaceholder": "••••••••",
-    "namePlaceholder": "Tu nombre"
-  },
-  "onboarding": {
-    "title": "Bienvenido a Recall",
-    "subtitle": "Cuéntanos un poco sobre ti para personalizar tu experiencia.",
-    "lifeStage": "Etapa de vida",
-    "lifeStagePlaceholder": "Selecciona una opción",
-    "lifeStageTeen": "Adolescente",
-    "lifeStageYoungAdult": "Adulto joven",
-    "lifeStageAdult": "Adulto",
-    "lifeStageMidlife": "Mediana edad",
-    "lifeStageSenior": "Adulto mayor",
-    "timezone": "Zona horaria",
-    "saving": "Guardando...",
-    "continue": "Continuar"
-  },
-  "today": {
-    "title": "Tu Prompt del Día",
-    "noPrompts": "No hay preguntas disponibles en este momento.",
-    "yourAnswer": "Tu respuesta",
-    "answerPlaceholder": "Escribe tu respuesta aquí...",
-    "mood": "Estado de ánimo (opcional)",
-    "moodPlaceholder": "Selecciona...",
-    "moodHappy": "Feliz",
-    "moodGrateful": "Agradecido",
-    "moodContemplative": "Contemplativo",
-    "moodNostalgic": "Nostálgico",
-    "moodPeaceful": "Tranquilo",
-    "moodExcited": "Emocionado",
-    "savingMemory": "Guardando...",
-    "saveMemory": "Guardar Recuerdo",
-    "memorySaved": "Recuerdo guardado. Puedes agregar un audio si lo deseas:"
-  },
-  "memories": {
-    "title": "Mis Recuerdos",
-    "noMemories": "Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt del día.",
-    "audio": "Audio",
-    "backToMemories": "← Volver a Recuerdos"
-  },
-  "legacy": {
-    "title": "Legado Digital",
-    "subtitle": "Gestiona quién tendrá acceso a tus recuerdos en el futuro.",
-    "designatedHeirs": "Herederos Designados",
-    "inviteHeir": "+ Invitar Heredero",
-    "cancel": "Cancelar",
-    "noHeirs": "No has designado herederos aún.",
-    "heirEmail": "Email del heredero",
-    "heirEmailPlaceholder": "heredero@email.com",
-    "relationship": "Relación (opcional)",
-    "relationshipPlaceholder": "Ej: Hijo/a, Cónyuge, Amigo/a",
-    "sending": "Enviando...",
-    "sendInvitation": "Enviar Invitación",
-    "invitationsReceived": "Invitaciones Recibidas",
-    "invitationFrom": "Invitación de",
-    "accept": "Aceptar",
-    "activate": "Activar",
-    "revoke": "Revocar",
-    "activateConfirm": "¿Estás seguro de activar el acceso ahora?",
-    "revokeConfirm": "¿Estás seguro de revocar el acceso?",
-    "statusInvited": "Invitado",
-    "statusAccepted": "Aceptado",
-    "statusActive": "Activo",
-    "statusRevoked": "Revocado",
-    "statusPaused": "Pausado"
-  },
-  "recording": {
-    "recordAudio": "🎤 Grabar Audio",
-    "recording": "Grabando",
-    "pause": "Pausar",
-    "resume": "Reanudar",
-    "stop": "Detener",
-    "uploading": "Subiendo...",
-    "uploadAudio": "Subir Audio",
-    "discard": "Descartar",
-    "microphoneError": "No se pudo acceder al micrófono. Por favor, verifica los permisos."
-  },
-  "home": {
-    "title": "Recall.bio",
-    "subtitle": "Documenta tu historia de vida mediante respuestas diarias para crear un archivo emocional para tus familias.",
-    "getStarted": "Comenzar",
-    "signIn": "Iniciar Sesión"
-  },
-  "errors": {
-    "notAuthenticated": "No autenticado",
-    "genericError": "Ocurrió un error. Por favor, intenta de nuevo.",
-    "saveError": "Error al guardar. Por favor, intenta de nuevo.",
-    "uploadError": "Error al subir. Por favor, intenta de nuevo."
-  }
+    "language": {
+        "en": "English",
+        "es": "Español",
+        "switchLanguage": "Idioma"
+    },
+    "common": {
+        "appName": "Recall",
+        "loading": "Cargando...",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "back": "Volver",
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "submit": "Enviar",
+        "close": "Cerrar"
+    },
+    "nav": {
+        "today": "Hoy",
+        "memories": "Recuerdos",
+        "legacy": "Legado",
+        "settings": "Configuración"
+    },
+    "auth": {
+        "login": "Iniciar Sesión",
+        "signup": "Crear Cuenta",
+        "logout": "Cerrar Sesión",
+        "email": "Email",
+        "password": "Contraseña",
+        "displayName": "Nombre",
+        "signingIn": "Iniciando sesión...",
+        "creatingAccount": "Creando cuenta...",
+        "alreadyHaveAccount": "¿Ya tienes cuenta?",
+        "noAccount": "¿No tienes cuenta?",
+        "signInHere": "Inicia sesión aquí",
+        "signUpHere": "Regístrate aquí",
+        "emailPlaceholder": "tu@email.com",
+        "passwordPlaceholder": "••••••••",
+        "namePlaceholder": "Tu nombre"
+    },
+    "onboarding": {
+        "title": "Bienvenido a Recall",
+        "subtitle": "Cuéntanos un poco sobre ti para personalizar tu experiencia.",
+        "lifeStage": "Etapa de vida",
+        "lifeStagePlaceholder": "Selecciona una opción",
+        "lifeStageTeen": "Adolescente",
+        "lifeStageYoungAdult": "Adulto joven",
+        "lifeStageAdult": "Adulto",
+        "lifeStageMidlife": "Mediana edad",
+        "lifeStageSenior": "Adulto mayor",
+        "timezone": "Zona horaria",
+        "saving": "Guardando...",
+        "continue": "Continuar"
+    },
+    "today": {
+        "title": "Tu Pregunta del Día",
+        "noPrompts": "No hay preguntas disponibles en este momento.",
+        "noPromptsTitle": "¡Todo al día!",
+        "yourAnswer": "Tu respuesta",
+        "yourAnswerOptional": "opcional",
+        "answerPlaceholder": "Tómate un momento para reflexionar y escribir tus pensamientos...",
+        "writeTab": "Escribir",
+        "recordTab": "Voz",
+        "characters": "caracteres",
+        "mood": "¿Cómo te sentís?",
+        "moodPlaceholder": "Selecciona...",
+        "moodHappy": "Feliz",
+        "moodGrateful": "Agradecido",
+        "moodContemplative": "Contemplativo",
+        "moodNostalgic": "Nostálgico",
+        "moodPeaceful": "Tranquilo",
+        "moodExcited": "Emocionado",
+        "savingMemory": "Guardando...",
+        "saveMemory": "Guardar Recuerdo",
+        "memorySaved": "¡Recuerdo guardado!",
+        "memorySavedSubtext": "Tus pensamientos han sido preservados.",
+        "newPrompt": "Nueva pregunta",
+        "newPromptLoading": "Obteniendo nueva pregunta...",
+        "newPromptError": "Error al obtener nueva pregunta. Por favor, intenta de nuevo."
+    },
+    "memories": {
+        "title": "Mis Recuerdos",
+        "noMemories": "Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt del día.",
+        "audio": "Grabación de Voz",
+        "audioRecording": "Escucha tus pensamientos grabados",
+        "backToMemories": "Volver a Recuerdos"
+    },
+    "legacy": {
+        "title": "Legado Digital",
+        "subtitle": "Gestiona con quién compartir tus recuerdos cuando vos decidas.",
+        "designatedHeirs": "Personas Designadas",
+        "inviteHeir": "+ Invitar Persona",
+        "cancel": "Cancelar",
+        "noHeirs": "Aún no designaste a nadie. Podés invitar personas de confianza para compartir tu legado cuando quieras.",
+        "heirEmail": "Email de la persona",
+        "heirEmailPlaceholder": "persona@email.com",
+        "relationship": "Relación (opcional)",
+        "relationshipPlaceholder": "Ej: Hijo/a, Cónyuge, Amigo/a",
+        "sending": "Enviando...",
+        "sendInvitation": "Enviar Invitación",
+        "invitationsReceived": "Invitaciones Recibidas",
+        "invitationFrom": "Invitación de",
+        "accept": "Aceptar",
+        "activate": "Activar",
+        "revoke": "Revocar",
+        "activateConfirm": "¿Estás seguro de activar el acceso ahora?",
+        "revokeConfirm": "¿Estás seguro de revocar el acceso?",
+        "statusInvited": "Invitado",
+        "statusAccepted": "Aceptado",
+        "statusActive": "Activo",
+        "statusRevoked": "Revocado",
+        "statusPaused": "Pausado"
+    },
+    "recording": {
+        "recordAudio": "Grabar Audio",
+        "recording": "Grabando...",
+        "tapToRecord": "Tocá para grabar tu voz",
+        "paused": "Pausado",
+        "recordingReady": "Grabación lista",
+        "pause": "Pausar",
+        "resume": "Reanudar",
+        "stop": "Detener",
+        "uploading": "Subiendo...",
+        "uploadAudio": "Subir Audio",
+        "discard": "Descartar grabación",
+        "microphoneError": "No se pudo acceder al micrófono. Por favor, verifica los permisos."
+    },
+    "home": {
+        "title": "Recall.bio",
+        "subtitle": "Documenta tu vida mediante respuestas diarias. Reflexiona, aprende y preserva tu voz para vos y las personas que elijas.",
+        "getStarted": "Comenzar",
+        "signIn": "Iniciar Sesión"
+    },
+    "marketing": {
+        "hero": {
+            "title": "Tu Vida, Tu Voz, Tu Legado",
+            "subtitle": "Cada día, una pregunta que invita a reflexionar. Documenta tu historia en tu propia voz y construye un tesoro de sabiduría y recuerdos.",
+            "getStarted": "Comenzar Gratis",
+            "signIn": "Iniciar Sesión",
+            "trustedBy": "Confianza de miles de personas"
+        },
+        "problem": {
+            "title": "La Vida Pasa Rápido",
+            "description": "Los momentos importantes, las conversaciones significativas y los aprendizajes que definen quién sos se diluyen con el tiempo. Sin documentarlos, esas historias quedan en el aire.",
+            "point1": "Las historias se diluyen",
+            "point2": "Los aprendizajes se olvidan",
+            "point3": "Tu voz se pierde en el tiempo"
+        },
+        "solution": {
+            "title": "Preserva Tu Historia, Un Día a la Vez",
+            "description": "Recall.bio te ayuda a documentar tu vida de manera simple y significativa. Cada día, responde una pregunta reflexiva y construye un archivo emocional que vos y las personas que elijas atesorarán para siempre.",
+            "feature1": {
+                "title": "Preguntas Diarias",
+                "description": "Recibe una pregunta única cada día diseñada para inspirar reflexión y conexión contigo mismo."
+            },
+            "feature2": {
+                "title": "Audio y Texto",
+                "description": "Documenta tus recuerdos en texto o graba tu voz para preservar la emoción, el tono y tu manera única de expresarte."
+            },
+            "feature3": {
+                "title": "Comparte Tu Legado",
+                "description": "Elegí con quién compartir tus recuerdos. Vos decidís cuándo y con quién compartir tu historia."
+            },
+            "feature4": {
+                "title": "Privacidad Total",
+                "description": "Tus recuerdos están encriptados y solo vos controlás quién tiene acceso."
+            }
+        },
+        "howItWorks": {
+            "title": "Cómo Funciona",
+            "step1": {
+                "title": "Regístrate Gratis",
+                "description": "Crea tu cuenta en menos de un minuto. No se requiere tarjeta de crédito."
+            },
+            "step2": {
+                "title": "Responde Diariamente",
+                "description": "Cada día recibes una pregunta única. Tómate unos minutos para reflexionar y responder."
+            },
+            "step3": {
+                "title": "Construye Tu Archivo",
+                "description": "Con el tiempo, tus respuestas se convierten en un archivo completo de tu vida, pensamientos y sabiduría."
+            },
+            "step4": {
+                "title": "Comparte Cuando Quieras",
+                "description": "Elegí con quién compartir tu legado. Podés activar el acceso cuando vos decidas."
+            }
+        },
+        "testimonials": {
+            "title": "Lo Que Dicen Nuestros Usuarios",
+            "testimonial1": {
+                "quote": "Recall.bio me ha ayudado a documentar momentos que nunca quise olvidar. Es como tener un diario personal que mis hijos podrán leer algún día.",
+                "author": "María G.",
+                "role": "Madre de dos hijos"
+            },
+            "testimonial2": {
+                "quote": "La mejor parte es que puedo grabar mi voz. Cuando mis nietos escuchen mis historias, escucharán mi voz real, no solo palabras en una página.",
+                "author": "Carlos R.",
+                "role": "Abuelo"
+            },
+            "testimonial3": {
+                "quote": "Recibir el legado digital de mi padre fue increíblemente emocional. Sus palabras y su voz me ayudaron a sentirme más cerca de él y entender mejor su historia.",
+                "author": "Ana L.",
+                "role": "Hija"
+            }
+        },
+        "faq": {
+            "title": "Preguntas Frecuentes",
+            "q1": "¿Qué pasa con mi privacidad?",
+            "a1": "Tu privacidad es nuestra prioridad. Todos los datos están encriptados y solo vos controlás quién tiene acceso a tus recuerdos.",
+            "q2": "¿Puedo exportar mis datos?",
+            "a2": "Sí, podés exportar todos tus recuerdos en cualquier momento en formato JSON o PDF.",
+            "q3": "¿Qué pasa si olvido responder un día?",
+            "a3": "No hay problema. Podés responder preguntas anteriores en cualquier momento o simplemente continuar con la pregunta del día actual.",
+            "q4": "¿Cómo comparto mi legado?",
+            "a4": "Podés designar una o más personas de confianza en cualquier momento. Podés activar el acceso inmediatamente o programarlo para el futuro.",
+            "q5": "¿Cuánto cuesta?",
+            "a5": "Recall.bio es completamente gratuito. Creemos que preservar tu legado no debería tener un costo."
+        },
+        "cta": {
+            "title": "Comienza a Documentar Tu Vida Hoy",
+            "subtitle": "Únete a miles de personas que están preservando sus historias, reflexionando sobre su vida y construyendo su legado.",
+            "getStarted": "Comenzar Gratis",
+            "noCreditCard": "Sin tarjeta de crédito requerida"
+        }
+    },
+    "settings": {
+        "title": "Configuración",
+        "subtitle": "Gestiona tu perfil y preferencias de cuenta",
+        "profile": {
+            "title": "Perfil",
+            "subtitle": "Actualiza tu información personal",
+            "displayName": "Nombre",
+            "displayNamePlaceholder": "Tu nombre",
+            "lifeStage": "Etapa de vida",
+            "timezone": "Zona horaria",
+            "saving": "Guardando...",
+            "save": "Guardar cambios",
+            "saved": "Perfil actualizado correctamente"
+        },
+        "account": {
+            "title": "Cuenta",
+            "subtitle": "Gestiona tu cuenta y seguridad",
+            "email": "Email",
+            "currentPassword": "Contraseña actual",
+            "newPassword": "Nueva contraseña",
+            "confirmPassword": "Confirmar nueva contraseña",
+            "passwordPlaceholder": "••••••••",
+            "changePassword": "Cambiar contraseña",
+            "changing": "Cambiando...",
+            "changed": "Contraseña actualizada correctamente",
+            "passwordMismatch": "Las contraseñas no coinciden",
+            "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+            "passwordMinLength": "Mínimo 8 caracteres"
+        },
+        "session": {
+            "title": "Sesión",
+            "subtitle": "Gestiona tu sesión actual",
+            "logout": "Cerrar sesión",
+            "logoutDescription": "Cerrarás tu sesión y serás redirigido al inicio de sesión"
+        }
+    },
+    "errors": {
+        "notAuthenticated": "No autenticado",
+        "genericError": "Ocurrió un error. Por favor, intenta de nuevo.",
+        "saveError": "Error al guardar. Por favor, intenta de nuevo.",
+        "uploadError": "Error al subir. Por favor, intenta de nuevo."
+    }
 }

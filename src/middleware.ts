@@ -6,18 +6,47 @@ import { routing } from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
-  // Handle i18n routing first
+  const host = request.headers.get("host") || "";
+  const pathname = request.nextUrl.pathname;
+  const isAppSubdomain = host.startsWith("app.");
+
+  if (isAppSubdomain) {
+    if (pathname === "/" || pathname.match(/^\/(en|es)$/)) {
+      const { data: { user } } = await createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll();
+            },
+            setAll() { },
+          },
+        }
+      ).auth.getUser();
+
+      const locale = pathname === "/" ? routing.defaultLocale : pathname.slice(1);
+      const url = request.nextUrl.clone();
+      url.pathname = user ? `/${locale}/app/today` : `/${locale}/auth/login`;
+      return NextResponse.redirect(url);
+    }
+  }
+
   const intlResponse = intlMiddleware(request);
-  
-  // If intl middleware returns a redirect response, return it immediately
   if (intlResponse && intlResponse.status >= 300 && intlResponse.status < 400) {
     return intlResponse;
   }
 
-  // Use the response from intl middleware or create a new one
   const response = intlResponse || NextResponse.next({ request });
-  
-  // Then handle Supabase auth
+
+  const segments = request.nextUrl.pathname.split("/").filter(Boolean);
+  const firstSegment = segments[0];
+  const isLocale = routing.locales.includes(firstSegment as "en" | "es");
+  const locale = isLocale ? firstSegment : routing.defaultLocale;
+  const pathWithoutLocale = isLocale
+    ? "/" + segments.slice(1).join("/")
+    : request.nextUrl.pathname;
+
   let supabaseResponse = response;
 
   const supabase = createServerClient(
@@ -47,26 +76,19 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const pathname = request.nextUrl.pathname;
-  const locale = pathname.split("/")[1];
-  const isLocale = ["en", "es"].includes(locale);
-  const pathWithoutLocale = isLocale ? pathname.slice(locale.length + 1) : pathname;
-
-  // Protect app routes
   if (pathWithoutLocale.startsWith("/app") && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${locale || "en"}/auth/login`;
+    url.pathname = `/${locale}/auth/login`;
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from auth pages
   if (
     pathWithoutLocale.startsWith("/auth") &&
     user &&
     pathWithoutLocale !== "/auth/logout"
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${locale || "en"}/app/today`;
+    url.pathname = `/${locale}/app/today`;
     return NextResponse.redirect(url);
   }
 
@@ -75,6 +97,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|manifest.json|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

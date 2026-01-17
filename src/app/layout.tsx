@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Outfit } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
@@ -8,7 +9,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const inter = Inter({
+const outfit = Outfit({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
@@ -23,7 +24,8 @@ export default function RootLayout({
   // The lang attribute will be set by the [locale] layout via suppressHydrationWarning
   return (
     <html suppressHydrationWarning>
-      <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+      <body className={`${playfair.variable} ${outfit.variable} antialiased`}>
+        <GoogleAnalytics />
         {children}
       </body>
     </html>

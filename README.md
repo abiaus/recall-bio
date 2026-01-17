@@ -32,7 +32,7 @@ A digital legacy platform that allows users to document their life story through
    ```
 
 4. Configure Supabase:
-   - Migrations are already applied in the `recallbio` schema
+   - Migrations are already applied in the `public` schema
    - Create a Storage bucket named `media` (private) from Supabase dashboard
    - Configure Storage policies for authenticated uploads (see `SETUP.md`)
 
@@ -102,7 +102,7 @@ src/
 
 ## Notes
 
-- Database schema is isolated in `recallbio` to avoid conflicts
+- Database schema is in `public`
 - RLS policies are configured for maximum privacy
 - Storage bucket must be created manually from Supabase dashboard
 - All user-facing text is internationalized

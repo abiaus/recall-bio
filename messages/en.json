@@ -1,124 +1,270 @@
 {
-  "common": {
-    "appName": "Recall",
-    "loading": "Loading...",
-    "save": "Save",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
-    "submit": "Submit",
-    "close": "Close"
-  },
-  "nav": {
-    "today": "Today",
-    "memories": "Memories",
-    "legacy": "Legacy",
-    "settings": "Settings"
-  },
-  "auth": {
-    "login": "Sign In",
-    "signup": "Sign Up",
-    "logout": "Sign Out",
-    "email": "Email",
-    "password": "Password",
-    "displayName": "Name",
-    "signingIn": "Signing in...",
-    "creatingAccount": "Creating account...",
-    "alreadyHaveAccount": "Already have an account?",
-    "noAccount": "Don't have an account?",
-    "signInHere": "Sign in here",
-    "signUpHere": "Sign up here",
-    "emailPlaceholder": "your@email.com",
-    "passwordPlaceholder": "••••••••",
-    "namePlaceholder": "Your name"
-  },
-  "onboarding": {
-    "title": "Welcome to Recall",
-    "subtitle": "Tell us a bit about yourself to personalize your experience.",
-    "lifeStage": "Life Stage",
-    "lifeStagePlaceholder": "Select an option",
-    "lifeStageTeen": "Teenager",
-    "lifeStageYoungAdult": "Young Adult",
-    "lifeStageAdult": "Adult",
-    "lifeStageMidlife": "Midlife",
-    "lifeStageSenior": "Senior",
-    "timezone": "Timezone",
-    "saving": "Saving...",
-    "continue": "Continue"
-  },
-  "today": {
-    "title": "Your Daily Prompt",
-    "noPrompts": "No questions available at this time.",
-    "yourAnswer": "Your answer",
-    "answerPlaceholder": "Write your answer here...",
-    "mood": "Mood (optional)",
-    "moodPlaceholder": "Select...",
-    "moodHappy": "Happy",
-    "moodGrateful": "Grateful",
-    "moodContemplative": "Contemplative",
-    "moodNostalgic": "Nostalgic",
-    "moodPeaceful": "Peaceful",
-    "moodExcited": "Excited",
-    "savingMemory": "Saving...",
-    "saveMemory": "Save Memory",
-    "memorySaved": "Memory saved. You can add audio if you'd like:"
-  },
-  "memories": {
-    "title": "My Memories",
-    "noMemories": "You don't have any saved memories yet. Start by answering your daily prompt.",
-    "audio": "Audio",
-    "backToMemories": "← Back to Memories"
-  },
-  "legacy": {
-    "title": "Digital Legacy",
-    "subtitle": "Manage who will have access to your memories in the future.",
-    "designatedHeirs": "Designated Heirs",
-    "inviteHeir": "+ Invite Heir",
-    "cancel": "Cancel",
-    "noHeirs": "You haven't designated any heirs yet.",
-    "heirEmail": "Heir's email",
-    "heirEmailPlaceholder": "heir@email.com",
-    "relationship": "Relationship (optional)",
-    "relationshipPlaceholder": "E.g., Son/Daughter, Spouse, Friend",
-    "sending": "Sending...",
-    "sendInvitation": "Send Invitation",
-    "invitationsReceived": "Received Invitations",
-    "invitationFrom": "Invitation from",
-    "accept": "Accept",
-    "activate": "Activate",
-    "revoke": "Revoke",
-    "activateConfirm": "Are you sure you want to activate access now?",
-    "revokeConfirm": "Are you sure you want to revoke access?",
-    "statusInvited": "Invited",
-    "statusAccepted": "Accepted",
-    "statusActive": "Active",
-    "statusRevoked": "Revoked",
-    "statusPaused": "Paused"
-  },
-  "recording": {
-    "recordAudio": "🎤 Record Audio",
-    "recording": "Recording",
-    "pause": "Pause",
-    "resume": "Resume",
-    "stop": "Stop",
-    "uploading": "Uploading...",
-    "uploadAudio": "Upload Audio",
-    "discard": "Discard",
-    "microphoneError": "Could not access microphone. Please check permissions."
-  },
-  "home": {
-    "title": "Recall.bio",
-    "subtitle": "Document your life story through daily responses to create an emotional archive for your families.",
-    "getStarted": "Get Started",
-    "signIn": "Sign In"
-  },
-  "errors": {
-    "notAuthenticated": "Not authenticated",
-    "genericError": "An error occurred. Please try again.",
-    "saveError": "Error saving. Please try again.",
-    "uploadError": "Error uploading. Please try again."
-  }
+    "language": {
+        "en": "English",
+        "es": "Español",
+        "switchLanguage": "Language"
+    },
+    "common": {
+        "appName": "Recall",
+        "loading": "Loading...",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "submit": "Submit",
+        "close": "Close"
+    },
+    "nav": {
+        "today": "Today",
+        "memories": "Memories",
+        "legacy": "Legacy",
+        "settings": "Settings"
+    },
+    "auth": {
+        "login": "Sign In",
+        "signup": "Sign Up",
+        "logout": "Sign Out",
+        "email": "Email",
+        "password": "Password",
+        "displayName": "Name",
+        "signingIn": "Signing in...",
+        "creatingAccount": "Creating account...",
+        "alreadyHaveAccount": "Already have an account?",
+        "noAccount": "Don't have an account?",
+        "signInHere": "Sign in here",
+        "signUpHere": "Sign up here",
+        "emailPlaceholder": "your@email.com",
+        "passwordPlaceholder": "••••••••",
+        "namePlaceholder": "Your name"
+    },
+    "onboarding": {
+        "title": "Welcome to Recall",
+        "subtitle": "Tell us a bit about yourself to personalize your experience.",
+        "lifeStage": "Life Stage",
+        "lifeStagePlaceholder": "Select an option",
+        "lifeStageTeen": "Teenager",
+        "lifeStageYoungAdult": "Young Adult",
+        "lifeStageAdult": "Adult",
+        "lifeStageMidlife": "Midlife",
+        "lifeStageSenior": "Senior",
+        "timezone": "Timezone",
+        "saving": "Saving...",
+        "continue": "Continue"
+    },
+    "today": {
+        "title": "Your Daily Prompt",
+        "noPrompts": "No questions available at this time.",
+        "noPromptsTitle": "All caught up!",
+        "yourAnswer": "Your answer",
+        "yourAnswerOptional": "optional",
+        "answerPlaceholder": "Take a moment to reflect and write your thoughts...",
+        "writeTab": "Write",
+        "recordTab": "Voice",
+        "characters": "characters",
+        "mood": "How are you feeling?",
+        "moodPlaceholder": "Select...",
+        "moodHappy": "Happy",
+        "moodGrateful": "Grateful",
+        "moodContemplative": "Contemplative",
+        "moodNostalgic": "Nostalgic",
+        "moodPeaceful": "Peaceful",
+        "moodExcited": "Excited",
+        "savingMemory": "Saving...",
+        "saveMemory": "Save Memory",
+        "memorySaved": "Memory saved successfully!",
+        "memorySavedSubtext": "Your thoughts have been preserved.",
+        "newPrompt": "New Question",
+        "newPromptLoading": "Getting new question...",
+        "newPromptError": "Error getting new question. Please try again."
+    },
+    "memories": {
+        "title": "My Memories",
+        "noMemories": "You don't have any saved memories yet. Start by answering your daily prompt.",
+        "audio": "Voice Recording",
+        "audioRecording": "Listen to your recorded thoughts",
+        "backToMemories": "Back to Memories"
+    },
+    "legacy": {
+        "title": "Digital Legacy",
+        "subtitle": "Manage who to share your memories with when you decide.",
+        "designatedHeirs": "Trusted People",
+        "inviteHeir": "+ Invite Person",
+        "cancel": "Cancel",
+        "noHeirs": "You haven't added anyone yet. You can invite trusted people to share your legacy whenever you want.",
+        "heirEmail": "Person's email",
+        "heirEmailPlaceholder": "person@email.com",
+        "relationship": "Relationship (optional)",
+        "relationshipPlaceholder": "E.g., Son/Daughter, Spouse, Friend",
+        "sending": "Sending...",
+        "sendInvitation": "Send Invitation",
+        "invitationsReceived": "Received Invitations",
+        "invitationFrom": "Invitation from",
+        "accept": "Accept",
+        "activate": "Activate",
+        "revoke": "Revoke",
+        "activateConfirm": "Are you sure you want to activate access now?",
+        "revokeConfirm": "Are you sure you want to revoke access?",
+        "statusInvited": "Invited",
+        "statusAccepted": "Accepted",
+        "statusActive": "Active",
+        "statusRevoked": "Revoked",
+        "statusPaused": "Paused"
+    },
+    "recording": {
+        "recordAudio": "Record Audio",
+        "recording": "Recording...",
+        "tapToRecord": "Tap to start recording your voice",
+        "paused": "Paused",
+        "recordingReady": "Recording ready",
+        "pause": "Pause",
+        "resume": "Resume",
+        "stop": "Stop",
+        "uploading": "Uploading...",
+        "uploadAudio": "Upload Audio",
+        "discard": "Discard recording",
+        "microphoneError": "Could not access microphone. Please check permissions."
+    },
+    "home": {
+        "title": "Recall.bio",
+        "subtitle": "Document your life through daily responses. Reflect, learn, and preserve your voice for yourself and the people you choose.",
+        "getStarted": "Get Started",
+        "signIn": "Sign In"
+    },
+    "marketing": {
+        "hero": {
+            "title": "Your Life, Your Voice, Your Legacy",
+            "subtitle": "Each day, a question that invites reflection. Document your story in your own voice and build a treasure of wisdom and memories.",
+            "getStarted": "Get Started Free",
+            "signIn": "Sign In",
+            "trustedBy": "Trusted by thousands of people"
+        },
+        "problem": {
+            "title": "Life Moves Fast",
+            "description": "Important moments, meaningful conversations, and the lessons that define who you are fade over time. Without documenting them, those stories slip away.",
+            "point1": "Stories fade away",
+            "point2": "Lessons get forgotten",
+            "point3": "Your voice gets lost in time"
+        },
+        "solution": {
+            "title": "Preserve Your Story, One Day at a Time",
+            "description": "Recall.bio helps you document your life in a simple and meaningful way. Each day, answer a thoughtful question and build an emotional archive that you and the people you choose will treasure forever.",
+            "feature1": {
+                "title": "Daily Questions",
+                "description": "Receive a unique question each day designed to inspire reflection and connection with yourself."
+            },
+            "feature2": {
+                "title": "Audio & Text",
+                "description": "Document your memories in text or record your voice to preserve emotion, tone, and your unique way of expressing yourself."
+            },
+            "feature3": {
+                "title": "Share Your Legacy",
+                "description": "Choose who to share your memories with. You decide when and with whom to share your story."
+            },
+            "feature4": {
+                "title": "Complete Privacy",
+                "description": "Your memories are encrypted and only you control who has access."
+            }
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "step1": {
+                "title": "Sign Up Free",
+                "description": "Create your account in less than a minute. No credit card required."
+            },
+            "step2": {
+                "title": "Answer Daily",
+                "description": "Each day you receive a unique question. Take a few minutes to reflect and respond."
+            },
+            "step3": {
+                "title": "Build Your Archive",
+                "description": "Over time, your responses become a complete archive of your life, thoughts, and wisdom."
+            },
+            "step4": {
+                "title": "Share When You Want",
+                "description": "Choose who to share your legacy with. You can activate access whenever you decide."
+            }
+        },
+        "testimonials": {
+            "title": "What Our Users Say",
+            "testimonial1": {
+                "quote": "Recall.bio has helped me document moments I never wanted to forget. It's like having a personal journal that my children will be able to read someday.",
+                "author": "Maria G.",
+                "role": "Mother of two"
+            },
+            "testimonial2": {
+                "quote": "The best part is that I can record my voice. When my grandchildren hear my stories, they'll hear my real voice, not just words on a page.",
+                "author": "Carlos R.",
+                "role": "Grandfather"
+            },
+            "testimonial3": {
+                "quote": "Receiving my father's digital legacy was incredibly emotional. His words and voice helped me feel closer to him and better understand his story.",
+                "author": "Ana L.",
+                "role": "Daughter"
+            }
+        },
+        "faq": {
+            "title": "Frequently Asked Questions",
+            "q1": "What about my privacy?",
+            "a1": "Your privacy is our priority. All data is encrypted and only you control who has access to your memories.",
+            "q2": "Can I export my data?",
+            "a2": "Yes, you can export all your memories at any time in JSON or PDF format.",
+            "q3": "What if I forget to answer one day?",
+            "a3": "No problem. You can answer previous questions at any time or simply continue with today's question.",
+            "q4": "How do I share my legacy?",
+            "a4": "You can designate one or more trusted people at any time. You can activate access immediately or schedule it for the future.",
+            "q5": "How much does it cost?",
+            "a5": "Recall.bio is completely free. We believe preserving your legacy shouldn't have a cost."
+        },
+        "cta": {
+            "title": "Start Documenting Your Life Today",
+            "subtitle": "Join thousands of people preserving their stories, reflecting on their lives, and building their legacy.",
+            "getStarted": "Get Started Free",
+            "noCreditCard": "No credit card required"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your profile and account preferences",
+        "profile": {
+            "title": "Profile",
+            "subtitle": "Update your personal information",
+            "displayName": "Name",
+            "displayNamePlaceholder": "Your name",
+            "lifeStage": "Life Stage",
+            "timezone": "Timezone",
+            "saving": "Saving...",
+            "save": "Save changes",
+            "saved": "Profile updated successfully"
+        },
+        "account": {
+            "title": "Account",
+            "subtitle": "Manage your account and security",
+            "email": "Email",
+            "currentPassword": "Current password",
+            "newPassword": "New password",
+            "confirmPassword": "Confirm new password",
+            "passwordPlaceholder": "••••••••",
+            "changePassword": "Change password",
+            "changing": "Changing...",
+            "changed": "Password updated successfully",
+            "passwordMismatch": "Passwords do not match",
+            "passwordTooShort": "Password must be at least 8 characters",
+            "passwordMinLength": "Minimum 8 characters"
+        },
+        "session": {
+            "title": "Session",
+            "subtitle": "Manage your current session",
+            "logout": "Sign out",
+            "logoutDescription": "You will be signed out and redirected to the login page"
+        }
+    },
+    "errors": {
+        "notAuthenticated": "Not authenticated",
+        "genericError": "An error occurred. Please try again.",
+        "saveError": "Error saving. Please try again.",
+        "uploadError": "Error uploading. Please try again."
+    }
 }

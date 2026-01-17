@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   inviteHeir,
   acceptInvitation,
@@ -9,6 +10,11 @@ import {
 } from "@/server/actions/legacy";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { AnimatedCard } from "@/components/ui/AnimatedCard";
+import { GlowButton } from "@/components/ui/GlowButton";
+import { FloatingInput } from "@/components/ui/FloatingInput";
+import { containerVariants, itemVariants } from "@/components/ui/animations";
+import { UserPlus, Mail, Users, CheckCircle2, XCircle, Clock, Send } from "lucide-react";
 
 interface LegacyAccess {
   id: string;
@@ -90,174 +96,202 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
   };
 
   const getStatusBadge = (status: string) => {
-    const styles: Record<string, string> = {
-      invited: "bg-yellow-100 text-yellow-800",
-      accepted: "bg-blue-100 text-blue-800",
-      active: "bg-green-100 text-green-800",
-      revoked: "bg-red-100 text-red-800",
-      paused: "bg-gray-100 text-gray-800",
+    const config: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
+      invited: { icon: <Clock className="w-4 h-4" />, color: "bg-yellow-100 text-yellow-800", label: t("statusInvited") },
+      accepted: { icon: <CheckCircle2 className="w-4 h-4" />, color: "bg-blue-100 text-blue-800", label: t("statusAccepted") },
+      active: { icon: <CheckCircle2 className="w-4 h-4" />, color: "bg-green-100 text-green-800", label: t("statusActive") },
+      revoked: { icon: <XCircle className="w-4 h-4" />, color: "bg-red-100 text-red-800", label: t("statusRevoked") },
+      paused: { icon: <Clock className="w-4 h-4" />, color: "bg-gray-100 text-gray-800", label: t("statusPaused") },
     };
-    const statusLabels: Record<string, string> = {
-      invited: t("statusInvited"),
-      accepted: t("statusAccepted"),
-      active: t("statusActive"),
-      revoked: t("statusRevoked"),
-      paused: t("statusPaused"),
-    };
+    const statusConfig = config[status] || config.invited;
     return (
-      <span
-        className={`px-2 py-1 rounded text-xs font-medium ${
-          styles[status] || styles.invited
-        }`}
+      <motion.span
+        className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 ${statusConfig.color}`}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 300 }}
       >
-        {statusLabels[status] || statusLabels.invited}
-      </span>
+        {statusConfig.icon}
+        {statusConfig.label}
+      </motion.span>
     );
   };
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      className="space-y-8"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Invite Section */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-serif text-xl font-semibold text-[#2B241B]">
-            {t("designatedHeirs")}
-          </h2>
-          <button
+      <motion.div variants={itemVariants}>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <Users className="w-6 h-6 text-[var(--primary-terracotta)]" />
+            <h2 className="font-serif text-2xl font-semibold text-[var(--text-primary)]">
+              {t("designatedHeirs")}
+            </h2>
+          </div>
+          <GlowButton
             onClick={() => setShowInviteForm(!showInviteForm)}
-            className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors"
+            variant="primary"
+            className="flex items-center gap-2"
           >
-            {showInviteForm ? t("cancel") : t("inviteHeir")}
-          </button>
+            {showInviteForm ? (
+              <>
+                <XCircle className="w-4 h-4" />
+                {t("cancel")}
+              </>
+            ) : (
+              <>
+                <UserPlus className="w-4 h-4" />
+                {t("inviteHeir")}
+              </>
+            )}
+          </GlowButton>
         </div>
 
-        {showInviteForm && (
-          <form onSubmit={handleInvite} className="mb-6 p-4 rounded-lg bg-[#F6F1E7] border border-[#D4C5B0] space-y-4">
-            <div>
-              <label
-                htmlFor="heirEmail"
-                className="block text-sm font-medium text-[#2B241B] mb-2"
-              >
-                {t("heirEmail")}
-              </label>
-              <input
-                id="heirEmail"
-                type="email"
-                value={heirEmail}
-                onChange={(e) => setHeirEmail(e.target.value)}
-                required
-                className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
-                placeholder={t("heirEmailPlaceholder")}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="relationship"
-                className="block text-sm font-medium text-[#2B241B] mb-2"
-              >
-                {t("relationship")}
-              </label>
-              <input
-                id="relationship"
-                type="text"
-                value={relationship}
-                onChange={(e) => setRelationship(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
-                placeholder={t("relationshipPlaceholder")}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors disabled:opacity-50"
+        <AnimatePresence>
+          {showInviteForm && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              {loading ? t("sending") : t("sendInvitation")}
-            </button>
-          </form>
-        )}
+              <AnimatedCard className="p-6 mb-6">
+                <form onSubmit={handleInvite} className="space-y-4">
+                  <FloatingInput
+                    id="heirEmail"
+                    label={t("heirEmail")}
+                    type="email"
+                    value={heirEmail}
+                    onChange={(e) => setHeirEmail(e.target.value)}
+                    placeholder={t("heirEmailPlaceholder")}
+                    required
+                  />
+
+                  <FloatingInput
+                    id="relationship"
+                    label={t("relationship")}
+                    type="text"
+                    value={relationship}
+                    onChange={(e) => setRelationship(e.target.value)}
+                    placeholder={t("relationshipPlaceholder")}
+                  />
+
+                  <GlowButton
+                    type="submit"
+                    disabled={loading}
+                    variant="primary"
+                    className="w-full flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-4 h-4" />
+                    {loading ? t("sending") : t("sendInvitation")}
+                  </GlowButton>
+                </form>
+              </AnimatedCard>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {ownedLegacy.length === 0 ? (
-          <p className="text-[#5A4A3A] text-sm">
-            {t("noHeirs")}
-          </p>
+          <AnimatedCard className="p-8 text-center">
+            <Mail className="w-12 h-12 text-[var(--text-muted)] mx-auto mb-4" />
+            <p className="text-[var(--text-secondary)]">{t("noHeirs")}</p>
+          </AnimatedCard>
         ) : (
-          <div className="space-y-3">
-            {ownedLegacy.map((legacy) => (
-              <div
-                key={legacy.id}
-                className="p-4 rounded-lg bg-white border border-[#D4C5B0] flex items-center justify-between"
-              >
-                <div>
-                  <p className="font-medium text-[#2B241B]">
-                    {legacy.heir_email}
-                  </p>
-                  {legacy.relationship && (
-                    <p className="text-sm text-[#5A4A3A]">
-                      {legacy.relationship}
-                    </p>
-                  )}
-                  <div className="mt-2">{getStatusBadge(legacy.status)}</div>
-                </div>
-                <div className="flex gap-2">
-                  {legacy.status === "accepted" && (
-                    <button
-                      onClick={() => handleActivate(legacy.id)}
-                      disabled={loading}
-                      className="px-3 py-1 rounded text-sm bg-green-500 text-white hover:bg-green-600 disabled:opacity-50"
-                    >
-                      {t("activate")}
-                    </button>
-                  )}
-                  {legacy.status !== "revoked" && (
-                    <button
-                      onClick={() => handleRevoke(legacy.id)}
-                      disabled={loading}
-                      className="px-3 py-1 rounded text-sm bg-red-500 text-white hover:bg-red-600 disabled:opacity-50"
-                    >
-                      {t("revoke")}
-                    </button>
-                  )}
-                </div>
-              </div>
+          <motion.div
+            className="space-y-4"
+            variants={containerVariants}
+          >
+            {ownedLegacy.map((legacy, index) => (
+              <motion.div key={legacy.id} variants={itemVariants}>
+                <AnimatedCard className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <p className="font-medium text-[var(--text-primary)] text-lg mb-1">
+                        {legacy.heir_email}
+                      </p>
+                      {legacy.relationship && (
+                        <p className="text-sm text-[var(--text-secondary)] mb-3">
+                          {legacy.relationship}
+                        </p>
+                      )}
+                      {getStatusBadge(legacy.status)}
+                    </div>
+                    <div className="flex gap-2 ml-4">
+                      {legacy.status === "accepted" && (
+                        <GlowButton
+                          onClick={() => handleActivate(legacy.id)}
+                          disabled={loading}
+                          variant="secondary"
+                          className="text-sm"
+                        >
+                          {t("activate")}
+                        </GlowButton>
+                      )}
+                      {legacy.status !== "revoked" && (
+                        <GlowButton
+                          onClick={() => handleRevoke(legacy.id)}
+                          disabled={loading}
+                          variant="ghost"
+                          className="text-sm text-red-600 border-red-300 hover:bg-red-50"
+                        >
+                          {t("revoke")}
+                        </GlowButton>
+                      )}
+                    </div>
+                  </div>
+                </AnimatedCard>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
 
       {/* Invitations Received */}
       {heirLegacy.length > 0 && (
-        <div>
-          <h2 className="font-serif text-xl font-semibold text-[#2B241B] mb-4">
-            {t("invitationsReceived")}
-          </h2>
-          <div className="space-y-3">
-            {heirLegacy.map((legacy) => (
-              <div
-                key={legacy.id}
-                className="p-4 rounded-lg bg-white border border-[#D4C5B0] flex items-center justify-between"
-              >
-                <div>
-                  <p className="font-medium text-[#2B241B]">
-                    {t("invitationFrom")} {legacy.owner_user_id}
-                  </p>
-                  <div className="mt-2">{getStatusBadge(legacy.status)}</div>
-                </div>
-                {legacy.status === "invited" && (
-                  <button
-                    onClick={() => handleAccept(legacy.id)}
-                    disabled={loading}
-                    className="px-4 py-2 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] disabled:opacity-50"
-                  >
-                    {t("accept")}
-                  </button>
-                )}
-              </div>
-            ))}
+        <motion.div variants={itemVariants}>
+          <div className="flex items-center gap-3 mb-6">
+            <Mail className="w-6 h-6 text-[var(--primary-terracotta)]" />
+            <h2 className="font-serif text-2xl font-semibold text-[var(--text-primary)]">
+              {t("invitationsReceived")}
+            </h2>
           </div>
-        </div>
+          <motion.div
+            className="space-y-4"
+            variants={containerVariants}
+          >
+            {heirLegacy.map((legacy) => (
+              <motion.div key={legacy.id} variants={itemVariants}>
+                <AnimatedCard className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-[var(--text-primary)] text-lg mb-3">
+                        {t("invitationFrom")} {legacy.owner_user_id}
+                      </p>
+                      {getStatusBadge(legacy.status)}
+                    </div>
+                    {legacy.status === "invited" && (
+                      <GlowButton
+                        onClick={() => handleAccept(legacy.id)}
+                        disabled={loading}
+                        variant="primary"
+                        className="flex items-center gap-2"
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                        {t("accept")}
+                      </GlowButton>
+                    )}
+                  </div>
+                </AnimatedCard>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

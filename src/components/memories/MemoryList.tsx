@@ -1,7 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { MemoryCard } from "./MemoryCard";
 import { useTranslations } from "next-intl";
+import { containerVariants } from "@/components/ui/animations";
 
 interface Question {
   text: string;
@@ -26,17 +28,26 @@ export function MemoryList({ memories }: MemoryListProps) {
 
   if (memories.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-[#5A4A3A]">{t("noMemories")}</p>
-      </div>
+      <motion.div
+        className="text-center py-16"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <p className="text-[var(--text-secondary)] text-lg">{t("noMemories")}</p>
+      </motion.div>
     );
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {memories.map((memory) => (
+    <motion.div
+      className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {memories.map((memory, index) => (
         <MemoryCard key={memory.id} memory={memory} />
       ))}
-    </div>
+    </motion.div>
   );
 }

@@ -49,7 +49,34 @@
 
 :root {
   --radius: 1.5rem;
-  --background: oklch(0.965 0.01 85);
+  
+  /* Soft Organic Color Palette */
+  --bg-cream: #FDF8F3;
+  --bg-warm: #F7EDE4;
+  --bg-sage: #E8EDE5;
+  
+  /* Primary Colors */
+  --primary-terracotta: #C4907C;
+  --primary-clay: #A67B5B;
+  --primary-earth: #8B6F4E;
+  
+  /* Accent Colors */
+  --accent-sage: #9CAF88;
+  --accent-dusty-rose: #D4A5A5;
+  --accent-lavender: #B8A9C9;
+  
+  /* Text Colors */
+  --text-primary: #3D3229;
+  --text-secondary: #6B5D4D;
+  --text-muted: #9B8B7A;
+  
+  /* Decorative Blobs */
+  --blob-peach: rgba(255, 218, 193, 0.4);
+  --blob-sage: rgba(156, 175, 136, 0.3);
+  --blob-lavender: rgba(184, 169, 201, 0.3);
+  
+  /* Legacy system colors (keeping for compatibility) */
+  --background: oklch(0.985 0.01 85);
   --foreground: oklch(0.17 0.01 45);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

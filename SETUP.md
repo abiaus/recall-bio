@@ -22,45 +22,31 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key_aqui
 5. File size limit: 100MB (o el límite que prefieras)
 6. Allowed MIME types: `audio/*, video/*, image/*`
 
-#### Configurar Políticas de Storage
+#### Configurar Políticas de Storage y Tablas
 
-Ejecuta estas políticas SQL en el SQL Editor de Supabase:
+Ejecuta el script `scripts/migration_memories_rls.sql` en el SQL Editor de Supabase. Este script configura:
 
+1. **Políticas RLS para la tabla `memories`** - CRUD para usuarios autenticados
+2. **Políticas RLS para la tabla `memory_media`** - CRUD para usuarios autenticados
+3. **Políticas de Storage** - Acceso a archivos en el bucket `media`
+
+La estructura de carpetas en storage es:
+```
+media/user/{user_id}/memories/{memory_id}/{filename}
+```
+
+Las políticas verifican que el usuario solo acceda a su carpeta:
 ```sql
--- Permitir a usuarios autenticados subir archivos a su propia carpeta
-CREATE POLICY "Users can upload to own folder"
-ON storage.objects FOR INSERT
-TO authenticated
-WITH CHECK (
-  bucket_id = 'media' AND
-  (storage.foldername(name))[1] = auth.uid()::text
-);
-
--- Permitir a usuarios leer sus propios archivos
-CREATE POLICY "Users can read own files"
-ON storage.objects FOR SELECT
-TO authenticated
-USING (
-  bucket_id = 'media' AND
-  (storage.foldername(name))[1] = auth.uid()::text
-);
-
--- Permitir a usuarios eliminar sus propios archivos
-CREATE POLICY "Users can delete own files"
-ON storage.objects FOR DELETE
-TO authenticated
-USING (
-  bucket_id = 'media' AND
-  (storage.foldername(name))[1] = auth.uid()::text
-);
+(storage.foldername(name))[1] = 'user' AND
+(storage.foldername(name))[2] = auth.uid()::text
 ```
 
 ### 3. Verificar Migraciones
 
-Las migraciones ya están aplicadas en el schema `recallbio`. Puedes verificar ejecutando:
+Las migraciones ya están aplicadas en el schema `public`. Puedes verificar ejecutando:
 
 ```sql
-SELECT * FROM recallbio.profiles LIMIT 1;
+SELECT * FROM public.profiles LIMIT 1;
 ```
 
 ### 4. Preguntas de Ejemplo
@@ -68,7 +54,7 @@ SELECT * FROM recallbio.profiles LIMIT 1;
 Las preguntas de ejemplo ya están insertadas. Puedes agregar más ejecutando:
 
 ```sql
-INSERT INTO recallbio.questions (text, type, life_stage, tags, is_active)
+INSERT INTO public.questions (text, type, life_stage, tags, is_active)
 VALUES ('Tu pregunta aquí', 'text', null, ARRAY['tag1', 'tag2'], true);
 ```
 
@@ -111,4 +97,4 @@ media/
 
 ### Error: "Schema recallbio does not exist"
 - Las migraciones deberían haberse aplicado automáticamente
-- Verifica en el SQL Editor que el schema existe: `SELECT * FROM recallbio.profiles LIMIT 1;`
+- Verifica en el SQL Editor que el schema existe: `SELECT * FROM public.profiles LIMIT 1;`
