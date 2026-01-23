@@ -18,17 +18,17 @@ interface AppHeaderProps {
 export function AppHeader({ navItems }: AppHeaderProps) {
   return (
     <motion.header
-      className="flex items-center justify-between mb-8"
+      className="flex flex-col items-center gap-6 mb-8 md:flex-row md:items-center md:justify-between md:gap-0"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <motion.div variants={itemVariants}>
+      <motion.div variants={itemVariants} className="flex justify-center md:justify-start">
         <AnimatedLogo />
       </motion.div>
 
       <motion.nav
-        className="flex items-center gap-8"
+        className="flex items-center gap-4 md:gap-8 flex-wrap justify-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
