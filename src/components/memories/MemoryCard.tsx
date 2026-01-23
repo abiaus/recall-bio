@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useLocale } from "next-intl";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { MoodBadge } from "@/components/ui/MoodBadge";
 import { itemVariants } from "@/components/ui/animations";
@@ -29,7 +29,6 @@ interface MemoryCardProps {
 }
 
 export function MemoryCard({ memory }: MemoryCardProps) {
-    const t = useTranslations("memories");
     const locale = useLocale();
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
     const supabase = createClient();
@@ -125,7 +124,7 @@ export function MemoryCard({ memory }: MemoryCardProps) {
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.1 }}
                             >
-                                "{questionText}"
+                                &ldquo;{questionText}&rdquo;
                             </motion.p>
                         )}
 

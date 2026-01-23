@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { routing } from "@/i18n/routing";
 
 export async function GET(request: NextRequest) {
   const host = request.headers.get("host") || "";

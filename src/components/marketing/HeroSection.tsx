@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { trackCTAClick } from "@/lib/analytics";
 import { Sparkles } from "lucide-react";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 function AnimatedLogoLanding() {
   const letters = "Recall".split("");
@@ -48,9 +49,12 @@ export function HeroSection() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full pt-8 pb-4 flex justify-center"
+        className="w-full pt-8 pb-4 relative flex justify-center items-center px-4 sm:px-6 md:px-8"
       >
         <AnimatedLogoLanding />
+        <div className="absolute right-4 sm:right-6 md:right-8 top-8">
+          <LanguageSwitcher />
+        </div>
       </motion.header>
 
       {/* Gradient background decorations */}

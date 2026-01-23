@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { AppHeader } from "@/components/ui/AppHeader";
 import { PageWrapper } from "@/components/ui/PageWrapper";
 import { BlobBackground } from "@/components/ui/BlobBackground";

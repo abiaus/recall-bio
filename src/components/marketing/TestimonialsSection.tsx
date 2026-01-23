@@ -25,7 +25,7 @@ export function TestimonialsSection() {
             >
               <div className="text-4xl mb-4">💬</div>
               <p className="text-[#5A4A3A] mb-6 italic leading-relaxed">
-                "{t(`${testimonial.key}.quote`)}"
+                &ldquo;{t(`${testimonial.key}.quote`)}&rdquo;
               </p>
               <div className="border-t border-[#D4C5B0]/30 pt-4">
                 <p className="font-semibold text-[#2B241B]">

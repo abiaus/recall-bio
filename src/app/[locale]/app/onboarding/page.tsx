@@ -10,7 +10,7 @@ import { LifeStageCard } from "@/components/ui/LifeStageCard";
 import { FloatingInput } from "@/components/ui/FloatingInput";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
-import { Baby, GraduationCap, Briefcase, Users, Heart, CheckCircle2, Sparkles } from "lucide-react";
+import { Baby, GraduationCap, Briefcase, Users, Heart, CheckCircle2 } from "lucide-react";
 
 const STEPS = 2;
 
@@ -212,7 +212,7 @@ export default function OnboardingPage() {
               type="submit"
               variant="primary"
               disabled={loading || !lifeStage || !timezone}
-              glow={!loading && lifeStage && timezone}
+              glow={!loading && !!lifeStage && !!timezone}
               className="flex-1"
             >
               {loading ? t("saving") : t("continue")}

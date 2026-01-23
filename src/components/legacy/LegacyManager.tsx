@@ -206,7 +206,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
             className="space-y-4"
             variants={containerVariants}
           >
-            {ownedLegacy.map((legacy, index) => (
+            {ownedLegacy.map((legacy) => (
               <motion.div key={legacy.id} variants={itemVariants}>
                 <AnimatedCard className="p-6">
                   <div className="flex items-center justify-between">

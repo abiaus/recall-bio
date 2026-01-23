@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { NewPromptButton } from "./NewPromptButton";
-import { Sparkles, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 
 interface TodayHeroProps {
   promptText: string;

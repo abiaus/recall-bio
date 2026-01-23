@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Baby, GraduationCap, Briefcase, Users, Heart } from "lucide-react";
 
 interface LifeStageCardProps {
   value: string;

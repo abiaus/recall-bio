@@ -1,5 +1,4 @@
 import { ImageResponse } from "next/og";
-import { routing } from "@/i18n/routing";
 
 export const runtime = "edge";
 export const alt = "Recall.bio - Your Digital Legacy";

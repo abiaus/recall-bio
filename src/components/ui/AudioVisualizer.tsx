@@ -12,7 +12,6 @@ interface AudioVisualizerProps {
 
 export function AudioVisualizer({
   isRecording,
-  audioBlob,
   audioUrl,
   className = "",
 }: AudioVisualizerProps) {
@@ -29,6 +28,8 @@ export function AudioVisualizer({
 
       return () => clearInterval(interval);
     } else {
+      // Reset bars when not recording
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setBars([]);
     }
   }, [isRecording]);

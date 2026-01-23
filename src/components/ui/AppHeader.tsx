@@ -33,7 +33,7 @@ export function AppHeader({ navItems }: AppHeaderProps) {
         initial="hidden"
         animate="visible"
       >
-        {navItems.map((item, index) => (
+        {navItems.map((item) => (
           <motion.div key={item.href} variants={itemVariants}>
             <AnimatedNavLink href={item.href}>
               {item.label}

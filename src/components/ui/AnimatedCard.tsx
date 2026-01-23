@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import { cardHoverVariants, itemVariants } from "./animations";
@@ -21,7 +21,9 @@ export function AnimatedCard({
   const [isMounted, setIsMounted] = useState(false);
   const variants = hover ? cardHoverVariants : itemVariants;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Set mounted state to avoid hydration mismatch in Next.js
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 

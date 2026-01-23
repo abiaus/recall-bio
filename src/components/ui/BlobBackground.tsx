@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import { floatVariants } from "./animations";
 
@@ -18,7 +18,9 @@ function seededRandom(seed: number): number {
 export function BlobBackground({ count = 3, className = "" }: BlobBackgroundProps) {
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Set mounted state to avoid hydration mismatch in Next.js
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 

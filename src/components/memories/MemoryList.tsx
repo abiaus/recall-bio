@@ -45,7 +45,7 @@ export function MemoryList({ memories }: MemoryListProps) {
       initial="hidden"
       animate="visible"
     >
-      {memories.map((memory, index) => (
+      {memories.map((memory) => (
         <MemoryCard key={memory.id} memory={memory} />
       ))}
     </motion.div>
