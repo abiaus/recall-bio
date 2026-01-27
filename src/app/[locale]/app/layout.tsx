@@ -27,9 +27,9 @@ export default async function AppLayout({
   return (
     <div className="min-h-dvh relative overflow-hidden" style={{ background: "var(--bg-cream)" }}>
       <BlobBackground count={3} />
-      
+
       <div className="relative z-10 mx-auto max-w-6xl px-4 py-8">
-        <AppHeader 
+        <AppHeader
           navItems={[
             { href: "/app/today", label: t("today") },
             { href: "/app/memories", label: t("memories") },
@@ -39,7 +39,7 @@ export default async function AppLayout({
         />
 
         <PageWrapper>
-          <main className="rounded-3xl bg-white/80 backdrop-blur-md p-8 shadow-lg border border-[#D4C5B0]/30 mt-8">
+          <main className="rounded-3xl bg-white/80 backdrop-blur-md p-4 sm:p-6 md:p-8 shadow-lg border border-[#D4C5B0]/30 mt-8">
             {children}
           </main>
         </PageWrapper>

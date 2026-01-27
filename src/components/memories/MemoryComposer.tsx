@@ -253,11 +253,10 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                     <button
                         type="button"
                         onClick={() => setActiveTab("write")}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${
-                            activeTab === "write"
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${activeTab === "write"
                                 ? "bg-white text-[var(--text-primary)] shadow-sm"
                                 : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-                        }`}
+                            }`}
                     >
                         <Pen className="w-4 h-4" />
                         {t("writeTab")}
@@ -265,11 +264,10 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                     <button
                         type="button"
                         onClick={() => setActiveTab("record")}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${
-                            activeTab === "record"
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${activeTab === "record"
                                 ? "bg-white text-[var(--text-primary)] shadow-sm"
                                 : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-                        }`}
+                            }`}
                     >
                         <Music2 className="w-4 h-4" />
                         {t("recordTab")}
@@ -314,7 +312,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--bg-warm)] to-white border-2 border-[var(--bg-warm)] p-8">
                                 {/* Background decoration */}
                                 <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[var(--blob-peach)] to-transparent opacity-40 rounded-bl-full" />
-                                
+
                                 <div className="relative flex flex-col items-center justify-center min-h-[180px]">
                                     {!isRecording && !audioBlob && (
                                         <motion.div
@@ -358,7 +356,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                                     <div className="w-4 h-4 bg-white rounded-sm" />
                                                 </div>
                                             </div>
-                                            
+
                                             <div className="text-center">
                                                 <p className="text-3xl font-light text-[var(--text-primary)] tabular-nums">
                                                     {formatTime(duration)}
@@ -416,11 +414,11 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                                     </p>
                                                 </div>
                                             </div>
-                                            
+
                                             {audioUrl && (
                                                 <audio src={audioUrl} controls className="w-full rounded-lg" />
                                             )}
-                                            
+
                                             <button
                                                 type="button"
                                                 onClick={discardAudio}
@@ -452,11 +450,10 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                 key={option.value}
                                 type="button"
                                 onClick={() => setMood(mood === option.value ? "" : option.value)}
-                                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-300 ${
-                                    mood === option.value
+                                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-300 ${mood === option.value
                                         ? `border-transparent bg-gradient-to-r ${option.color} text-white shadow-md`
                                         : "border-[var(--bg-warm)] bg-white hover:border-[var(--primary-terracotta)]/30 text-[var(--text-secondary)]"
-                                }`}
+                                    }`}
                             >
                                 <span className="text-lg">{option.emoji}</span>
                                 <span className="text-sm font-medium">{t(`mood${option.value.charAt(0).toUpperCase() + option.value.slice(1)}`)}</span>

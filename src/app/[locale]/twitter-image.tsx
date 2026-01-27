@@ -16,72 +16,107 @@ export default async function Image({
   const { locale } = await params;
   const isSpanish = locale === "es";
 
+  // Cargar fuente Playfair Display (Misma fuente para consistencia de marca)
+  const fontData = await fetch(
+    new URL("https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2", import.meta.url)
+  ).then((res) => res.arrayBuffer());
+
   return new ImageResponse(
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #8B7355 0%, #7A6345 100%)",
+          background: "#FDF8F3", // Fondo Beige Marca
           width: "100%",
           height: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "80px",
-          fontFamily: "serif",
-          color: "white",
+          padding: "60px",
         }}
       >
+        {/* Contenedor con borde decorativo (Efecto tarjeta premium) */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            textAlign: "center",
-            maxWidth: "900px",
+            width: "100%",
+            height: "100%",
+            border: "1px solid #DCC8B3", // Borde un poco más oscuro para contraste
+            borderRadius: "2px",
+            background: "linear-gradient(180deg, #FDF8F3 0%, #F5EBE0 100%)", // Gradiente muy sutil hacia abajo
+            position: "relative",
           }}
         >
+          {/* Marca Principal - Enorme para impacto en Twitter */}
           <div
             style={{
-              fontSize: "72px",
-              fontWeight: "bold",
-              marginBottom: "24px",
-              lineHeight: "1.1",
+              fontFamily: '"Playfair Display"',
+              fontSize: "130px", // Más grande que en OG regular
+              fontWeight: 600,
+              color: "#3D3229",
+              letterSpacing: "-0.04em",
+              marginBottom: "10px",
+              lineHeight: "1",
             }}
           >
-            {isSpanish
-              ? "Tu Legado Digital, Un Recuerdo a la Vez"
-              : "Your Digital Legacy, One Memory at a Time"}
+            Recall
           </div>
+
+          {/* Tagline "Handwritten style" (Simulado con Italic Serif) */}
           <div
             style={{
-              fontSize: "32px",
-              opacity: 0.9,
-              lineHeight: "1.4",
+              fontFamily: '"Playfair Display"',
+              fontSize: "38px",
+              fontStyle: "italic",
+              color: "#8B7355", // Color acento (dorado/marrón)
+              textAlign: "center",
+              marginBottom: "40px",
+              maxWidth: "800px",
             }}
           >
-            {isSpanish
-              ? "Documenta tu historia de vida mediante respuestas diarias"
-              : "Document your life story through daily responses"}
+            {isSpanish ? "Tu voz. Tu vida. Tu legado." : "Your voice. Your life. Your legacy."}
           </div>
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            right: "40px",
-            fontSize: "36px",
-            fontWeight: "bold",
-            opacity: 0.9,
-          }}
-        >
-          Recall.bio
+
+          {/* Pill / Badge inferior con la URL */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "10px 24px",
+              border: "1px solid #3D3229",
+              borderRadius: "50px", // Pill shape
+              marginTop: "20px",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: '"Playfair Display"',
+                fontSize: "20px",
+                color: "#3D3229",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
+              Recall.bio
+            </span>
+          </div>
         </div>
       </div>
     ),
     {
       ...size,
+      fonts: [
+        {
+          name: "Playfair Display",
+          data: fontData,
+          style: "normal",
+          weight: 400,
+        },
+      ],
     }
   );
 }

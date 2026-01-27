@@ -25,7 +25,7 @@ export function TodayHero({ promptText, canRequestNewPrompt }: TodayHeroProps) {
       {/* Decorative background elements */}
       <div className="absolute -top-8 -left-8 w-32 h-32 rounded-full bg-gradient-to-br from-[var(--blob-peach)] to-transparent opacity-60 blur-2xl pointer-events-none" />
       <div className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full bg-gradient-to-br from-[var(--blob-sage)] to-transparent opacity-50 blur-2xl pointer-events-none" />
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -60,38 +60,38 @@ export function TodayHero({ promptText, canRequestNewPrompt }: TodayHeroProps) {
           className="relative group"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-terracotta)]/10 via-[var(--accent-dusty-rose)]/10 to-[var(--accent-lavender)]/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          
+
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/90 to-[var(--bg-warm)]/80 backdrop-blur-sm border border-[var(--primary-terracotta)]/15 shadow-lg shadow-[var(--primary-terracotta)]/5">
             {/* Decorative corner accent */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[var(--blob-lavender)] to-transparent opacity-30 rounded-bl-full" />
-            
-            <div className="relative p-8 md:p-10">
+
+            <div className="relative p-5 sm:p-8 md:p-10">
               {/* Quote icon */}
               <motion.div
                 initial={{ opacity: 0, rotate: -10 }}
                 animate={{ opacity: 1, rotate: 0 }}
                 transition={{ delay: 0.6, duration: 0.4 }}
-                className="absolute top-6 left-6 md:top-8 md:left-8"
+                className="absolute top-5 left-5 sm:top-6 sm:left-6 md:top-8 md:left-8"
               >
                 <Quote className="w-8 h-8 text-[var(--primary-terracotta)]/20 fill-[var(--primary-terracotta)]/10" />
               </motion.div>
-              
+
               {/* Prompt text */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
-                className="font-serif text-xl md:text-2xl lg:text-3xl text-[var(--text-primary)] leading-relaxed md:leading-relaxed pl-8 md:pl-12 pr-4"
+                className="font-serif text-xl md:text-2xl lg:text-3xl text-[var(--text-primary)] leading-relaxed md:leading-relaxed pl-8 sm:pl-10 md:pl-12 pr-4"
               >
                 {promptText}
               </motion.p>
-              
+
               {/* Action button */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.4 }}
-                className="mt-8 pl-8 md:pl-12"
+                className="mt-6 sm:mt-8 pl-8 sm:pl-10 md:pl-12"
               >
                 {canRequestNewPrompt && (
                   <NewPromptButton hasExistingPrompt={true} />

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { AnimatedLogo } from "./AnimatedLogo";
 import { AnimatedNavLink } from "./AnimatedNavLink";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { MobileNav } from "./MobileNav";
 import { containerVariants, itemVariants } from "./animations";
 
 interface NavItem {
@@ -23,12 +24,15 @@ export function AppHeader({ navItems }: AppHeaderProps) {
       initial="hidden"
       animate="visible"
     >
-      <motion.div variants={itemVariants} className="flex justify-center md:justify-start">
+      <motion.div variants={itemVariants} className="flex items-center justify-between w-full md:w-auto md:justify-start">
         <AnimatedLogo />
+        {/* Menú hamburguesa - solo visible en móvil */}
+        <MobileNav navItems={navItems} />
       </motion.div>
 
+      {/* Navegación desktop - solo visible en md y superior */}
       <motion.nav
-        className="flex items-center gap-4 md:gap-8 flex-wrap justify-center"
+        className="hidden md:flex items-center gap-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -40,7 +44,7 @@ export function AppHeader({ navItems }: AppHeaderProps) {
             </AnimatedNavLink>
           </motion.div>
         ))}
-        
+
         <motion.div variants={itemVariants}>
           <LanguageSwitcher />
         </motion.div>

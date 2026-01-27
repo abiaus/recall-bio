@@ -1,7 +1,11 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { stableDailySeed, pickWeighted } from "@/lib/prompts/dailyPrompt";
+import {
+  stableDailySeed,
+  pickWeighted,
+  questionLifeStageMatch,
+} from "@/lib/prompts/dailyPrompt";
 import type { LifeStage } from "@/lib/prompts/dailyPrompt";
 
 export type DailyPromptResult =
@@ -88,10 +92,12 @@ export async function getOrAssignDailyPrompt(
   }
 
   // Weight questions by life_stage match and variety
+  // life_stage en BD: string, string[] (ej. ["young_adult","adult","midlife"]) o null
   const weighted = questions.map((q) => {
     let weight = 1;
-    if (q.life_stage === lifeStage) weight *= 2;
-    if (!q.life_stage) weight *= 1.5; // Generic questions get medium priority
+    const match = questionLifeStageMatch(q.life_stage, lifeStage);
+    if (match === "match") weight *= 2;
+    else if (match === "generic") weight *= 1.5;
     return { item: q, weight };
   });
 
@@ -111,6 +117,34 @@ export async function getOrAssignDailyPrompt(
     });
 
   if (error) {
+    // Handle race condition: if another request already inserted, fetch the existing record
+    if (error.code === "23505") {
+      const { data: racePrompt } = await supabase
+        .schema("public")
+        .from("daily_prompts")
+        .select("question_id, prompt_index, questions!inner(text, text_es)")
+        .eq("user_id", userId)
+        .eq("prompt_date", isoDate)
+        .order("prompt_index", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (racePrompt?.question_id) {
+        const questionData = Array.isArray(racePrompt.questions)
+          ? racePrompt.questions[0]
+          : (racePrompt.questions as { text: string; text_es?: string | null });
+        if (questionData) {
+          const questionText = getQuestionText(questionData);
+          if (questionText) {
+            return {
+              status: "assigned",
+              question_id: racePrompt.question_id,
+              text: questionText,
+            };
+          }
+        }
+      }
+    }
     console.error("Error assigning daily prompt:", error);
     console.error("Error details:", JSON.stringify(error, null, 2));
     return { status: "error" };
@@ -212,10 +246,12 @@ export async function assignNextDailyPrompt(
   }
 
   // Weight questions by life_stage match and variety
+  // life_stage en BD: string, string[] (ej. ["young_adult","adult","midlife"]) o null
   const weighted = questionsToUse.map((q) => {
     let weight = 1;
-    if (q.life_stage === lifeStage) weight *= 2;
-    if (!q.life_stage) weight *= 1.5; // Generic questions get medium priority
+    const match = questionLifeStageMatch(q.life_stage, lifeStage);
+    if (match === "match") weight *= 2;
+    else if (match === "generic") weight *= 1.5;
     return { item: q, weight };
   });
 

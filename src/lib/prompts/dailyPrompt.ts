@@ -1,5 +1,18 @@
 export type LifeStage = "teen" | "young_adult" | "adult" | "midlife" | "senior";
 
+/** life_stage en questions puede ser string, string[] (varios) o null (genérica). */
+export function questionLifeStageMatch(
+  qLifeStage: string | string[] | null | undefined,
+  userLifeStage: string
+): "match" | "generic" | "no_match" {
+  if (qLifeStage == null) return "generic";
+  if (Array.isArray(qLifeStage)) {
+    if (qLifeStage.length === 0) return "generic";
+    return qLifeStage.includes(userLifeStage) ? "match" : "no_match";
+  }
+  return qLifeStage === userLifeStage ? "match" : "no_match";
+}
+
 export function stableDailySeed(userId: string, isoDate: string): number {
   // Seed determinista simple (MVP). En V1.5 se puede reemplazar por una función hash.
   let acc = 0;
