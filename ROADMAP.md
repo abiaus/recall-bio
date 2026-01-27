@@ -70,12 +70,12 @@ Este documento describe el roadmap completo de desarrollo de Recall.bio, organiz
 
 #### Tareas
 
-- [ ] **1.2.1** Mejorar diseño de `opengraph-image.tsx`
-- [ ] **1.2.2** Incorporar logo en la imagen OG
-- [ ] **1.2.3** Ajustar colores y tipografía según branding
-- [ ] **1.2.4** Verificar preview en Facebook Debugger
-- [ ] **1.2.5** Verificar preview en Twitter Card Validator
-- [ ] **1.2.6** Actualizar `twitter-image.tsx` con mismo diseño
+- [x] **1.2.1** Mejorar diseño de `opengraph-image.tsx`
+- [x] **1.2.2** Incorporar logo en la imagen OG
+- [x] **1.2.3** Ajustar colores y tipografía según branding
+- [x] **1.2.4** Verificar preview en Facebook Debugger
+- [x] **1.2.5** Verificar preview en Twitter Card Validator
+- [x] **1.2.6** Actualizar `twitter-image.tsx` con mismo diseño
 
 **Archivos afectados:**
 - `src/app/[locale]/opengraph-image.tsx`
@@ -91,12 +91,12 @@ Este documento describe el roadmap completo de desarrollo de Recall.bio, organiz
 
 #### Tareas
 
-- [ ] **1.3.1** Agregar `localeDetection: true` en `src/i18n/routing.ts`
-- [ ] **1.3.2** Verificar que middleware no interfiere con detección
-- [ ] **1.3.3** Probar con navegador en español (Accept-Language: es)
-- [ ] **1.3.4** Probar con navegador en inglés (Accept-Language: en)
-- [ ] **1.3.5** Verificar que cookie guarda preferencia
-- [ ] **1.3.6** Documentar comportamiento en I18N_MIGRATION.md
+- [x] **1.3.1** Agregar `localeDetection: true` en `src/i18n/routing.ts`
+- [x] **1.3.2** Verificar que middleware no interfiere con detección
+- [x] **1.3.3** Probar con navegador en español (Accept-Language: es)
+- [x] **1.3.4** Probar con navegador en inglés (Accept-Language: en)
+- [x] **1.3.5** Verificar que cookie guarda preferencia
+- [x] **1.3.6** Documentar comportamiento en I18N_MIGRATION.md
 
 **Archivos afectados:**
 - `src/i18n/routing.ts`

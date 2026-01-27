@@ -47,8 +47,8 @@
 
 4. **Mejoras**
    - ⏳ Selector de idioma en la UI
-   - ⏳ Detección automática de idioma del navegador
-   - ⏳ Persistencia de preferencia de idioma
+   - ✅ Detección automática de idioma del navegador
+   - ✅ Persistencia de preferencia de idioma
 
 ## 📝 Notas
 
@@ -57,6 +57,41 @@
 - Los Links deben usar `Link` de `@/i18n/routing` en lugar de `next/link`
 - Los componentes client deben usar `useTranslations` de `next-intl`
 - Los componentes server deben usar `getTranslations` de `next-intl/server`
+
+## 🌐 Detección Automática de Idioma
+
+### Comportamiento
+
+La app detecta automáticamente el idioma preferido del usuario basándose en:
+
+1. **Cookie `NEXT_LOCALE`**: Si existe, tiene prioridad (guarda la preferencia del usuario)
+2. **Header `Accept-Language`**: Si no hay cookie, usa el idioma del navegador
+3. **Idioma por defecto**: Si ninguno coincide con los locales soportados, usa `en`
+
+### Configuración
+
+```typescript
+// src/i18n/routing.ts
+export const routing = defineRouting({
+    locales: ["en", "es"],
+    defaultLocale: "en",
+    localePrefix: "always",
+    localeDetection: true, // Habilita detección automática
+});
+```
+
+### Flujo de Detección
+
+1. Usuario visita la app por primera vez
+2. El middleware lee `Accept-Language` del navegador (ej: `es-ES,es;q=0.9,en;q=0.8`)
+3. Si el idioma preferido está soportado (`es` o `en`), redirige a ese locale
+4. Se establece la cookie `NEXT_LOCALE` para futuras visitas
+
+### Testing
+
+- **Navegador en español**: Configurar idioma del navegador a español → debe redirigir a `/es`
+- **Navegador en inglés**: Configurar idioma del navegador a inglés → debe redirigir a `/en`
+- **Persistencia**: Cambiar idioma manualmente → la cookie guarda la preferencia
 
 ## 🚀 Próximos Pasos
 
