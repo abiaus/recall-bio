@@ -17,12 +17,13 @@ export function TodayPageContent({
   prompt,
   canRequestNewPrompt,
   noPromptsText,
+  initialFeedback,
 }: TodayPageContentProps) {
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col">
       {prompt ? (
         <>
-          <TodayHero 
+          <TodayHero
             promptText={prompt.text}
             questionId={prompt.question_id}
             canRequestNewPrompt={canRequestNewPrompt}
