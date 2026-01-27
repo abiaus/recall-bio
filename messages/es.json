@@ -78,7 +78,11 @@
         "memorySavedSubtext": "Tus pensamientos han sido preservados.",
         "newPrompt": "Nueva pregunta",
         "newPromptLoading": "Obteniendo nueva pregunta...",
-        "newPromptError": "Error al obtener nueva pregunta. Por favor, intenta de nuevo."
+        "newPromptError": "Error al obtener nueva pregunta. Por favor, intenta de nuevo.",
+        "feedback": {
+            "thumbsUpLabel": "Me gusta esta pregunta",
+            "thumbsDownLabel": "No me gusta esta pregunta"
+        }
     },
     "memories": {
         "title": "Mis Recuerdos",

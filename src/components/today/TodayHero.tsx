@@ -3,14 +3,22 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { NewPromptButton } from "./NewPromptButton";
+import { QuestionFeedback } from "./QuestionFeedback";
 import { Quote } from "lucide-react";
 
 interface TodayHeroProps {
   promptText: string;
+  questionId: string;
   canRequestNewPrompt: boolean;
+  initialFeedback?: "up" | "down" | null;
 }
 
-export function TodayHero({ promptText, canRequestNewPrompt }: TodayHeroProps) {
+export function TodayHero({
+  promptText,
+  questionId,
+  canRequestNewPrompt,
+  initialFeedback,
+}: TodayHeroProps) {
   const t = useTranslations("today");
 
   const today = new Date();
@@ -86,13 +94,17 @@ export function TodayHero({ promptText, canRequestNewPrompt }: TodayHeroProps) {
                 {promptText}
               </motion.p>
 
-              {/* Action button */}
+              {/* Action buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.4 }}
-                className="mt-6 sm:mt-8 pl-8 sm:pl-10 md:pl-12"
+                className="mt-6 sm:mt-8 pl-8 sm:pl-10 md:pl-12 flex items-center gap-4 flex-wrap"
               >
+                <QuestionFeedback
+                  questionId={questionId}
+                  initialFeedback={initialFeedback}
+                />
                 {canRequestNewPrompt && (
                   <NewPromptButton hasExistingPrompt={true} />
                 )}

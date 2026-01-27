@@ -9,6 +9,7 @@ interface TodayPageContentProps {
   prompt: { text: string; question_id: string } | null;
   canRequestNewPrompt: boolean;
   noPromptsText: string;
+  initialFeedback?: "up" | "down" | null;
 }
 
 export function TodayPageContent({
@@ -22,8 +23,10 @@ export function TodayPageContent({
       {prompt ? (
         <>
           <TodayHero 
-            promptText={prompt.text} 
+            promptText={prompt.text}
+            questionId={prompt.question_id}
             canRequestNewPrompt={canRequestNewPrompt}
+            initialFeedback={initialFeedback}
           />
           <div className="flex-1 mt-8">
             <MemoryComposer questionId={prompt.question_id} />

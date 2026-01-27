@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getOrAssignDailyPrompt } from "@/server/actions/dailyPrompt";
+import { getQuestionFeedback } from "@/server/actions/questionFeedback";
 import { MemoryComposer } from "@/components/memories/MemoryComposer";
 import { NewPromptButton } from "@/components/today/NewPromptButton";
 import { TodayHero } from "@/components/today/TodayHero";
@@ -26,13 +27,24 @@ export default async function TodayPage({
   const prompt = promptResult.status === "assigned" ? promptResult : null;
   const canRequestNewPrompt = promptResult.status !== "no_questions";
 
+  // Obtener feedback inicial si hay un prompt
+  let initialFeedback: "up" | "down" | null = null;
+  if (prompt) {
+    const feedbackResult = await getQuestionFeedback(prompt.question_id);
+    if (feedbackResult.success && feedbackResult.rating) {
+      initialFeedback = feedbackResult.rating;
+    }
+  }
+
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col">
       {prompt ? (
         <>
           <TodayHero 
-            promptText={prompt.text} 
+            promptText={prompt.text}
+            questionId={prompt.question_id}
             canRequestNewPrompt={canRequestNewPrompt}
+            initialFeedback={initialFeedback}
           />
           <div className="flex-1 mt-8">
             <MemoryComposer questionId={prompt.question_id} />

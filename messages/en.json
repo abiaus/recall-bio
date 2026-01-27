@@ -78,7 +78,11 @@
         "memorySavedSubtext": "Your thoughts have been preserved.",
         "newPrompt": "New Question",
         "newPromptLoading": "Getting new question...",
-        "newPromptError": "Error getting new question. Please try again."
+        "newPromptError": "Error getting new question. Please try again.",
+        "feedback": {
+            "thumbsUpLabel": "Like this question",
+            "thumbsDownLabel": "Dislike this question"
+        }
     },
     "memories": {
         "title": "My Memories",
