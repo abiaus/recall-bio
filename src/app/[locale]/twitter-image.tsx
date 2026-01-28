@@ -2,9 +2,10 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const alt = "Recall.bio - Your Digital Legacy";
+const OG_SCALE = 2;
 export const size = {
-  width: 1200,
-  height: 630,
+  width: 1200 * OG_SCALE, // 2400px para retina
+  height: 600 * OG_SCALE, // 1200px - ratio 2:1 exacto
 };
 export const contentType = "image/png";
 
@@ -32,7 +33,7 @@ export default async function Image({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "60px",
+          padding: "100px", // Safe margins para 2x (50px * 2)
         }}
       >
         {/* Contenedor con borde decorativo (Efecto tarjeta premium) */}
@@ -44,8 +45,8 @@ export default async function Image({
             justifyContent: "center",
             width: "100%",
             height: "100%",
-            border: "1px solid #DCC8B3", // Borde un poco más oscuro para contraste
-            borderRadius: "2px",
+            border: "2px solid #DCC8B3", // Borde escalado 2x
+            borderRadius: "4px",
             background: "linear-gradient(180deg, #FDF8F3 0%, #F5EBE0 100%)", // Gradiente muy sutil hacia abajo
             position: "relative",
           }}
@@ -54,11 +55,11 @@ export default async function Image({
           <div
             style={{
               fontFamily: '"Playfair Display"',
-              fontSize: "130px", // Más grande que en OG regular
+              fontSize: "260px", // Escalado 2x (130px * 2)
               fontWeight: 600,
               color: "#3D3229",
               letterSpacing: "-0.04em",
-              marginBottom: "10px",
+              marginBottom: "20px", // Escalado 2x
               lineHeight: "1",
             }}
           >
@@ -69,12 +70,12 @@ export default async function Image({
           <div
             style={{
               fontFamily: '"Playfair Display"',
-              fontSize: "38px",
+              fontSize: "76px", // Escalado 2x (38px * 2)
               fontStyle: "italic",
               color: "#8B7355", // Color acento (dorado/marrón)
               textAlign: "center",
-              marginBottom: "40px",
-              maxWidth: "800px",
+              marginBottom: "80px", // Escalado 2x
+              maxWidth: "1600px", // Escalado 2x
             }}
           >
             {isSpanish ? "Tu voz. Tu vida. Tu legado." : "Your voice. Your life. Your legacy."}
@@ -95,7 +96,7 @@ export default async function Image({
             <span
               style={{
                 fontFamily: '"Playfair Display"',
-                fontSize: "20px",
+                fontSize: "40px", // Escalado 2x (20px * 2)
                 color: "#3D3229",
                 letterSpacing: "0.05em",
                 textTransform: "uppercase",

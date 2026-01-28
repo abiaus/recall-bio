@@ -113,7 +113,7 @@ Este documento describe el roadmap completo de desarrollo de Recall.bio, organiz
 
 #### Tareas
 
-- [ ] **1.4.1** Crear migración SQL para tabla `question_feedback`
+- [x] **1.4.1** Crear migración SQL para tabla `question_feedback`
   ```sql
   CREATE TABLE question_feedback (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -124,12 +124,12 @@ Este documento describe el roadmap completo de desarrollo de Recall.bio, organiz
     UNIQUE(user_id, question_id)
   );
   ```
-- [ ] **1.4.2** Agregar políticas RLS para `question_feedback`
-- [ ] **1.4.3** Crear componente `QuestionFeedback.tsx`
-- [ ] **1.4.4** Crear server action `submitQuestionFeedback`
-- [ ] **1.4.5** Integrar en `TodayHero.tsx`
-- [ ] **1.4.6** Mostrar estado visual cuando ya se dio feedback
-- [ ] **1.4.7** Usar feedback para ajustar pesos de preguntas (opcional)
+- [x] **1.4.2** Agregar políticas RLS para `question_feedback`
+- [x] **1.4.3** Crear componente `QuestionFeedback.tsx`
+- [x] **1.4.4** Crear server action `submitQuestionFeedback`
+- [x] **1.4.5** Integrar en `TodayHero.tsx`
+- [x] **1.4.6** Mostrar estado visual cuando ya se dio feedback
+- [x] **1.4.7** Usar feedback para ajustar pesos de preguntas (opcional)
 
 **Archivos afectados:**
 - `scripts/migration_question_feedback.sql` (nuevo)

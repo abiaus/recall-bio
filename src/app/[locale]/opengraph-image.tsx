@@ -2,9 +2,10 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const alt = "Recall.bio - Your Digital Legacy";
+const OG_SCALE = 2;
 export const size = {
-  width: 1200,
-  height: 630,
+  width: 1200 * OG_SCALE, // 2400px para retina
+  height: 600 * OG_SCALE, // 1200px - ratio 2:1 exacto
 };
 export const contentType = "image/png";
 
@@ -36,7 +37,7 @@ export default async function Image({
   const titleText = isSpanish
     ? "Tu Legado Digital, Un Recuerdo a la Vez"
     : "Your Digital Legacy, One Memory at a Time";
-  
+
   const subTitleText = isSpanish
     ? "Documenta tu historia de vida mediante respuestas diarias"
     : "Document your life story through daily responses";
@@ -58,7 +59,7 @@ export default async function Image({
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#FDF8F3", // El beige cálido solicitado
-          padding: "40px", // Margen externo
+          padding: "100px", // Safe margins para 2x (50px * 2)
         }}
       >
         {/* Contenedor Interno "Elegante" con borde */}
@@ -70,8 +71,8 @@ export default async function Image({
             justifyContent: "center",
             width: "100%",
             height: "100%",
-            border: "2px solid #E8DDD0", // Borde sutil
-            borderRadius: "4px",
+            border: "4px solid #E8DDD0", // Borde sutil (escalado 2x)
+            borderRadius: "8px",
             background: "radial-gradient(circle at center, #FDF8F3 0%, #FAF2EB 100%)",
           }}
         >
@@ -79,9 +80,9 @@ export default async function Image({
           <div
             style={{
               fontFamily: '"Playfair Display"',
-              fontSize: "100px", // Muy grande y refinado
+              fontSize: "200px", // Escalado 2x (100px * 2)
               color: "#3D3229", // Marrón oscuro de marca
-              marginBottom: "10px",
+              marginBottom: "20px",
               letterSpacing: "-0.03em",
             }}
           >
@@ -91,11 +92,11 @@ export default async function Image({
           {/* Línea divisoria decorativa */}
           <div
             style={{
-              width: "60px",
-              height: "2px",
+              width: "120px", // Escalado 2x
+              height: "4px", // Escalado 2x
               backgroundColor: "#8B7355", // Acento dorado/marrón
               opacity: 0.5,
-              marginBottom: "40px",
+              marginBottom: "80px", // Escalado 2x
             }}
           />
 
@@ -104,12 +105,12 @@ export default async function Image({
             style={{
               display: "flex",
               textAlign: "center",
-              maxWidth: "900px",
+              maxWidth: "1800px", // Escalado 2x
               fontFamily: '"Playfair Display"',
-              fontSize: "52px",
+              fontSize: "104px", // Escalado 2x (52px * 2)
               lineHeight: "1.1",
               color: "#3D3229",
-              marginBottom: "24px",
+              marginBottom: "48px", // Escalado 2x
               fontStyle: "italic", // El toque "editorial"
             }}
           >
@@ -121,9 +122,9 @@ export default async function Image({
             style={{
               display: "flex",
               textAlign: "center",
-              maxWidth: "700px",
+              maxWidth: "1400px", // Escalado 2x
               fontFamily: '"Playfair Display"', // Mantenemos la misma familia para consistencia
-              fontSize: "26px",
+              fontSize: "52px", // Escalado 2x (26px * 2)
               color: "#6D5A4B", // Un tono más suave para jerarquía
               lineHeight: "1.5",
               opacity: 0.9,
