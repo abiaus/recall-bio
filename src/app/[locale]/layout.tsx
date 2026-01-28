@@ -64,12 +64,21 @@ export async function generateMetadata({
             siteName: "Recall.bio",
             title: "\u200B", // Zero-width space - oculta título superpuesto en X
             description: t("subtitle"),
+            images: [
+                {
+                    url: "/og.png",
+                    width: 1200,
+                    height: 600,
+                    alt: "Recall - Your Life, Your Voice, Your Legacy",
+                },
+            ],
         },
         twitter: {
             card: "summary_large_image",
             title: "\u200B", // Zero-width space - oculta título superpuesto en X
             description: t("subtitle"),
             creator: "@recallbio",
+            images: ["/og.png"],
         },
         other: {
             "twitter:domain": domain,
