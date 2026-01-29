@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { NewPromptButton } from "./NewPromptButton";
 import { QuestionFeedback } from "./QuestionFeedback";
 import { Quote } from "lucide-react";
@@ -20,9 +20,11 @@ export function TodayHero({
   initialFeedback,
 }: TodayHeroProps) {
   const t = useTranslations("today");
+  const locale = useLocale();
 
   const today = new Date();
-  const formattedDate = today.toLocaleDateString(undefined, {
+  const dateLocale = locale === "es" ? "es-ES" : "en-US";
+  const formattedDate = today.toLocaleDateString(dateLocale, {
     weekday: "long",
     month: "long",
     day: "numeric",
