@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useRouter, useParams } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 export default function ResetPasswordPage() {
+  const t = useTranslations("auth");
+  const params = useParams();
+  const locale = params.locale as string;
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,12 +33,12 @@ export default function ResetPasswordPage() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden");
+      setError(t("passwordMismatch"));
       return;
     }
 
     if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres");
+      setError(t("passwordTooShort"));
       return;
     }
 
@@ -52,7 +56,7 @@ export default function ResetPasswordPage() {
       setLoading(false);
       // Redirigir después de 2 segundos
       setTimeout(() => {
-        router.push("/auth/login");
+        router.push(`/${locale}/auth/login`);
       }, 2000);
     }
   };
@@ -62,7 +66,7 @@ export default function ResetPasswordPage() {
     return (
       <div className="min-h-dvh bg-[#F6F1E7] flex items-center justify-center px-4">
         <div className="w-full max-w-md rounded-3xl bg-white/70 p-8 shadow-sm ring-1 ring-black/5">
-          <p className="text-center text-[#5A4A3A]">Verificando enlace...</p>
+          <p className="text-center text-[#5A4A3A]">{t("verifyingLink")}</p>
         </div>
       </div>
     );
@@ -74,17 +78,16 @@ export default function ResetPasswordPage() {
       <div className="min-h-dvh bg-[#F6F1E7] flex items-center justify-center px-4">
         <div className="w-full max-w-md rounded-3xl bg-white/70 p-8 shadow-sm ring-1 ring-black/5">
           <h1 className="font-serif text-3xl font-semibold text-[#2B241B] mb-4">
-            Enlace inválido
+            {t("invalidLink")}
           </h1>
           <p className="text-sm text-[#5A4A3A] mb-6">
-            El enlace para restablecer tu contraseña ha expirado o es inválido.
-            Por favor, solicita uno nuevo.
+            {t("invalidLinkDescription")}
           </p>
           <Link
             href="/auth/forgot-password"
             className="block w-full py-3 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors text-center"
           >
-            Solicitar nuevo enlace
+            {t("requestNewLink")}
           </Link>
         </div>
       </div>
@@ -95,18 +98,16 @@ export default function ResetPasswordPage() {
     <div className="min-h-dvh bg-[#F6F1E7] flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-3xl bg-white/70 p-8 shadow-sm ring-1 ring-black/5">
         <h1 className="font-serif text-3xl font-semibold text-[#2B241B] mb-2">
-          Nueva Contraseña
+          {t("newPassword")}
         </h1>
         <p className="text-sm text-[#5A4A3A] mb-6">
-          Ingresa tu nueva contraseña.
+          {t("newPasswordDescription")}
         </p>
 
         {success ? (
           <div className="p-4 rounded-lg bg-green-50 text-green-700 text-sm">
-            <p className="font-medium">¡Contraseña actualizada!</p>
-            <p className="mt-1">
-              Tu contraseña ha sido cambiada exitosamente. Redirigiendo al inicio de sesión...
-            </p>
+            <p className="font-medium">{t("passwordUpdated")}</p>
+            <p className="mt-1">{t("redirectingToLogin")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -121,7 +122,7 @@ export default function ResetPasswordPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-[#2B241B] mb-2"
               >
-                Nueva contraseña
+                {t("newPasswordLabel")}
               </label>
               <input
                 id="password"
@@ -131,7 +132,7 @@ export default function ResetPasswordPage() {
                 required
                 minLength={6}
                 className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t("passwordPlaceholder")}
               />
             </div>
 
@@ -140,7 +141,7 @@ export default function ResetPasswordPage() {
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-[#2B241B] mb-2"
               >
-                Confirmar contraseña
+                {t("confirmPasswordLabel")}
               </label>
               <input
                 id="confirmPassword"
@@ -150,7 +151,7 @@ export default function ResetPasswordPage() {
                 required
                 minLength={6}
                 className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t("passwordPlaceholder")}
               />
             </div>
 
@@ -159,7 +160,7 @@ export default function ResetPasswordPage() {
               disabled={loading}
               className="w-full py-3 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Actualizando..." : "Actualizar contraseña"}
+              {loading ? t("updating") : t("updatePassword")}
             </button>
           </form>
         )}
