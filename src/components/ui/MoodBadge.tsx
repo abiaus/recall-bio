@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Smile, Heart, Brain, Sunset, Sparkles, Zap } from "lucide-react";
+import { Smile, Heart, Brain, Sunset, Sparkles, Zap, Frown, AlertCircle, AlertTriangle, Flame, UserX, Moon } from "lucide-react";
 
 interface MoodBadgeProps {
   mood: string;
@@ -15,6 +15,12 @@ const moodConfig: Record<string, { icon: React.ReactNode; color: string; label: 
   nostalgic: { icon: <Sunset className="w-4 h-4" />, color: "from-purple-400 to-pink-400", label: "Nostalgic" },
   peaceful: { icon: <Sparkles className="w-4 h-4" />, color: "from-green-400 to-emerald-400", label: "Peaceful" },
   excited: { icon: <Zap className="w-4 h-4" />, color: "from-orange-400 to-red-400", label: "Excited" },
+  sad: { icon: <Frown className="w-4 h-4" />, color: "from-blue-500 to-indigo-600", label: "Sad" },
+  anxious: { icon: <AlertCircle className="w-4 h-4" />, color: "from-yellow-500 to-orange-500", label: "Anxious" },
+  stressed: { icon: <AlertTriangle className="w-4 h-4" />, color: "from-red-500 to-orange-600", label: "Stressed" },
+  angry: { icon: <Flame className="w-4 h-4" />, color: "from-red-600 to-red-800", label: "Angry" },
+  lonely: { icon: <UserX className="w-4 h-4" />, color: "from-gray-500 to-gray-700", label: "Lonely" },
+  tired: { icon: <Moon className="w-4 h-4" />, color: "from-slate-500 to-slate-700", label: "Tired" },
 };
 
 export function MoodBadge({ mood, size = "md" }: MoodBadgeProps) {

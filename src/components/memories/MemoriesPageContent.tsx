@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { MemoryList } from "./MemoryList";
+import { DownloadMemoriesButton } from "./DownloadMemoriesButton";
 import { containerVariants, itemVariants } from "@/components/ui/animations";
 
 interface Memory {
@@ -27,12 +28,19 @@ export function MemoriesPageContent({ title, memories }: MemoriesPageContentProp
       initial="hidden"
       animate="visible"
     >
-      <motion.h1
-        variants={itemVariants}
-        className="font-serif text-4xl font-bold text-[var(--text-primary)]"
-      >
-        {title}
-      </motion.h1>
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <motion.h1
+          variants={itemVariants}
+          className="font-serif text-4xl font-bold text-[var(--text-primary)]"
+        >
+          {title}
+        </motion.h1>
+        {memories.length > 0 && (
+          <motion.div variants={itemVariants}>
+            <DownloadMemoriesButton />
+          </motion.div>
+        )}
+      </div>
       <motion.div variants={itemVariants}>
         <MemoryList memories={memories} />
       </motion.div>

@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter, useParams } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 export default function SignupPage() {
   const t = useTranslations("auth");
@@ -119,6 +120,23 @@ export default function SignupPage() {
             {loading ? t("creatingAccount") : t("signup")}
           </button>
         </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-[#D4C5B0]"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white/70 text-[#5A4A3A]">
+                {t("or")}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <GoogleSignInButton />
+          </div>
+        </div>
 
         <p className="mt-6 text-center text-sm text-[#5A4A3A]">
           {t("alreadyHaveAccount")}{" "}

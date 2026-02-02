@@ -33,6 +33,12 @@ const moodConfig: Record<string, { emoji: string; label: string; color: string }
     nostalgic: { emoji: "💭", label: "Nostalgic", color: "from-rose-400 to-pink-400" },
     peaceful: { emoji: "😌", label: "Peaceful", color: "from-sky-400 to-cyan-400" },
     excited: { emoji: "🎉", label: "Excited", color: "from-yellow-400 to-amber-400" },
+    sad: { emoji: "😢", label: "Sad", color: "from-blue-500 to-indigo-600" },
+    anxious: { emoji: "😰", label: "Anxious", color: "from-yellow-500 to-orange-500" },
+    stressed: { emoji: "😓", label: "Stressed", color: "from-red-500 to-orange-600" },
+    angry: { emoji: "😠", label: "Angry", color: "from-red-600 to-red-800" },
+    lonely: { emoji: "😔", label: "Lonely", color: "from-gray-500 to-gray-700" },
+    tired: { emoji: "😴", label: "Tired", color: "from-slate-500 to-slate-700" },
 };
 
 export function MemoryDetail({ memory }: MemoryDetailProps) {
@@ -138,11 +144,11 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
                         className="relative group"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-terracotta)]/10 via-[var(--accent-dusty-rose)]/10 to-[var(--accent-lavender)]/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                        
+
                         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/90 to-[var(--bg-warm)]/80 backdrop-blur-sm border border-[var(--primary-terracotta)]/15 shadow-lg shadow-[var(--primary-terracotta)]/5">
                             {/* Decorative corner */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[var(--blob-lavender)] to-transparent opacity-30 rounded-bl-full" />
-                            
+
                             <div className="relative p-8 md:p-10">
                                 <Quote className="w-8 h-8 text-[var(--primary-terracotta)]/20 fill-[var(--primary-terracotta)]/10 mb-4" />
                                 <p className="font-serif text-xl md:text-2xl text-[var(--text-primary)] leading-relaxed">

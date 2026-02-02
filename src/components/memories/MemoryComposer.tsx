@@ -24,6 +24,12 @@ const moodOptions = [
     { value: "nostalgic", emoji: "💭", color: "from-rose-400 to-pink-400" },
     { value: "peaceful", emoji: "😌", color: "from-sky-400 to-cyan-400" },
     { value: "excited", emoji: "🎉", color: "from-yellow-400 to-amber-400" },
+    { value: "sad", emoji: "😢", color: "from-blue-500 to-indigo-600" },
+    { value: "anxious", emoji: "😰", color: "from-yellow-500 to-orange-500" },
+    { value: "stressed", emoji: "😓", color: "from-red-500 to-orange-600" },
+    { value: "angry", emoji: "😠", color: "from-red-600 to-red-800" },
+    { value: "lonely", emoji: "😔", color: "from-gray-500 to-gray-700" },
+    { value: "tired", emoji: "😴", color: "from-slate-500 to-slate-700" },
 ];
 
 export function MemoryComposer({ questionId }: MemoryComposerProps) {
@@ -254,8 +260,8 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                         type="button"
                         onClick={() => setActiveTab("write")}
                         className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${activeTab === "write"
-                                ? "bg-white text-[var(--text-primary)] shadow-sm"
-                                : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+                            ? "bg-white text-[var(--text-primary)] shadow-sm"
+                            : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                             }`}
                     >
                         <Pen className="w-4 h-4" />
@@ -265,8 +271,8 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                         type="button"
                         onClick={() => setActiveTab("record")}
                         className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${activeTab === "record"
-                                ? "bg-white text-[var(--text-primary)] shadow-sm"
-                                : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+                            ? "bg-white text-[var(--text-primary)] shadow-sm"
+                            : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                             }`}
                     >
                         <Music2 className="w-4 h-4" />
@@ -451,8 +457,8 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                 type="button"
                                 onClick={() => setMood(mood === option.value ? "" : option.value)}
                                 className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-300 ${mood === option.value
-                                        ? `border-transparent bg-gradient-to-r ${option.color} text-white shadow-md`
-                                        : "border-[var(--bg-warm)] bg-white hover:border-[var(--primary-terracotta)]/30 text-[var(--text-secondary)]"
+                                    ? `border-transparent bg-gradient-to-r ${option.color} text-white shadow-md`
+                                    : "border-[var(--bg-warm)] bg-white hover:border-[var(--primary-terracotta)]/30 text-[var(--text-secondary)]"
                                     }`}
                             >
                                 <span className="text-lg">{option.emoji}</span>

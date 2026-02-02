@@ -16,6 +16,7 @@ const STEPS = 2;
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
+  const tCommon = useTranslations("common");
   const [currentStep, setCurrentStep] = useState(0);
   const [lifeStage, setLifeStage] = useState<string>("");
   const [timezone, setTimezone] = useState<string>(
@@ -100,10 +101,10 @@ export default function OnboardingPage() {
           <CheckCircle2 className="w-12 h-12 text-white" />
         </motion.div>
         <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)]">
-          ¡Bienvenido a Recall!
+          {t("welcomeTitle")}
         </h2>
         <p className="text-[var(--text-secondary)] text-lg">
-          Estamos preparando tu experiencia...
+          {t("preparingExperience")}
         </p>
       </motion.div>
     );
@@ -194,7 +195,7 @@ export default function OnboardingPage() {
               onClick={handleBack}
               className="flex-1"
             >
-              Atrás
+              {tCommon("back")}
             </GlowButton>
           )}
           {currentStep < STEPS - 1 ? (
@@ -205,7 +206,7 @@ export default function OnboardingPage() {
               disabled={currentStep === 0 && !lifeStage}
               className="flex-1"
             >
-              Continuar
+              {t("continue")}
             </GlowButton>
           ) : (
             <GlowButton

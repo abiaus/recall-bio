@@ -60,7 +60,10 @@
         "updating": "Actualizando...",
         "updatePassword": "Actualizar contraseña",
         "passwordMismatch": "Las contraseñas no coinciden",
-        "passwordTooShort": "La contraseña debe tener al menos 6 caracteres"
+        "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+        "continueWithGoogle": "Continuar con Google",
+        "or": "o",
+        "signingInWithGoogle": "Iniciando sesión con Google..."
     },
     "onboarding": {
         "title": "Bienvenido a Recall",
@@ -74,7 +77,9 @@
         "lifeStageSenior": "Adulto mayor",
         "timezone": "Zona horaria",
         "saving": "Guardando...",
-        "continue": "Continuar"
+        "continue": "Continuar",
+        "welcomeTitle": "¡Bienvenido a Recall!",
+        "preparingExperience": "Estamos preparando tu experiencia..."
     },
     "today": {
         "title": "Tu Pregunta del Día",
@@ -94,6 +99,12 @@
         "moodNostalgic": "Nostálgico",
         "moodPeaceful": "Tranquilo",
         "moodExcited": "Emocionado",
+        "moodSad": "Triste",
+        "moodAnxious": "Ansioso",
+        "moodStressed": "Estresado",
+        "moodAngry": "Enojado",
+        "moodLonely": "Solo",
+        "moodTired": "Cansado",
         "savingMemory": "Guardando...",
         "saveMemory": "Guardar Recuerdo",
         "memorySaved": "¡Recuerdo guardado!",
@@ -111,7 +122,10 @@
         "noMemories": "Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt del día.",
         "audio": "Grabación de Voz",
         "audioRecording": "Escucha tus pensamientos grabados",
-        "backToMemories": "Volver a Recuerdos"
+        "backToMemories": "Volver a Recuerdos",
+        "downloadMemories": "Descargar Memorias",
+        "downloading": "Descargando...",
+        "downloadError": "Error al descargar memorias"
     },
     "legacy": {
         "title": "Legado Digital",
@@ -236,7 +250,7 @@
             "q1": "¿Qué pasa con mi privacidad?",
             "a1": "Tu privacidad es nuestra prioridad. Todos los datos están encriptados y solo vos controlás quién tiene acceso a tus recuerdos.",
             "q2": "¿Puedo exportar mis datos?",
-            "a2": "Sí, podés exportar todos tus recuerdos en cualquier momento en formato JSON o PDF.",
+            "a2": "¡La funcionalidad de exportación estará disponible próximamente! Podrás exportar todos tus recuerdos en formato JSON o PDF.",
             "q3": "¿Qué pasa si olvido responder un día?",
             "a3": "No hay problema. Podés responder preguntas anteriores en cualquier momento o simplemente continuar con la pregunta del día actual.",
             "q4": "¿Cómo comparto mi legado?",

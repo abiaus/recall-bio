@@ -60,7 +60,10 @@
         "updating": "Updating...",
         "updatePassword": "Update password",
         "passwordMismatch": "Passwords do not match",
-        "passwordTooShort": "Password must be at least 6 characters"
+        "passwordTooShort": "Password must be at least 6 characters",
+        "continueWithGoogle": "Continue with Google",
+        "or": "or",
+        "signingInWithGoogle": "Signing in with Google..."
     },
     "onboarding": {
         "title": "Welcome to Recall",
@@ -74,7 +77,9 @@
         "lifeStageSenior": "Senior",
         "timezone": "Timezone",
         "saving": "Saving...",
-        "continue": "Continue"
+        "continue": "Continue",
+        "welcomeTitle": "Welcome to Recall!",
+        "preparingExperience": "We're preparing your experience..."
     },
     "today": {
         "title": "Your Daily Prompt",
@@ -94,6 +99,12 @@
         "moodNostalgic": "Nostalgic",
         "moodPeaceful": "Peaceful",
         "moodExcited": "Excited",
+        "moodSad": "Sad",
+        "moodAnxious": "Anxious",
+        "moodStressed": "Stressed",
+        "moodAngry": "Angry",
+        "moodLonely": "Lonely",
+        "moodTired": "Tired",
         "savingMemory": "Saving...",
         "saveMemory": "Save Memory",
         "memorySaved": "Memory saved successfully!",
@@ -111,7 +122,10 @@
         "noMemories": "You don't have any saved memories yet. Start by answering your daily prompt.",
         "audio": "Voice Recording",
         "audioRecording": "Listen to your recorded thoughts",
-        "backToMemories": "Back to Memories"
+        "backToMemories": "Back to Memories",
+        "downloadMemories": "Download Memories",
+        "downloading": "Downloading...",
+        "downloadError": "Error downloading memories"
     },
     "legacy": {
         "title": "Digital Legacy",
@@ -236,7 +250,7 @@
             "q1": "What about my privacy?",
             "a1": "Your privacy is our priority. All data is encrypted and only you control who has access to your memories.",
             "q2": "Can I export my data?",
-            "a2": "Yes, you can export all your memories at any time in JSON or PDF format.",
+            "a2": "Export functionality is coming soon! You'll be able to export all your memories in JSON or PDF format.",
             "q3": "What if I forget to answer one day?",
             "a3": "No problem. You can answer previous questions at any time or simply continue with today's question.",
             "q4": "How do I share my legacy?",

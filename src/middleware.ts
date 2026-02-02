@@ -85,7 +85,8 @@ export async function middleware(request: NextRequest) {
   if (
     pathWithoutLocale.startsWith("/auth") &&
     user &&
-    pathWithoutLocale !== "/auth/logout"
+    pathWithoutLocale !== "/auth/logout" &&
+    pathWithoutLocale !== "/auth/callback"
   ) {
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}/app/today`;
