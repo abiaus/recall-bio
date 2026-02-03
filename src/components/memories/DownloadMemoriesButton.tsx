@@ -25,8 +25,10 @@ export function DownloadMemoriesButton() {
         return;
       }
 
-      // Convertir Buffer a Blob para descargar
-      const blob = new Blob([result.zipBuffer], { type: "application/zip" });
+      // Convertir Uint8Array a Blob para descargar
+      // Crear un nuevo Uint8Array para evitar problemas de tipos genéricos
+      const buffer = new Uint8Array(result.zipBuffer);
+      const blob = new Blob([buffer], { type: "application/zip" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
