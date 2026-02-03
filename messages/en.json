@@ -306,5 +306,12 @@
         "genericError": "An error occurred. Please try again.",
         "saveError": "Error saving. Please try again.",
         "uploadError": "Error uploading. Please try again."
+    },
+    "notFound": {
+        "title": "Lost Memory",
+        "subtitle": "This memory seems to have drifted away...",
+        "description": "The page you're looking for doesn't exist or has been moved.",
+        "backHome": "Return Home",
+        "backToHomepage": "Back to homepage"
     }
 }

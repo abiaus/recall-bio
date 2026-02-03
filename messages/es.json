@@ -306,5 +306,12 @@
         "genericError": "Ocurrió un error. Por favor, intenta de nuevo.",
         "saveError": "Error al guardar. Por favor, intenta de nuevo.",
         "uploadError": "Error al subir. Por favor, intenta de nuevo."
+    },
+    "notFound": {
+        "title": "Recuerdo Perdido",
+        "subtitle": "Este recuerdo parece haberse desvanecido...",
+        "description": "La página que buscas no existe o ha sido movida.",
+        "backHome": "Volver al Inicio",
+        "backToHomepage": "Volver a la página principal"
     }
 }

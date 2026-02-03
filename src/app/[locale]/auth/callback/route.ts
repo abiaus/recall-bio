@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error("Error exchanging code for session:", error);
-      const url = requestUrl.clone();
+      const url = new URL(requestUrl.toString());
       url.pathname = `/${locale}/auth/login`;
       url.searchParams.set("error", "auth_failed");
       return NextResponse.redirect(url);
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      const url = requestUrl.clone();
+      const url = new URL(requestUrl.toString());
       url.pathname = `/${locale}/auth/login`;
       url.searchParams.set("error", "no_user");
       return NextResponse.redirect(url);
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       .single();
 
     // Redirigir según si tiene perfil o no
-    const url = requestUrl.clone();
+    const url = new URL(requestUrl.toString());
     if (profile) {
       // Usuario existente, redirigir a today
       url.pathname = `/${locale}/app/today`;
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Si no hay código, redirigir a login
-  const url = requestUrl.clone();
+  const url = new URL(requestUrl.toString());
   url.pathname = `/${locale}/auth/login`;
   url.searchParams.set("error", "no_code");
   return NextResponse.redirect(url);
