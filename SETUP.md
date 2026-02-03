@@ -9,7 +9,16 @@ Crea un archivo `.env.local` en la raíz del proyecto con:
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key_aqui
+RESEND_API_KEY=re_tu_api_key_de_resend
+RESEND_FROM_EMAIL=Recall.bio <noreply@tu-dominio.com>  # Opcional, por defecto usa noreply@recall.bio
+NEXT_PUBLIC_SITE_URL=https://tu-dominio.com  # Opcional, por defecto usa https://recall.bio
 ```
+
+**Nota sobre Resend:**
+- Crea una cuenta en [Resend](https://resend.com) (tiene un tier gratuito generoso)
+- Obtén tu API key desde el dashboard
+- Configura un dominio verificado en Resend para enviar emails (o usa el dominio de prueba para desarrollo)
+- La variable `RESEND_FROM_EMAIL` debe usar un dominio verificado en Resend
 
 ### 2. Configuración de Supabase Storage
 
@@ -80,7 +89,7 @@ media/
 
 ## Próximos Pasos
 
-1. **Configurar email de invitaciones**: Implementar Edge Function o servicio externo para enviar emails de invitación a herederos
+1. ✅ **Configurar email de invitaciones**: Implementado con Resend - configura `RESEND_API_KEY` en `.env.local`
 2. **Stripe Integration**: Para suscripciones (V1.5)
 3. **Video Recording**: Extender el AudioRecorder para soportar video
 4. **Dashboard Analytics**: Estadísticas de consistencia y streaks

@@ -25,11 +25,14 @@ A digital legacy platform that allows users to document their life story through
    cp .env.local.example .env.local
    ```
    
-   Edit `.env.local` with your Supabase credentials:
+   Edit `.env.local` with your credentials:
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   RESEND_API_KEY=your_resend_api_key  # Required for legacy invitation emails
    ```
+   
+   See `SETUP.md` for detailed configuration instructions, including Resend email setup.
 
 4. Configure Supabase:
    - Migrations are already applied in the `public` schema

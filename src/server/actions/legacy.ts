@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { sendLegacyInvitationEmail } from "@/lib/email/resend";
 
 export async function inviteHeir(
     heirEmail: string,
@@ -30,7 +31,20 @@ export async function inviteHeir(
         return { success: false, error: error.message };
     }
 
-    // TODO: Send invitation email via Supabase Edge Function or external service
+    // Enviar email de invitación
+    const ownerName = user.user_metadata?.full_name || user.email || "Un usuario";
+    const emailResult = await sendLegacyInvitationEmail({
+        to: heirEmail,
+        ownerName,
+        relationship,
+    });
+
+    // Si el email falla, logueamos pero no fallamos la operación completa
+    // (el registro ya está en la BD, el usuario puede aceptar desde la app)
+    if (!emailResult.success) {
+        console.error("Error al enviar email de invitación:", emailResult.error);
+        // Continuamos con éxito porque el registro se creó correctamente
+    }
 
     return { success: true };
 }
