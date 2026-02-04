@@ -78,25 +78,23 @@ export default function OnboardingPage() {
       console.error("Error updating profile:", error);
       setLoading(false);
     } else {
+      // Marcamos el onboarding como completado y dejamos que la persona decida cuándo continuar
       setCompleted(true);
-      setTimeout(() => {
-        router.push(`/${locale}/app/today`);
-        router.refresh();
-      }, 2000);
+      setLoading(false);
     }
   };
 
   if (completed) {
     return (
       <motion.div
-        className="max-w-2xl mx-auto text-center space-y-6 py-16"
+        className="max-w-2xl mx-auto text-center space-y-8 py-16"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
       >
         <motion.div
           className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--accent-sage)] flex items-center justify-center"
           animate={{ rotate: [0, 360] }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          transition={{ duration: 2, ease: "easeInOut" }}
         >
           <CheckCircle2 className="w-12 h-12 text-white" />
         </motion.div>
@@ -106,6 +104,18 @@ export default function OnboardingPage() {
         <p className="text-[var(--text-secondary)] text-lg">
           {t("preparingExperience")}
         </p>
+        <GlowButton
+          type="button"
+          variant="primary"
+          glow
+          className="mt-4"
+          onClick={() => {
+            router.push(`/${locale}/app/today`);
+            router.refresh();
+          }}
+        >
+          {tCommon("continue")}
+        </GlowButton>
       </motion.div>
     );
   }
