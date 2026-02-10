@@ -173,7 +173,7 @@ El idioma preferido se toma de **Settings** (`profiles.transcription_language`) 
 ### "GEMINI_API_KEY no configurada"
 - En local: verifica `.env.local`.
 - En producción: ejecuta `supabase secrets set GEMINI_API_KEY=...`.
-
+ 
 ### transcripción en `failed`
 - Revisa `memory_media.transcript_error`.
 - Comprueba que la API key sea válida y tenga cuota disponible.
