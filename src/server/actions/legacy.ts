@@ -5,7 +5,8 @@ import { sendLegacyInvitationEmail } from "@/lib/email/resend";
 
 export async function inviteHeir(
     heirEmail: string,
-    relationship?: string
+    relationship?: string,
+    locale?: string
 ): Promise<{ success: boolean; error?: string }> {
     const supabase = await createClient();
     const {
@@ -16,7 +17,8 @@ export async function inviteHeir(
         return { success: false, error: "No autenticado" };
     }
 
-    const { error } = await supabase
+    // Insertar con returning para obtener el token generado
+    const { data: insertedData, error } = await supabase
         .schema("public")
         .from("legacy_access")
         .insert({
@@ -25,10 +27,16 @@ export async function inviteHeir(
             relationship: relationship || null,
             status: "invited",
             release_mode: "hybrid",
-        });
+        })
+        .select("invitation_token")
+        .single();
 
     if (error) {
         return { success: false, error: error.message };
+    }
+
+    if (!insertedData?.invitation_token) {
+        return { success: false, error: "Error al generar token de invitación" };
     }
 
     // Enviar email de invitación
@@ -37,6 +45,8 @@ export async function inviteHeir(
         to: heirEmail,
         ownerName,
         relationship,
+        invitationToken: insertedData.invitation_token,
+        locale: (locale as "en" | "es") || "es",
     });
 
     // Si el email falla, logueamos pero no fallamos la operación completa
@@ -157,4 +167,111 @@ export async function revokeLegacyAccess(
         });
 
     return { success: true };
+}
+
+export async function verifyInvitationToken(
+    token: string
+): Promise<{ valid: boolean; error?: string; heirEmail?: string }> {
+    const supabase = await createClient();
+
+    // Buscar invitación por token
+    const { data: invitation, error: fetchError } = await supabase
+        .schema("public")
+        .from("legacy_access")
+        .select("id, heir_email, status, invitation_expires_at")
+        .eq("invitation_token", token)
+        .single();
+
+    if (fetchError || !invitation) {
+        return { valid: false, error: "Invitación no encontrada o inválida" };
+    }
+
+    // Verificar que no esté expirada
+    if (invitation.invitation_expires_at) {
+        const expiresAt = new Date(invitation.invitation_expires_at);
+        if (expiresAt < new Date()) {
+            return { valid: false, error: "La invitación ha expirado" };
+        }
+    }
+
+    // Verificar que esté en estado "invited"
+    if (invitation.status !== "invited") {
+        return { valid: false, error: "Esta invitación ya fue procesada" };
+    }
+
+    return { valid: true, heirEmail: invitation.heir_email };
+}
+
+export async function acceptInvitationByToken(
+    token: string
+): Promise<{ success: boolean; error?: string; legacyId?: string; requiresAuth?: boolean; heirEmail?: string }> {
+    const supabase = await createClient();
+
+    // Buscar invitación por token
+    const { data: invitation, error: fetchError } = await supabase
+        .schema("public")
+        .from("legacy_access")
+        .select("id, heir_email, status, invitation_expires_at")
+        .eq("invitation_token", token)
+        .single();
+
+    if (fetchError || !invitation) {
+        return { success: false, error: "Invitación no encontrada o inválida" };
+    }
+
+    // Verificar que no esté expirada
+    if (invitation.invitation_expires_at) {
+        const expiresAt = new Date(invitation.invitation_expires_at);
+        if (expiresAt < new Date()) {
+            return { success: false, error: "La invitación ha expirado" };
+        }
+    }
+
+    // Verificar que esté en estado "invited"
+    if (invitation.status !== "invited") {
+        return { success: false, error: "Esta invitación ya fue procesada" };
+    }
+
+    // Verificar si el usuario está autenticado
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+        // Usuario no autenticado - necesita login/signup
+        return {
+            success: false,
+            error: "Debes iniciar sesión para aceptar esta invitación",
+            requiresAuth: true,
+            heirEmail: invitation.heir_email,
+            legacyId: invitation.id,
+        };
+    }
+
+    // Verificar que el email del usuario coincida con el heredero
+    if (user.email !== invitation.heir_email) {
+        return {
+            success: false,
+            error: `El email de tu cuenta (${user.email}) no coincide con el email de la invitación (${invitation.heir_email})`,
+            heirEmail: invitation.heir_email,
+        };
+    }
+
+    // Aceptar la invitación
+    const { error: updateError } = await supabase
+        .schema("public")
+        .from("legacy_access")
+        .update({
+            status: "accepted",
+            heir_user_id: user.id,
+            invitation_token: null, // Invalidar token (single-use)
+        })
+        .eq("id", invitation.id)
+        .eq("invitation_token", token);
+
+    if (updateError) {
+        return { success: false, error: updateError.message };
+    }
+
+    return { success: true, legacyId: invitation.id };
 }

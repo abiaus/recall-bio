@@ -10,6 +10,10 @@ import { LifeStageCard } from "@/components/ui/LifeStageCard";
 import { FloatingInput } from "@/components/ui/FloatingInput";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
+import {
+  DEFAULT_TRANSCRIPTION_LANGUAGE,
+  VALID_TRANSCRIPTION_LANGUAGES,
+} from "@/lib/transcription/constants";
 import { Baby, GraduationCap, Briefcase, Users, Heart, CheckCircle2 } from "lucide-react";
 
 const STEPS = 2;
@@ -28,6 +32,11 @@ export default function OnboardingPage() {
   const params = useParams();
   const locale = params.locale as string;
   const supabase = createClient();
+  const transcriptionLanguage = VALID_TRANSCRIPTION_LANGUAGES.includes(
+    locale as (typeof VALID_TRANSCRIPTION_LANGUAGES)[number]
+  )
+    ? locale
+    : DEFAULT_TRANSCRIPTION_LANGUAGE;
 
   const lifeStages = [
     { value: "teen", label: t("lifeStageTeen"), icon: <Baby className="w-6 h-6" /> },
@@ -70,6 +79,7 @@ export default function OnboardingPage() {
         display_name: user.user_metadata?.display_name || "",
         life_stage: lifeStage,
         timezone,
+        transcription_language: transcriptionLanguage,
       })
       .select()
       .single();
@@ -114,7 +124,7 @@ export default function OnboardingPage() {
             router.refresh();
           }}
         >
-          {tCommon("continue")}
+          {t("continue")}
         </GlowButton>
       </motion.div>
     );

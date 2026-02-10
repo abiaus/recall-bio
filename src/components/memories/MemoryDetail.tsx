@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { Link } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
 import { ArrowLeft, Quote, Calendar, Music2 } from "lucide-react";
+import { TranscriptDisplay } from "./TranscriptDisplay";
+import { MemoryImageGallery } from "./MemoryImageGallery";
 
 interface Question {
     text: string;
@@ -46,34 +48,46 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
     const tMood = useTranslations("today");
     const locale = useLocale();
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
+    const [transcript, setTranscript] = useState<string | null>(null);
+    const [transcriptStatus, setTranscriptStatus] = useState<
+        "pending" | "processing" | "completed" | "failed" | null
+    >(null);
     const [isAudioLoading, setIsAudioLoading] = useState(true);
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
+
+    const loadAudio = useCallback(async () => {
+        setIsAudioLoading(true);
+        const { data: media } = await supabase
+            .schema("public")
+            .from("memory_media")
+            .select("storage_path, storage_bucket, transcript, transcript_status")
+            .eq("memory_id", memory.id)
+            .eq("kind", "audio")
+            .maybeSingle();
+
+        if (media) {
+            setTranscript(media.transcript || null);
+            setTranscriptStatus(media.transcript_status || null);
+            const { data } = await supabase.storage
+                .from(media.storage_bucket)
+                .createSignedUrl(media.storage_path, 3600);
+
+            if (data?.signedUrl) {
+                setAudioUrl(data.signedUrl);
+            }
+        }
+        setIsAudioLoading(false);
+    }, [memory.id, supabase]);
 
     useEffect(() => {
-        const loadAudio = async () => {
-            setIsAudioLoading(true);
-            const { data: media } = await supabase
-                .schema("public")
-                .from("memory_media")
-                .select("storage_path, storage_bucket")
-                .eq("memory_id", memory.id)
-                .eq("kind", "audio")
-                .maybeSingle();
+        const timeoutId = window.setTimeout(() => {
+            void loadAudio();
+        }, 0);
 
-            if (media) {
-                const { data } = await supabase.storage
-                    .from(media.storage_bucket)
-                    .createSignedUrl(media.storage_path, 3600);
-
-                if (data?.signedUrl) {
-                    setAudioUrl(data.signedUrl);
-                }
-            }
-            setIsAudioLoading(false);
+        return () => {
+            window.clearTimeout(timeoutId);
         };
-
-        loadAudio();
-    }, [memory.id, supabase]);
+    }, [loadAudio]);
 
     const getQuestionText = (q: Question) => {
         if (locale === "es" && q.text_es) {
@@ -108,7 +122,7 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
             >
                 <Link
                     href="/app/memories"
-                    className="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--primary-terracotta)] transition-colors group"
+                    className="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--primary-terracotta)] transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 rounded-md cursor-pointer"
                 >
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     <span className="text-sm font-medium">{t("backToMemories")}</span>
@@ -175,6 +189,9 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
                     </motion.div>
                 )}
 
+                {/* Image Gallery */}
+                <MemoryImageGallery memoryId={memory.id} />
+
                 {/* Audio Card */}
                 {(audioUrl || isAudioLoading) && (
                     <motion.div
@@ -200,6 +217,13 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
                         </div>
                     </motion.div>
                 )}
+
+                <TranscriptDisplay
+                    memoryId={memory.id}
+                    status={transcriptStatus}
+                    transcript={transcript}
+                    onRetrySuccess={loadAudio}
+                />
             </div>
         </div>
     );

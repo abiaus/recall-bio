@@ -115,17 +115,38 @@
         "feedback": {
             "thumbsUpLabel": "Me gusta esta pregunta",
             "thumbsDownLabel": "No me gusta esta pregunta"
-        }
+        },
+        "imagesAdd": "Agregar fotos",
+        "imagesAddLabel": "Hasta 5 fotos (5MB cada una, 20MB total)",
+        "imagesRemove": "Quitar foto",
+        "imageTooLarge": "La foto supera 5MB",
+        "imageTypeInvalid": "Tipo de archivo inválido. Usá JPEG, PNG o WebP",
+        "imageCountExceeded": "Máximo 5 fotos permitidas",
+        "imagesTotalExceeded": "El tamaño total supera 20MB",
+        "imageUploadPartialError": "Algunas fotos no se pudieron subir. El recuerdo fue guardado."
     },
     "memories": {
         "title": "Mis Recuerdos",
         "noMemories": "Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt del día.",
         "audio": "Grabación de Voz",
         "audioRecording": "Escucha tus pensamientos grabados",
+        "transcriptTitle": "Transcripción",
+        "transcriptPending": "Tu transcripción está pendiente. Vuelve en un momento.",
+        "transcriptProcessing": "Tu audio se está transcribiendo.",
+        "transcriptFailed": "No se pudo transcribir este audio.",
+        "transcriptUnavailable": "La transcripción aún no está disponible.",
+        "transcriptRetry": "Reintentar transcripción",
+        "transcriptRetrying": "Reintentando...",
+        "transcriptRetryQueued": "Reintento enviado. Te avisaremos cuando esté lista.",
+        "transcriptRetryError": "No se pudo reintentar la transcripción.",
         "backToMemories": "Volver a Recuerdos",
         "downloadMemories": "Descargar Memorias",
         "downloading": "Descargando...",
-        "downloadError": "Error al descargar memorias"
+        "downloadError": "Error al descargar memorias",
+        "imageGallery": "Fotos",
+        "imageGalleryTitle": "Fotos adjuntas a este recuerdo",
+        "imageOf": "Imagen {current} de {total}",
+        "openGallery": "Abrir galería"
     },
     "legacy": {
         "title": "Legado Digital",
@@ -151,7 +172,22 @@
         "statusAccepted": "Aceptado",
         "statusActive": "Activo",
         "statusRevoked": "Revocado",
-        "statusPaused": "Pausado"
+        "statusPaused": "Pausado",
+        "inviteAccept": {
+            "title": "Aceptar Invitación de Legado",
+            "description": "Has sido invitado a acceder a un legado digital. Inicia sesión o crea una cuenta para aceptar esta invitación.",
+            "signInToAccept": "Iniciar sesión para aceptar",
+            "signUpToAccept": "Crear cuenta para aceptar",
+            "accepting": "Aceptando invitación...",
+            "accepted": "¡Invitación aceptada!",
+            "acceptedDescription": "Has aceptado la invitación exitosamente. Redirigiendo a tu página de legado...",
+            "invalidToken": "Invitación Inválida",
+            "invalidTokenDescription": "Este enlace de invitación es inválido o ha expirado. Por favor, contacta a la persona que te invitó para obtener una nueva invitación.",
+            "emailMismatch": "Email No Coincide",
+            "emailMismatchDescription": "El email de tu cuenta ({accountEmail}) no coincide con el email de la invitación ({invitationEmail}). Por favor, inicia sesión con la cuenta correcta.",
+            "alreadyProcessed": "Ya Procesada",
+            "alreadyProcessedDescription": "Esta invitación ya fue aceptada o procesada."
+        }
     },
     "recording": {
         "recordAudio": "Grabar Audio",
@@ -279,6 +315,25 @@
             "save": "Guardar cambios",
             "saved": "Perfil actualizado correctamente"
         },
+        "transcription": {
+            "language": "Idioma de transcripción",
+            "languagePlaceholder": "Selecciona el idioma de transcripción",
+            "monthlyUsageTitle": "Uso mensual de transcripciones",
+            "monthlyUsageLimited": "Plan {plan}: {used}/{limit} transcripciones usadas este mes.",
+            "monthlyUsageUnlimited": "Plan {plan}: {used} transcripciones usadas este mes (sin límite).",
+            "languages": {
+                "en": "Inglés",
+                "es": "Español",
+                "pt": "Portugués",
+                "fr": "Francés",
+                "de": "Alemán",
+                "it": "Italiano",
+                "zh": "Chino",
+                "ja": "Japonés",
+                "ko": "Coreano",
+                "ar": "Árabe"
+            }
+        },
         "account": {
             "title": "Cuenta",
             "subtitle": "Gestiona tu cuenta y seguridad",
@@ -299,6 +354,19 @@
             "subtitle": "Gestiona tu sesión actual",
             "logout": "Cerrar sesión",
             "logoutDescription": "Cerrarás tu sesión y serás redirigido al inicio de sesión"
+        }
+    },
+    "email": {
+        "legacyInvitation": {
+            "subject": "{ownerName} te ha invitado a su Legado Digital",
+            "title": "Has sido invitado a un Legado Digital",
+            "greeting": "Hola,",
+            "body": "{ownerName} {relationship} te ha invitado a ser parte de su legado digital en Recall.bio.",
+            "description": "Al aceptar esta invitación, podrás acceder a sus memorias y recuerdos cuando así lo decida, preservando su historia y voz para las generaciones futuras.",
+            "acceptButton": "Aceptar Invitación",
+            "fallbackLink": "Si el botón no funciona, copia y pega este enlace:",
+            "sentTo": "Este email fue enviado a",
+            "copyright": "Todos los derechos reservados."
         }
     },
     "errors": {

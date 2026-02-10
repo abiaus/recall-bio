@@ -2,7 +2,7 @@
 
 ## Propuesta de valor
 
-**Recall.bio** es una plataforma de legado digital que ayuda a las personas a documentar su historia de vida a través de respuestas diarias (texto, audio y en el futuro video), construyendo un **archivo emocional** que ellas mismas y las personas que elijan podrán atesorar para siempre.
+**Recall.bio** es una plataforma de legado digital que ayuda a las personas a documentar su historia de vida a través de respuestas diarias (texto, audio, imágenes y en el futuro video), construyendo un **archivo emocional** que ellas mismas y las personas que elijan podrán atesorar para siempre.
 
 ### El problema
 
@@ -15,7 +15,7 @@
 Recall.bio permite **preservar la historia un día a la vez**:
 
 - **Preguntas diarias**: cada día se recibe una pregunta única, diseñada para inspirar reflexión y conexión personal.
-- **Audio y texto**: documentar recuerdos en texto o grabar la voz para conservar emoción, tono y la manera propia de expresarse.
+- **Audio, texto e imágenes**: documentar recuerdos en texto, grabar la voz (con transcripción automática) o adjuntar fotos para conservar emoción, tono y recuerdos visuales.
 - **Compartir el legado**: el usuario elige con quién compartir sus recuerdos y cuándo activar el acceso.
 - **Privacidad total**: los recuerdos están protegidos; solo el usuario controla quién tiene acceso.
 
@@ -41,7 +41,7 @@ Recall.bio permite **preservar la historia un día a la vez**:
 
 - **Supabase Auth**: registro e inicio de sesión por email/contraseña.
 - **PostgreSQL**: perfiles, preguntas, prompts diarios, recuerdos, medios, herederos y auditoría.
-- **Supabase Storage**: bucket privado `media` para audio (y en el futuro video); rutas `user/{user_id}/memories/{memory_id}/`.
+- **Supabase Storage**: bucket privado `media` para audio e imágenes (y en el futuro video); rutas `user/{user_id}/memories/{memory_id}/`.
 - **RLS (Row Level Security)**: políticas por usuario para `memories`, `memory_media`, `profiles`, `daily_prompts`, `legacy_access`, etc.
 - **Variables de entorno**: credenciales de Supabase en `.env.local` (nunca en código).
 
@@ -74,10 +74,12 @@ Recall.bio permite **preservar la historia un día a la vez**:
 - **Creación** desde la pregunta del día:
   - **Texto**: compositor con textarea.
   - **Audio**: grabación en navegador (WebM/Opus), reproducción, borrado y re-grabación.
+  - **Imágenes**: hasta 5 fotos por memoria (5 MB cada una, 20 MB total); formatos JPEG, PNG, WebP. Previsualización, validaciones y eliminación antes de guardar.
 - **Estado de ánimo**: happy, grateful, contemplative, nostalgic, peaceful, excited (opcional).
-- **Almacenamiento**: `memories` (texto, mood, `question_id`, etc.) y `memory_media` + Storage para audio.
+- **Almacenamiento**: `memories` (texto, mood, `question_id`, etc.) y `memory_media` + Storage para audio e imágenes.
 - **Listado**: vista de recuerdos con fecha, extracto, mood.
-- **Detalle**: vista individual de un recuerdo con reproductor de audio si aplica.
+- **Detalle**: vista individual de un recuerdo con reproductor de audio si aplica, **transcripción** del audio y **galería de imágenes** con lightbox.
+- **Transcripción de audio**: grabaciones de voz se transcriben automáticamente (Gemini) con soporte multiidioma (en, es, pt, fr, de, it, zh, ja, ko, ar). Límites por plan. Estados: pendiente, procesando, completado, fallido.
 
 ### 5. Legado (Legacy)
 
@@ -91,7 +93,14 @@ Recall.bio permite **preservar la historia un día a la vez**:
 
 - **Perfil**: nombre, etapa de vida, zona horaria.
 - **Contraseña**: cambio de contraseña.
+- **Transcripción**: idioma preferido para transcripción y uso mensual por plan.
 - **Cerrar sesión**: sección dedicada.
+
+### 6.1 Planes y feature flags
+
+- **Planes**: `free`, `pro` (y futuros) definidos en `plan_features`. Control por feature key (ej. `transcription`).
+- **Feature flags**: habilitación y límites por plan (`enabled`, `limit_value`). Overrides por usuario en `user_feature_overrides`.
+- **Uso mensual**: control de cuotas (ej. transcripciones/mes) con `getMonthlyFeatureUsage` y `getFeatureLimit`.
 
 ### 7. Internacionalización (i18n)
 
@@ -120,11 +129,11 @@ Recall.bio permite **preservar la historia un día a la vez**:
 
 ## Roadmap (resumen)
 
-- **MVP (actual)**: auth, onboarding, prompts diarios, recuerdos texto+audio, legado con herederos, i18n.
+- **MVP (actual)**: auth, onboarding, prompts diarios, recuerdos texto+audio+imágenes, transcripción de audio, planes y feature flags, legado con herederos, i18n.
 - **V1.5 (previsto)**: grabación de video, motor híbrido de preguntas, dashboard con estadísticas, Stripe, legado híbrido (inactividad + verificación).
 
 ---
 
 ## Resumen ejecutivo
 
-Recall.bio combina **preguntas diarias reflexivas**, **documentación en texto y voz** y **control sobre el legado digital** para que cualquier persona pueda construir, con poco esfuerzo diario, un archivo emocional propio y compartirlo solo con quien elija, con **privacidad** y **seguridad** desde el primer día.
+Recall.bio combina **preguntas diarias reflexivas**, **documentación en texto, voz e imágenes** (con transcripción automática de audio) y **control sobre el legado digital** para que cualquier persona pueda construir, con poco esfuerzo diario, un archivo emocional propio y compartirlo solo con quien elija, con **privacidad** y **seguridad** desde el primer día.

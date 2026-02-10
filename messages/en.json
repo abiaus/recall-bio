@@ -115,17 +115,38 @@
         "feedback": {
             "thumbsUpLabel": "Like this question",
             "thumbsDownLabel": "Dislike this question"
-        }
+        },
+        "imagesAdd": "Add photos",
+        "imagesAddLabel": "Add up to 5 photos (5MB each, 20MB total)",
+        "imagesRemove": "Remove photo",
+        "imageTooLarge": "Photo exceeds 5MB",
+        "imageTypeInvalid": "Invalid file type. Use JPEG, PNG or WebP",
+        "imageCountExceeded": "Maximum 5 photos allowed",
+        "imagesTotalExceeded": "Total size exceeds 20MB",
+        "imageUploadPartialError": "Some images could not be uploaded. The memory was saved."
     },
     "memories": {
         "title": "My Memories",
         "noMemories": "You don't have any saved memories yet. Start by answering your daily prompt.",
         "audio": "Voice Recording",
         "audioRecording": "Listen to your recorded thoughts",
+        "transcriptTitle": "Transcription",
+        "transcriptPending": "Your transcription is pending. Check back in a moment.",
+        "transcriptProcessing": "Your audio is being transcribed.",
+        "transcriptFailed": "We could not transcribe this audio.",
+        "transcriptUnavailable": "Transcription is not available yet.",
+        "transcriptRetry": "Retry transcription",
+        "transcriptRetrying": "Retrying...",
+        "transcriptRetryQueued": "Retry queued. Check back in a moment.",
+        "transcriptRetryError": "Could not retry this transcription.",
         "backToMemories": "Back to Memories",
         "downloadMemories": "Download Memories",
         "downloading": "Downloading...",
-        "downloadError": "Error downloading memories"
+        "downloadError": "Error downloading memories",
+        "imageGallery": "Photos",
+        "imageGalleryTitle": "Photos attached to this memory",
+        "imageOf": "Image {current} of {total}",
+        "openGallery": "Open gallery"
     },
     "legacy": {
         "title": "Digital Legacy",
@@ -151,7 +172,22 @@
         "statusAccepted": "Accepted",
         "statusActive": "Active",
         "statusRevoked": "Revoked",
-        "statusPaused": "Paused"
+        "statusPaused": "Paused",
+        "inviteAccept": {
+            "title": "Accept Legacy Invitation",
+            "description": "You've been invited to access a digital legacy. Sign in or create an account to accept this invitation.",
+            "signInToAccept": "Sign in to accept",
+            "signUpToAccept": "Create account to accept",
+            "accepting": "Accepting invitation...",
+            "accepted": "Invitation accepted!",
+            "acceptedDescription": "You've successfully accepted the invitation. Redirecting to your legacy page...",
+            "invalidToken": "Invalid Invitation",
+            "invalidTokenDescription": "This invitation link is invalid or has expired. Please contact the person who invited you for a new invitation.",
+            "emailMismatch": "Email Mismatch",
+            "emailMismatchDescription": "The email of your account ({accountEmail}) doesn't match the invitation email ({invitationEmail}). Please sign in with the correct account.",
+            "alreadyProcessed": "Already Processed",
+            "alreadyProcessedDescription": "This invitation has already been accepted or processed."
+        }
     },
     "recording": {
         "recordAudio": "Record Audio",
@@ -279,6 +315,25 @@
             "save": "Save changes",
             "saved": "Profile updated successfully"
         },
+        "transcription": {
+            "language": "Transcription language",
+            "languagePlaceholder": "Select transcription language",
+            "monthlyUsageTitle": "Monthly transcription usage",
+            "monthlyUsageLimited": "Plan {plan}: {used}/{limit} transcriptions used this month.",
+            "monthlyUsageUnlimited": "Plan {plan}: {used} transcriptions used this month (unlimited).",
+            "languages": {
+                "en": "English",
+                "es": "Spanish",
+                "pt": "Portuguese",
+                "fr": "French",
+                "de": "German",
+                "it": "Italian",
+                "zh": "Chinese",
+                "ja": "Japanese",
+                "ko": "Korean",
+                "ar": "Arabic"
+            }
+        },
         "account": {
             "title": "Account",
             "subtitle": "Manage your account and security",
@@ -299,6 +354,19 @@
             "subtitle": "Manage your current session",
             "logout": "Sign out",
             "logoutDescription": "You will be signed out and redirected to the login page"
+        }
+    },
+    "email": {
+        "legacyInvitation": {
+            "subject": "{ownerName} has invited you to their Digital Legacy",
+            "title": "You've been invited to a Digital Legacy",
+            "greeting": "Hello,",
+            "body": "{ownerName} {relationship} has invited you to be part of their digital legacy on Recall.bio.",
+            "description": "By accepting this invitation, you'll be able to access their memories when they decide, preserving their story and voice for future generations.",
+            "acceptButton": "Accept Invitation",
+            "fallbackLink": "If the button doesn't work, copy and paste this link:",
+            "sentTo": "This email was sent to",
+            "copyright": "All rights reserved."
         }
     },
     "errors": {

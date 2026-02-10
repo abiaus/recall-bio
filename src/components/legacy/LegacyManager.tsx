@@ -9,7 +9,7 @@ import {
   revokeLegacyAccess,
 } from "@/server/actions/legacy";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { FloatingInput } from "@/components/ui/FloatingInput";
@@ -36,6 +36,7 @@ interface LegacyManagerProps {
 export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
   const t = useTranslations("legacy");
   const tErrors = useTranslations("errors");
+  const locale = useLocale() as "en" | "es";
   const [showInviteForm, setShowInviteForm] = useState(false);
   const [heirEmail, setHeirEmail] = useState("");
   const [relationship, setRelationship] = useState("");
@@ -46,7 +47,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
     e.preventDefault();
     setLoading(true);
 
-    const result = await inviteHeir(heirEmail, relationship);
+    const result = await inviteHeir(heirEmail, relationship, locale);
 
     if (result.success) {
       setHeirEmail("");

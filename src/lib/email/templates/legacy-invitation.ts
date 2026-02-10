@@ -3,22 +3,40 @@ export interface LegacyInvitationEmailData {
   heirEmail: string;
   relationship?: string | null;
   acceptUrl: string;
+  translations: {
+    subject: string;
+    title: string;
+    greeting: string;
+    body: string;
+    description: string;
+    acceptButton: string;
+    fallbackLink: string;
+    sentTo: string;
+    copyright: string;
+  };
+  locale: "en" | "es";
 }
 
 export function getLegacyInvitationEmailHtml(data: LegacyInvitationEmailData): string {
-  const { ownerName, heirEmail, relationship, acceptUrl } = data;
+  const { ownerName, heirEmail, relationship, acceptUrl, translations, locale } = data;
 
   const relationshipText = relationship
-    ? `como ${relationship}`
+    ? locale === "es"
+      ? `como ${relationship}`
+      : `as ${relationship}`
     : "";
+
+  const bodyText = translations.body
+    .replace("{ownerName}", `<strong>${ownerName}</strong>`)
+    .replace("{relationship}", relationshipText ? relationshipText + " " : "");
 
   return `
 <!DOCTYPE html>
-<html lang="es">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invitación de Legado - Recall.bio</title>
+  <title>${translations.title} - Recall.bio</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f0; line-height: 1.6;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f0; padding: 40px 20px;">
@@ -38,19 +56,19 @@ export function getLegacyInvitationEmailHtml(data: LegacyInvitationEmailData): s
           <tr>
             <td style="padding: 40px 30px;">
               <h2 style="margin: 0 0 20px 0; color: #2c2c2c; font-size: 24px; font-weight: 600; font-family: Georgia, serif;">
-                Has sido invitado a un Legado Digital
+                ${translations.title}
               </h2>
               
               <p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">
-                Hola,
+                ${translations.greeting}
               </p>
               
               <p style="margin: 0 0 20px 0; color: #4a4a4a; font-size: 16px;">
-                <strong>${ownerName}</strong> ${relationshipText ? relationshipText + " " : ""}te ha invitado a ser parte de su legado digital en Recall.bio.
+                ${bodyText}
               </p>
               
               <p style="margin: 0 0 30px 0; color: #4a4a4a; font-size: 16px;">
-                Al aceptar esta invitación, podrás acceder a sus memorias y recuerdos cuando así lo decida, preservando su historia y voz para las generaciones futuras.
+                ${translations.description}
               </p>
               
               <!-- CTA Button -->
@@ -58,14 +76,14 @@ export function getLegacyInvitationEmailHtml(data: LegacyInvitationEmailData): s
                 <tr>
                   <td align="center" style="padding: 20px 0;">
                     <a href="${acceptUrl}" style="display: inline-block; background-color: #d4a574; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 2px 4px rgba(212, 165, 116, 0.3);">
-                      Aceptar Invitación
+                      ${translations.acceptButton}
                     </a>
                   </td>
                 </tr>
               </table>
               
               <p style="margin: 30px 0 0 0; color: #6a6a6a; font-size: 14px; line-height: 1.6;">
-                Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
+                ${translations.fallbackLink}<br>
                 <a href="${acceptUrl}" style="color: #d4a574; word-break: break-all;">${acceptUrl}</a>
               </p>
             </td>
@@ -75,10 +93,10 @@ export function getLegacyInvitationEmailHtml(data: LegacyInvitationEmailData): s
           <tr>
             <td style="padding: 30px; background-color: #f9f9f7; border-top: 1px solid #e5e5e0; text-align: center;">
               <p style="margin: 0 0 10px 0; color: #6a6a6a; font-size: 14px;">
-                Este email fue enviado a <strong>${heirEmail}</strong>
+                ${translations.sentTo} <strong>${heirEmail}</strong>
               </p>
               <p style="margin: 0; color: #8a8a8a; font-size: 12px;">
-                © ${new Date().getFullYear()} Recall.bio. Todos los derechos reservados.
+                © ${new Date().getFullYear()} Recall.bio. ${translations.copyright}
               </p>
             </td>
           </tr>
@@ -92,25 +110,33 @@ export function getLegacyInvitationEmailHtml(data: LegacyInvitationEmailData): s
 }
 
 export function getLegacyInvitationEmailText(data: LegacyInvitationEmailData): string {
-  const { ownerName, heirEmail, relationship, acceptUrl } = data;
+  const { ownerName, heirEmail, relationship, acceptUrl, translations, locale } = data;
 
   const relationshipText = relationship
-    ? `como ${relationship}`
+    ? locale === "es"
+      ? `como ${relationship}`
+      : `as ${relationship}`
     : "";
 
+  const bodyText = translations.body
+    .replace("{ownerName}", ownerName)
+    .replace("{relationship}", relationshipText ? relationshipText + " " : "");
+
   return `
-Has sido invitado a un Legado Digital
+${translations.title}
 
-Hola,
+${translations.greeting}
 
-${ownerName} ${relationshipText ? relationshipText + " " : ""}te ha invitado a ser parte de su legado digital en Recall.bio.
+${bodyText}
 
-Al aceptar esta invitación, podrás acceder a sus memorias y recuerdos cuando así lo decida, preservando su historia y voz para las generaciones futuras.
+${translations.description}
 
-Acepta la invitación aquí: ${acceptUrl}
+${translations.acceptButton}: ${acceptUrl}
 
-Este email fue enviado a ${heirEmail}
+${translations.fallbackLink}: ${acceptUrl}
 
-© ${new Date().getFullYear()} Recall.bio. Todos los derechos reservados.
+${translations.sentTo} ${heirEmail}
+
+© ${new Date().getFullYear()} Recall.bio. ${translations.copyright}
   `.trim();
 }

@@ -13,16 +13,19 @@ interface ProfileSettingsFormProps {
   initialDisplayName: string;
   initialLifeStage: string | null;
   initialTimezone: string;
+  initialTranscriptionLanguage: string;
 }
 
 export function ProfileSettingsForm({
   initialDisplayName,
   initialLifeStage,
   initialTimezone,
+  initialTranscriptionLanguage,
 }: ProfileSettingsFormProps) {
   const t = useTranslations("settings.profile");
   const tOnboarding = useTranslations("onboarding");
   const tErrors = useTranslations("errors");
+  const tTranscription = useTranslations("settings.transcription");
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState<{
     type: "success" | "error";
@@ -32,6 +35,9 @@ export function ProfileSettingsForm({
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [lifeStage, setLifeStage] = useState(initialLifeStage || "");
   const [timezone, setTimezone] = useState(initialTimezone);
+  const [transcriptionLanguage, setTranscriptionLanguage] = useState(
+    initialTranscriptionLanguage || "en"
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,6 +47,7 @@ export function ProfileSettingsForm({
     formData.set("displayName", displayName);
     formData.set("lifeStage", lifeStage);
     formData.set("timezone", timezone);
+    formData.set("transcriptionLanguage", transcriptionLanguage);
 
     startTransition(async () => {
       const result = await updateProfileAction(formData);
@@ -112,6 +119,27 @@ export function ProfileSettingsForm({
           type="text"
           value={timezone}
           onChange={(e) => setTimezone(e.target.value)}
+          required
+        />
+
+        <OrganicSelect
+          id="transcriptionLanguage"
+          label={tTranscription("language")}
+          value={transcriptionLanguage}
+          onChange={setTranscriptionLanguage}
+          options={[
+            { value: "en", label: tTranscription("languages.en") },
+            { value: "es", label: tTranscription("languages.es") },
+            { value: "pt", label: tTranscription("languages.pt") },
+            { value: "fr", label: tTranscription("languages.fr") },
+            { value: "de", label: tTranscription("languages.de") },
+            { value: "it", label: tTranscription("languages.it") },
+            { value: "zh", label: tTranscription("languages.zh") },
+            { value: "ja", label: tTranscription("languages.ja") },
+            { value: "ko", label: tTranscription("languages.ko") },
+            { value: "ar", label: tTranscription("languages.ar") },
+          ]}
+          placeholder={tTranscription("languagePlaceholder")}
           required
         />
 

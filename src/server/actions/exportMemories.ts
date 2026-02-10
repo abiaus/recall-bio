@@ -75,9 +75,15 @@ export async function exportMemoriesToZip(locale: string): Promise<{
     const { data: audioFiles, error: audioError } = await supabase
       .schema("public")
       .from("memory_media")
-      .select("memory_id, storage_path, storage_bucket")
+      .select(
+        "memory_id, storage_path, storage_bucket, transcript, transcript_status"
+      )
       .eq("user_id", user.id)
       .eq("kind", "audio");
+    const audioByMemoryId = new Map(
+      (audioFiles || []).map((audio) => [audio.memory_id, audio])
+    );
+
 
     if (audioError) {
       console.error("Error obteniendo archivos de audio:", audioError);
@@ -133,11 +139,52 @@ export async function exportMemoriesToZip(locale: string): Promise<{
       if (memory.content_text && memory.content_text.trim()) {
         lines.push(memory.content_text);
       } else {
-        const audioMessage =
-          locale === "es"
-            ? "*Esta memoria contiene una grabación de audio.*"
-            : "*This memory contains an audio recording.*";
-        lines.push(audioMessage);
+        const media = audioByMemoryId.get(memory.id);
+        const hasCompletedTranscript =
+          media?.transcript_status === "completed" && media.transcript?.trim();
+
+        if (hasCompletedTranscript) {
+          lines.push(
+            locale === "es"
+              ? "*Esta memoria contiene una grabación de audio transcrita.*"
+              : "*This memory contains a transcribed audio recording.*"
+          );
+        } else if (media?.transcript_status === "pending") {
+          lines.push(
+            locale === "es"
+              ? "*La transcripción del audio está pendiente.*"
+              : "*Audio transcription is pending.*"
+          );
+        } else if (media?.transcript_status === "processing") {
+          lines.push(
+            locale === "es"
+              ? "*La transcripción del audio está en proceso.*"
+              : "*Audio transcription is in progress.*"
+          );
+        } else if (media?.transcript_status === "failed") {
+          lines.push(
+            locale === "es"
+              ? "*No se pudo transcribir este audio.*"
+              : "*This audio could not be transcribed.*"
+          );
+        } else {
+          const audioMessage =
+            locale === "es"
+              ? "*Esta memoria contiene una grabación de audio.*"
+              : "*This memory contains an audio recording.*";
+          lines.push(audioMessage);
+        }
+      }
+
+      const media = audioByMemoryId.get(memory.id);
+      const hasTranscript =
+        media?.transcript_status === "completed" && media.transcript?.trim();
+
+      if (hasTranscript) {
+        lines.push("");
+        lines.push(locale === "es" ? "### Transcripción" : "### Transcription");
+        lines.push("");
+        lines.push(media.transcript);
       }
 
       lines.push("");

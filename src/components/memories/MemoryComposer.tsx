@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Mic, Square, Pause, Play, Trash2, CheckCircle2, Pen, Music2 } from "lucide-react";
+import { Mic, Square, Pause, Play, Trash2, CheckCircle2, Pen, Music2, ImagePlus, X } from "lucide-react";
+import { queueMemoryTranscriptionAction } from "@/server/actions/transcription";
 
 interface MemoryComposerProps {
     questionId: string;
@@ -16,6 +17,11 @@ function formatTime(seconds: number): string {
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
+
+const MAX_IMAGES = 5;
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+const MAX_TOTAL_IMAGE_BYTES = 20 * 1024 * 1024; // 20MB
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const moodOptions = [
     { value: "happy", emoji: "😊", color: "from-amber-400 to-orange-400" },
@@ -35,13 +41,14 @@ const moodOptions = [
 export function MemoryComposer({ questionId }: MemoryComposerProps) {
     const t = useTranslations("today");
     const tRecording = useTranslations("recording");
+    const tCommon = useTranslations("common");
     const [content, setContent] = useState("");
     const [mood, setMood] = useState("");
     const [loading, setLoading] = useState(false);
     const [savedMemoryId, setSavedMemoryId] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<"write" | "record">("write");
     const router = useRouter();
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
 
     const [isRecording, setIsRecording] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -49,11 +56,20 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
     const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+    const [imageErrors, setImageErrors] = useState<string[]>([]);
+    const [imageUploadError, setImageUploadError] = useState<string | null>(null);
+
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
     const streamRef = useRef<MediaStream | null>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const imagePreviewsRef = useRef<string[]>([]);
+    imagePreviewsRef.current = imagePreviews;
 
     useEffect(() => {
         return () => {
@@ -66,6 +82,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
             if (audioUrl) {
                 URL.revokeObjectURL(audioUrl);
             }
+            imagePreviewsRef.current.forEach((url) => URL.revokeObjectURL(url));
         };
     }, [audioUrl]);
 
@@ -158,6 +175,53 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
         setDuration(0);
     };
 
+    const validateAndAddImages = (files: FileList | null) => {
+        if (!files?.length) return;
+        const newFiles: File[] = [];
+        const newPreviews: string[] = [];
+        const newErrors: string[] = [];
+        const currentTotal = imageFiles.reduce((sum, f) => sum + f.size, 0);
+        let addedBytes = 0;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (imageFiles.length + newFiles.length >= MAX_IMAGES) {
+                newErrors.push(t("imageCountExceeded"));
+                break;
+            }
+            if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+                newErrors.push(`${file.name}: ${t("imageTypeInvalid")}`);
+                continue;
+            }
+            if (file.size > MAX_IMAGE_SIZE_BYTES) {
+                newErrors.push(`${file.name}: ${t("imageTooLarge")}`);
+                continue;
+            }
+            if (currentTotal + addedBytes + file.size > MAX_TOTAL_IMAGE_BYTES) {
+                newErrors.push(t("imagesTotalExceeded"));
+                break;
+            }
+            newFiles.push(file);
+            newPreviews.push(URL.createObjectURL(file));
+            addedBytes += file.size;
+        }
+        setImageErrors((prev) => [...prev, ...newErrors].slice(-5));
+        setImageFiles((prev) => [...prev, ...newFiles].slice(0, MAX_IMAGES));
+        setImagePreviews((prev) => [...prev, ...newPreviews].slice(0, MAX_IMAGES));
+    };
+
+    const removeImage = (index: number) => {
+        setImageFiles((prev) => prev.filter((_, i) => i !== index));
+        setImagePreviews((prev) => {
+            const url = prev[index];
+            if (url) URL.revokeObjectURL(url);
+            return prev.filter((_, i) => i !== index);
+        });
+        setImageErrors([]);
+    };
+
+    const clearImageErrors = () => setImageErrors([]);
+
     const uploadAudio = async (memoryId: string, userId: string) => {
         if (!audioBlob) return;
 
@@ -191,6 +255,38 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
             });
 
         if (dbError) throw dbError;
+    };
+
+    const uploadImages = async (memoryId: string, userId: string) => {
+        if (!imageFiles.length) return;
+        for (const file of imageFiles) {
+            const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+            const safeExt = ["jpeg", "jpg", "png", "webp"].includes(ext) ? ext : "jpg";
+            const fileName = `${memoryId}_${Date.now()}_${Math.random().toString(36).slice(2)}.${safeExt}`;
+            const filePath = `user/${userId}/memories/${memoryId}/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from("media")
+                .upload(filePath, file, {
+                    contentType: file.type,
+                    upsert: false,
+                });
+            if (uploadError) throw uploadError;
+
+            const { error: dbError } = await supabase
+                .schema("public")
+                .from("memory_media")
+                .insert({
+                    memory_id: memoryId,
+                    user_id: userId,
+                    kind: "image",
+                    storage_bucket: "media",
+                    storage_path: filePath,
+                    mime_type: file.type,
+                    bytes: file.size,
+                });
+            if (dbError) throw dbError;
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -229,14 +325,34 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                 return;
             }
 
+            const uploadPromises: Promise<void>[] = [];
             if (audioBlob) {
-                await uploadAudio(memory.id, user.id);
+                uploadPromises.push(uploadAudio(memory.id, user.id));
+                uploadPromises.push(
+                    queueMemoryTranscriptionAction(memory.id).then((r) => {
+                        if (!r.success) console.error("Error queueing transcription:", r.error);
+                    })
+                );
             }
+            if (imageFiles.length) {
+                uploadPromises.push(
+                    uploadImages(memory.id, user.id).catch((imgErr) => {
+                        console.error("Error uploading images:", imgErr);
+                        setImageUploadError(t("imageUploadPartialError"));
+                    })
+                );
+            }
+            await Promise.all(uploadPromises);
 
             setSavedMemoryId(memory.id);
             setContent("");
             setMood("");
             discardAudio();
+            setImageFiles([]);
+            imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+            setImagePreviews([]);
+            setImageErrors([]);
+            setImageUploadError(null);
             router.refresh();
         } catch (err) {
             console.error("Error saving memory:", err);
@@ -245,7 +361,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
         }
     };
 
-    const hasContent = content.trim().length > 0 || audioBlob !== null;
+    const hasContent = content.trim().length > 0 || audioBlob !== null || imageFiles.length > 0;
 
     return (
         <motion.div
@@ -259,7 +375,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                     <button
                         type="button"
                         onClick={() => setActiveTab("write")}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${activeTab === "write"
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${activeTab === "write"
                             ? "bg-white text-[var(--text-primary)] shadow-sm"
                             : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                             }`}
@@ -270,7 +386,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                     <button
                         type="button"
                         onClick={() => setActiveTab("record")}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 ${activeTab === "record"
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${activeTab === "record"
                             ? "bg-white text-[var(--text-primary)] shadow-sm"
                             : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                             }`}
@@ -329,7 +445,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                             <button
                                                 type="button"
                                                 onClick={startRecording}
-                                                className="group relative w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--primary-clay)] text-white shadow-lg shadow-[var(--primary-terracotta)]/30 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/40 transition-all duration-300 hover:scale-105"
+                                                className="group relative w-24 h-24 min-w-[44px] min-h-[44px] rounded-full bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--primary-clay)] text-white shadow-lg shadow-[var(--primary-terracotta)]/30 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/40 transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
                                             >
                                                 <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                                                 <Mic className="w-10 h-10 mx-auto" />
@@ -377,7 +493,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                                     <button
                                                         type="button"
                                                         onClick={pauseRecording}
-                                                        className="p-3 rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors"
+                                                        className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
                                                     >
                                                         <Pause className="w-5 h-5" />
                                                     </button>
@@ -385,7 +501,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                                     <button
                                                         type="button"
                                                         onClick={resumeRecording}
-                                                        className="p-3 rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors"
+                                                        className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
                                                     >
                                                         <Play className="w-5 h-5" />
                                                     </button>
@@ -393,7 +509,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                                 <button
                                                     type="button"
                                                     onClick={stopRecording}
-                                                    className="p-3 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
+                                                    className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 cursor-pointer"
                                                 >
                                                     <Square className="w-5 h-5" />
                                                 </button>
@@ -428,7 +544,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                             <button
                                                 type="button"
                                                 onClick={discardAudio}
-                                                className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 cursor-pointer"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                                 {tRecording("discard")}
@@ -440,6 +556,83 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Image Upload */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.65 }}
+                    className="space-y-2"
+                >
+                    <label className="block text-sm font-medium text-[var(--text-secondary)]">
+                        {t("imagesAddLabel")}
+                    </label>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                        className="sr-only"
+                        aria-label={t("imagesAdd")}
+                        onChange={(e) => {
+                            validateAndAddImages(e.target.files);
+                            e.target.value = "";
+                        }}
+                    />
+                    <div className="flex flex-wrap gap-3">
+                        {imagePreviews.map((url, i) => (
+                            <motion.div
+                                key={url}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="relative group"
+                            >
+                                <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-[var(--bg-warm)] bg-[var(--bg-warm)]/50">
+                                    <img
+                                        src={url}
+                                        alt=""
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => removeImage(i)}
+                                    className="absolute -top-1.5 -right-1.5 w-11 h-11 rounded-full bg-red-500 text-white flex items-center justify-center shadow-md hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
+                                    aria-label={t("imagesRemove")}
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            </motion.div>
+                        ))}
+                        {imageFiles.length < MAX_IMAGES && (
+                            <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="w-20 h-20 min-w-[44px] min-h-[44px] rounded-xl border-2 border-dashed border-[var(--bg-warm)] bg-white/50 hover:bg-[var(--bg-warm)]/30 hover:border-[var(--primary-terracotta)]/30 flex items-center justify-center transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2"
+                                aria-label={t("imagesAdd")}
+                            >
+                                <ImagePlus className="w-8 h-8 text-[var(--text-muted)]" />
+                            </button>
+                        )}
+                    </div>
+                    {imageErrors.length > 0 && (
+                        <div
+                            role="alert"
+                            className="flex flex-wrap gap-2 text-sm text-red-600"
+                        >
+                            {imageErrors.map((err, i) => (
+                                <span key={i}>{err}</span>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={clearImageErrors}
+                                className="text-red-500 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded cursor-pointer"
+                            >
+                                {tCommon("close")}
+                            </button>
+                        </div>
+                    )}
+                </motion.div>
 
                 {/* Mood Selector */}
                 <motion.div
@@ -456,7 +649,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                 key={option.value}
                                 type="button"
                                 onClick={() => setMood(mood === option.value ? "" : option.value)}
-                                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all duration-300 ${mood === option.value
+                                className={`flex items-center gap-2 px-4 py-3 min-h-[44px] rounded-xl border-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${mood === option.value
                                     ? `border-transparent bg-gradient-to-r ${option.color} text-white shadow-md`
                                     : "border-[var(--bg-warm)] bg-white hover:border-[var(--primary-terracotta)]/30 text-[var(--text-secondary)]"
                                     }`}
@@ -478,7 +671,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                     <button
                         type="submit"
                         disabled={loading || !hasContent}
-                        className="group relative w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-[var(--primary-terracotta)] to-[var(--primary-clay)] text-white font-semibold text-lg shadow-lg shadow-[var(--primary-terracotta)]/25 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg transition-all duration-300 overflow-hidden"
+                        className="group relative w-full sm:w-auto px-8 py-4 min-h-[44px] rounded-2xl bg-gradient-to-r from-[var(--primary-terracotta)] to-[var(--primary-clay)] text-white font-semibold text-lg shadow-lg shadow-[var(--primary-terracotta)]/25 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg transition-all duration-300 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                         <span className="relative">
@@ -494,17 +687,17 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                             initial={{ opacity: 0, y: 20, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                            className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/50"
+                            className={`flex items-center gap-4 p-5 rounded-2xl border ${imageUploadError ? "bg-amber-50 border-amber-200/50" : "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200/50"}`}
                         >
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white ${imageUploadError ? "bg-amber-500" : "bg-gradient-to-br from-emerald-400 to-teal-500"}`}>
                                 <CheckCircle2 className="w-6 h-6" />
                             </div>
                             <div>
-                                <p className="font-medium text-emerald-800">
-                                    {t("memorySaved").split('.')[0]}
+                                <p className={`font-medium ${imageUploadError ? "text-amber-800" : "text-emerald-800"}`}>
+                                    {t("memorySaved").split(".")[0]}
                                 </p>
-                                <p className="text-sm text-emerald-600/80">
-                                    {t("memorySavedSubtext")}
+                                <p className={`text-sm ${imageUploadError ? "text-amber-600/80" : "text-emerald-600/80"}`}>
+                                    {imageUploadError ?? t("memorySavedSubtext")}
                                 </p>
                             </div>
                         </motion.div>

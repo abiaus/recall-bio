@@ -2,6 +2,10 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import {
+  DEFAULT_TRANSCRIPTION_LANGUAGE,
+  VALID_TRANSCRIPTION_LANGUAGES,
+} from "@/lib/transcription/constants";
 
 const VALID_LIFE_STAGES = [
   "teen",
@@ -12,6 +16,7 @@ const VALID_LIFE_STAGES = [
 ] as const;
 
 type LifeStage = (typeof VALID_LIFE_STAGES)[number];
+type TranscriptionLanguage = (typeof VALID_TRANSCRIPTION_LANGUAGES)[number];
 
 export async function updateProfileAction(formData: FormData): Promise<{
   success: boolean;
@@ -29,6 +34,9 @@ export async function updateProfileAction(formData: FormData): Promise<{
   const displayName = (formData.get("displayName") as string)?.trim() || "";
   const lifeStage = (formData.get("lifeStage") as string)?.trim() || "";
   const timezone = (formData.get("timezone") as string)?.trim() || "";
+  const transcriptionLanguage =
+    (formData.get("transcriptionLanguage") as string)?.trim() ||
+    DEFAULT_TRANSCRIPTION_LANGUAGE;
 
   // Validación
   if (displayName.length === 0 || displayName.length > 60) {
@@ -52,6 +60,17 @@ export async function updateProfileAction(formData: FormData): Promise<{
     };
   }
 
+  if (
+    !VALID_TRANSCRIPTION_LANGUAGES.includes(
+      transcriptionLanguage as TranscriptionLanguage
+    )
+  ) {
+    return {
+      success: false,
+      error: "Idioma de transcripción inválido",
+    };
+  }
+
   try {
     // Actualizar perfil en la tabla profiles
     const { error: profileError } = await supabase
@@ -62,6 +81,7 @@ export async function updateProfileAction(formData: FormData): Promise<{
         display_name: displayName,
         life_stage: lifeStage || null,
         timezone: timezone,
+        transcription_language: transcriptionLanguage,
       })
       .select()
       .single();
