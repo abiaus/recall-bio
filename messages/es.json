@@ -375,6 +375,16 @@
         "saveError": "Error al guardar. Por favor, intenta de nuevo.",
         "uploadError": "Error al subir. Por favor, intenta de nuevo."
     },
+    "blog": {
+        "title": "Recursos y Guías",
+        "subtitle": "Explora nuestros artículos enfocados en el bienestar emocional, memoria familiar y el legado digital.",
+        "readMore": "Leer más",
+        "noArticles": "No se encontraron artículos. ¡Vuelve pronto!",
+        "backToBlog": "Volver al blog",
+        "startLegacyTitle": "Empieza a preservar tu legado",
+        "startLegacySubtitle": "Únete a Recall.bio y comienza tu archivo emocional hoy mismo con tu primera pregunta diaria.",
+        "startFree": "Comenzar gratis"
+    },
     "notFound": {
         "title": "Recuerdo Perdido",
         "subtitle": "Este recuerdo parece haberse desvanecido...",

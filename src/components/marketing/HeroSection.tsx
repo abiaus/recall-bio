@@ -5,57 +5,14 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { trackCTAClick } from "@/lib/analytics";
 import { Sparkles } from "lucide-react";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-
-function AnimatedLogoLanding() {
-  const letters = "Recall".split("");
-
-  return (
-    <motion.h1
-      className="font-serif text-4xl md:text-5xl tracking-tight text-[var(--text-primary)] cursor-default"
-      whileHover="hover"
-      initial="initial"
-    >
-      {letters.map((letter, index) => (
-        <motion.span
-          key={index}
-          className="inline-block"
-          variants={{
-            initial: { y: 0 },
-            hover: {
-              y: [0, -8, 0],
-              transition: {
-                delay: index * 0.05,
-                duration: 0.3,
-                ease: "easeInOut",
-              },
-            },
-          }}
-        >
-          {letter}
-        </motion.span>
-      ))}
-    </motion.h1>
-  );
-}
+import { MarketingHeader } from "./MarketingHeader";
 
 export function HeroSection() {
   const t = useTranslations("marketing.hero");
 
   return (
     <section className="relative min-h-[100vh] flex flex-col px-4 pt-0 overflow-hidden bg-[var(--bg-cream)]">
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full pt-8 pb-4 relative flex justify-center items-center px-4 sm:px-6 md:px-8"
-      >
-        <AnimatedLogoLanding />
-        <div className="absolute right-4 sm:right-6 md:right-8 top-8">
-          <LanguageSwitcher />
-        </div>
-      </motion.header>
+      <MarketingHeader />
 
       {/* Gradient background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -63,9 +20,9 @@ export function HeroSection() {
         <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[var(--accent-sage)]/10 to-transparent blur-3xl" />
         <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-gradient-to-br from-[var(--accent-lavender)]/8 to-transparent blur-3xl" />
       </div>
-      
+
       {/* Main content */}
-      <div className="relative z-10 flex-1 flex items-center justify-center">
+      <div className="relative z-10 flex-1 flex items-center justify-center pt-8 pb-16">
         <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
           <motion.div
@@ -89,7 +46,7 @@ export function HeroSection() {
           >
             {t("title")}
           </motion.h1>
-          
+
           {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -99,7 +56,7 @@ export function HeroSection() {
           >
             {t("subtitle")}
           </motion.p>
-          
+
           {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -107,16 +64,16 @@ export function HeroSection() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link 
-              href="/auth/signup" 
+            <Link
+              href="/auth/signup"
               onClick={() => trackCTAClick("hero_get_started")}
               className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-[var(--primary-terracotta)] to-[var(--primary-clay)] rounded-full shadow-lg shadow-[var(--primary-terracotta)]/25 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/30 transition-all duration-300 hover:scale-105"
             >
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               <span className="relative">{t("getStarted")}</span>
             </Link>
-            <Link 
-              href="/auth/login" 
+            <Link
+              href="/auth/login"
               onClick={() => trackCTAClick("hero_sign_in")}
               className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-[var(--primary-terracotta)] bg-white/80 backdrop-blur-sm border-2 border-[var(--primary-terracotta)]/20 rounded-full hover:border-[var(--primary-terracotta)]/40 hover:bg-white transition-all duration-300"
             >

@@ -375,6 +375,16 @@
         "saveError": "Error saving. Please try again.",
         "uploadError": "Error uploading. Please try again."
     },
+    "blog": {
+        "title": "Resources & Guides",
+        "subtitle": "Explore our articles focused on emotional well-being, family memory, and digital legacy.",
+        "readMore": "Read more",
+        "noArticles": "No articles found. Check back soon!",
+        "backToBlog": "Back to blog",
+        "startLegacyTitle": "Start preserving your legacy",
+        "startLegacySubtitle": "Join Recall.bio and start your emotional archive today with your first daily question.",
+        "startFree": "Start for free"
+    },
     "notFound": {
         "title": "Lost Memory",
         "subtitle": "This memory seems to have drifted away...",

@@ -15,8 +15,25 @@ export function FAQSection() {
     { q: "q5", a: "a5" },
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: t(faq.q),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t(faq.a),
+      },
+    })),
+  };
+
   return (
     <section className="py-20 px-4 bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-4xl mx-auto">
         <h2 className="font-serif text-4xl md:text-5xl font-bold text-[#2B241B] text-center mb-16">
           {t("title")}
