@@ -1,16 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
 import { BlobBackground } from "@/components/ui/BlobBackground";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { containerVariants, itemVariants, floatVariants } from "@/components/ui/animations";
 import { BookOpen } from "lucide-react";
 
 export default function NotFoundPage() {
-  const t = useTranslations("notFound");
-
   return (
     <div className="min-h-dvh relative overflow-hidden" style={{ background: "var(--bg-cream)" }}>
       <BlobBackground count={5} />
@@ -67,7 +64,7 @@ export default function NotFoundPage() {
             className="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold text-[var(--text-primary)] mb-4"
             style={{ fontFamily: "var(--font-serif)" }}
           >
-            {t("title")}
+            Lost Memory
           </motion.h2>
 
           {/* Subtítulo poético */}
@@ -76,7 +73,7 @@ export default function NotFoundPage() {
             className="font-serif text-lg sm:text-xl md:text-2xl text-[var(--text-secondary)] mb-6 italic"
             style={{ fontFamily: "var(--font-serif)" }}
           >
-            {t("subtitle")}
+            This memory seems to have drifted away...
           </motion.p>
 
           {/* Descripción */}
@@ -84,7 +81,7 @@ export default function NotFoundPage() {
             variants={itemVariants}
             className="font-sans text-base sm:text-lg text-[var(--text-secondary)] mb-10 max-w-md mx-auto leading-relaxed"
           >
-            {t("description")}
+            The page you're looking for doesn't exist or has been moved.
           </motion.p>
 
           {/* Botón CTA */}
@@ -94,7 +91,7 @@ export default function NotFoundPage() {
           >
             <Link href="/app/today">
               <GlowButton variant="primary" className="text-lg px-8 py-4">
-                {t("backHome")}
+                Return Home
               </GlowButton>
             </Link>
           </motion.div>
@@ -108,7 +105,7 @@ export default function NotFoundPage() {
               href="/"
               className="font-sans text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-200 underline underline-offset-4 decoration-[var(--primary-terracotta)]/30 hover:decoration-[var(--primary-terracotta)]/60"
             >
-              {t("backToHomepage")}
+              Back to homepage
             </Link>
           </motion.div>
         </motion.div>
