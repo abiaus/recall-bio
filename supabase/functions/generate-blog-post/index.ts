@@ -71,6 +71,9 @@ REQUIREMENTS:
 
     const slug = createSlug(title);
 
+    // Remove the YAML frontmatter block from the final content
+    content = content.replace(/^---\n[\s\S]*?\n---\n*/, "").trim();
+
     return { content, title, slug, description, tags };
 }
 
@@ -107,14 +110,14 @@ Deno.serve(async (req: Request) => {
             });
         }
 
-        console.log(\`Generating articles for idea: \${idea.title}\`);
+        console.log(`Generating articles for idea: ${idea.title}`);
 
         const [enArticle, esArticle] = await Promise.all([
             generateArticle(idea.title, "en"),
             generateArticle(idea.title, "es")
         ]);
 
-        console.log(\`Inserting articles into database...\`);
+        console.log(`Inserting articles into database...`);
         const { error: insertError } = await supabase.from("blog_posts").insert([
             {
                 idea_id: idea.id,
@@ -137,19 +140,19 @@ Deno.serve(async (req: Request) => {
         ]);
 
         if (insertError) {
-          throw insertError;
+            throw insertError;
         }
 
-        console.log(\`Marking idea as created...\`);
+        console.log(`Marking idea as created...`);
         await supabase
             .from("blog_post_ideas")
             .update({ is_created: true })
             .eq("id", idea.id);
 
         return new Response(JSON.stringify({
-           success: true,
-           idea: idea.title,
-           message: "Articles generated successfully"
+            success: true,
+            idea: idea.title,
+            message: "Articles generated successfully"
         }), {
             headers: { "Content-Type": "application/json" },
             status: 200,
@@ -157,7 +160,7 @@ Deno.serve(async (req: Request) => {
 
     } catch (err) {
         console.error("Error generating post:", err);
-        return new Response(JSON.stringify({ error: err.message }), {
+        return new Response(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }), {
             headers: { "Content-Type": "application/json" },
             status: 500,
         });
