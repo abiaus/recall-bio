@@ -46,7 +46,7 @@ export function MarketingHeader() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full pt-6 pb-4 md:pt-8 md:pb-4 relative flex justify-between md:justify-center items-center px-4 sm:px-6 md:px-8 z-50 bg-[var(--bg-cream)]"
+            className="w-full pt-6 pb-4 md:pt-8 md:pb-4 relative flex justify-between md:justify-center items-center px-4 sm:px-6 md:px-8 z-50"
         >
             <Link href="/" className="shrink-0">
                 <AnimatedLogoLanding />
