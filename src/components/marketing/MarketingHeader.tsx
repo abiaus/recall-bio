@@ -46,12 +46,12 @@ export function MarketingHeader() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full pt-8 pb-4 relative flex justify-center items-center px-4 sm:px-6 md:px-8 z-50 bg-[var(--bg-cream)]"
+            className="w-full pt-6 pb-4 md:pt-8 md:pb-4 relative flex justify-between md:justify-center items-center px-4 sm:px-6 md:px-8 z-50 bg-[var(--bg-cream)]"
         >
-            <Link href="/">
+            <Link href="/" className="shrink-0">
                 <AnimatedLogoLanding />
             </Link>
-            <div className="absolute right-4 sm:right-6 md:right-8 top-8 flex items-center gap-6">
+            <div className="static md:absolute md:right-4 lg:right-8 md:top-8 flex items-center gap-4 sm:gap-6">
                 <Link href="/blog" className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-terracotta)] transition-colors">
                     Blog
                 </Link>
