@@ -7,9 +7,11 @@
     "common": {
         "appName": "Recall",
         "loading": "Cargando...",
+        "deleting": "Eliminando...",
         "save": "Guardar",
         "cancel": "Cancelar",
         "delete": "Eliminar",
+        "deleteError": "Error al eliminar el recuerdo",
         "edit": "Editar",
         "back": "Volver",
         "next": "Siguiente",
@@ -109,6 +111,7 @@
         "saveMemory": "Guardar Recuerdo",
         "memorySaved": "¡Recuerdo guardado!",
         "memorySavedSubtext": "Tus pensamientos han sido preservados.",
+        "bothMediaNotice": "Se guardará tanto el texto como el audio en este recuerdo.",
         "newPrompt": "Nueva pregunta",
         "newPromptLoading": "Obteniendo nueva pregunta...",
         "newPromptError": "Error al obtener nueva pregunta. Por favor, intenta de nuevo.",
@@ -127,6 +130,7 @@
     },
     "memories": {
         "title": "Mis Recuerdos",
+        "deleteConfirm": "¿Estás seguro de que deseas eliminar este recuerdo? Esta acción no se puede deshacer.",
         "noMemories": "Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt del día.",
         "audio": "Grabación de Voz",
         "audioRecording": "Escucha tus pensamientos grabados",
@@ -215,7 +219,13 @@
             "subtitle": "Cada día, una pregunta que invita a reflexionar. Documenta tu historia en tu propia voz y construye un tesoro de sabiduría y recuerdos.",
             "getStarted": "Comenzar Gratis",
             "signIn": "Iniciar Sesión",
-            "trustedBy": "Confianza de miles de personas"
+            "trustedBy": "Confianza de miles de personas",
+            "stackSmellQuestion": "¿Cuál es un olor que te da paz?",
+            "stackAdviceQuestion": "¿Qué consejo le darías a tu yo más joven?",
+            "stackAdviceAnswer": "Saca las fotos por más que te sientas incómodo. Anotá las recetas que tu abuela sabe de memoria. Los pequeños y silenciosos momentos que creés que vas a recordar siempre son precisamente los primeros en desaparecer. No te apures tanto.",
+            "stackDate": "14 de mayo, 2024",
+            "stackToday": "Hoy",
+            "stackTextEntry": "Entrada de Texto"
         },
         "problem": {
             "title": "La Vida Pasa Rápido",

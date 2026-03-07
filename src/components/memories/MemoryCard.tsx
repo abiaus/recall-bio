@@ -101,20 +101,7 @@ export function MemoryCard({ memory }: MemoryCardProps) {
                         }}
                     />
 
-                    {/* Decorative blob */}
-                    <motion.div
-                        className="absolute top-0 right-0 w-24 h-24 bg-[var(--blob-peach)] rounded-full blur-2xl opacity-20"
-                        animate={{
-                            scale: [1, 1.2, 1],
-                            x: [0, 10, 0],
-                            y: [0, -10, 0],
-                        }}
-                        transition={{
-                            duration: 6,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
-                    />
+                    {/* Removed decorative blob for a cleaner editorial look */}
 
                     <div className="relative z-10 flex flex-col h-full">
                         {questionText && (

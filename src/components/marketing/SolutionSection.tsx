@@ -49,15 +49,10 @@ export function SolutionSection() {
         >
           {t("description")}
         </motion.p>
-        <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {features.map((feature, index) => (
-            <motion.div key={feature.key} variants={itemVariants}>
-              <AnimatedCard className="p-8 text-center">
+            <motion.div key={feature.key} variants={itemVariants} className="h-full">
+              <AnimatedCard className="p-8 text-center h-full flex flex-col items-center">
                 <motion.div
                   className="text-[var(--primary-terracotta)] mb-4 flex justify-center"
                   animate={isInView ? { scale: [1, 1.1, 1] } : {}}
@@ -74,7 +69,7 @@ export function SolutionSection() {
               </AnimatedCard>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

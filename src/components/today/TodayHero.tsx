@@ -71,11 +71,11 @@ export function TodayHero({
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-terracotta)]/10 via-[var(--accent-dusty-rose)]/10 to-[var(--accent-lavender)]/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/90 to-[var(--bg-warm)]/80 backdrop-blur-sm border border-[var(--primary-terracotta)]/15 shadow-lg shadow-[var(--primary-terracotta)]/5">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/80 to-[var(--bg-warm)]/50 backdrop-blur-sm border border-[var(--bg-warm)] shadow-sm">
             {/* Decorative corner accent */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[var(--blob-lavender)] to-transparent opacity-30 rounded-bl-full" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[var(--blob-lavender)] to-transparent opacity-20 rounded-bl-full" />
 
-            <div className="relative p-5 sm:p-8 md:p-10">
+            <div className="relative p-5 sm:p-6 md:p-8">
               {/* Quote icon */}
               <motion.div
                 initial={{ opacity: 0, rotate: -10 }}
@@ -91,7 +91,7 @@ export function TodayHero({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
-                className="font-serif text-xl md:text-2xl lg:text-3xl text-[var(--text-primary)] leading-relaxed md:leading-relaxed pl-8 sm:pl-10 md:pl-12 pr-4"
+                className="font-serif text-lg md:text-xl lg:text-2xl text-[var(--text-primary)] leading-relaxed pl-8 sm:pl-10 pr-4"
               >
                 {promptText}
               </motion.p>
@@ -101,9 +101,10 @@ export function TodayHero({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.4 }}
-                className="mt-6 sm:mt-8 pl-8 sm:pl-10 md:pl-12 flex items-center gap-4 flex-wrap"
+                className="mt-5 sm:mt-6 pl-8 sm:pl-10 flex items-center gap-3 flex-wrap"
               >
                 <QuestionFeedback
+                  key={questionId}
                   questionId={questionId}
                   initialFeedback={initialFeedback}
                 />

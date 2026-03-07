@@ -7,9 +7,11 @@
     "common": {
         "appName": "Recall",
         "loading": "Loading...",
+        "deleting": "Deleting...",
         "save": "Save",
         "cancel": "Cancel",
         "delete": "Delete",
+        "deleteError": "Error deleting the memory",
         "edit": "Edit",
         "back": "Back",
         "next": "Next",
@@ -109,6 +111,7 @@
         "saveMemory": "Save Memory",
         "memorySaved": "Memory saved successfully!",
         "memorySavedSubtext": "Your thoughts have been preserved.",
+        "bothMediaNotice": "Both text and audio will be saved in this memory.",
         "newPrompt": "New Question",
         "newPromptLoading": "Getting new question...",
         "newPromptError": "Error getting new question. Please try again.",
@@ -127,6 +130,7 @@
     },
     "memories": {
         "title": "My Memories",
+        "deleteConfirm": "Are you sure you want to delete this memory? This action cannot be undone.",
         "noMemories": "You don't have any saved memories yet. Start by answering your daily prompt.",
         "audio": "Voice Recording",
         "audioRecording": "Listen to your recorded thoughts",
@@ -215,7 +219,13 @@
             "subtitle": "Each day, a question that invites reflection. Document your story in your own voice and build a treasure of wisdom and memories.",
             "getStarted": "Get Started Free",
             "signIn": "Sign In",
-            "trustedBy": "Trusted by thousands of people"
+            "trustedBy": "Trusted by thousands of people",
+            "stackSmellQuestion": "What is a smell that brings you peace?",
+            "stackAdviceQuestion": "What advice would you give your younger self?",
+            "stackAdviceAnswer": "Take the photos even if you feel awkward. Write down the recipes your grandmother cooks by heart. The small, quiet moments you think you'll remember forever are precisely the ones that fade first. Don't rush so much.",
+            "stackDate": "May 14, 2024",
+            "stackToday": "Today",
+            "stackTextEntry": "Text Entry"
         },
         "problem": {
             "title": "Life Moves Fast",

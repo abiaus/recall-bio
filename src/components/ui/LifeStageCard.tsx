@@ -21,14 +21,12 @@ export function LifeStageCard({
     <motion.button
       type="button"
       onClick={() => onSelect(value)}
-      className={`relative p-6 rounded-3xl border-2 transition-all w-full ${
-        selected
+      className={`relative p-6 rounded-3xl border-2 transition-colors w-full ${selected
           ? "border-[var(--primary-terracotta)] bg-[var(--primary-terracotta)]/10 shadow-lg"
           : "border-[#D4C5B0] bg-white/80 hover:border-[var(--primary-terracotta)]/50"
-      }`}
-      whileHover={{ scale: 1.02, y: -4 }}
+        }`}
+      whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
-      layout
     >
       {selected && (
         <motion.div
@@ -45,14 +43,13 @@ export function LifeStageCard({
           />
         </motion.div>
       )}
-      
+
       <div className="flex flex-col items-center gap-3">
         <motion.div
-          className={`p-4 rounded-2xl ${
-            selected
+          className={`p-4 rounded-2xl ${selected
               ? "bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--accent-dusty-rose)]"
               : "bg-[var(--bg-warm)]"
-          }`}
+            }`}
           animate={selected ? { rotate: [0, 5, -5, 0] } : {}}
           transition={{ duration: 0.5 }}
         >

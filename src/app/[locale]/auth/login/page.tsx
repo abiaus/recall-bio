@@ -29,7 +29,11 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message === "Invalid login credentials") {
+        setError(t("invalidCredentials"));
+      } else {
+        setError(error.message);
+      }
       setLoading(false);
     } else {
       router.push(`/${locale}/app/today`);
@@ -70,20 +74,12 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-[#2B241B]"
-              >
-                {t("password")}
-              </label>
-              <Link
-                href="/auth/forgot-password"
-                className="text-sm text-[#8B7355] hover:underline"
-              >
-                {t("forgotPassword")}
-              </Link>
-            </div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-[#2B241B] mb-2"
+            >
+              {t("password")}
+            </label>
             <input
               id="password"
               type="password"
@@ -93,6 +89,14 @@ export default function LoginPage() {
               className="w-full px-4 py-2 rounded-lg border border-[#D4C5B0] bg-white text-[#2B241B] focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
               placeholder={t("passwordPlaceholder")}
             />
+            <div className="mt-2 text-right">
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm text-[#8B7355] hover:underline"
+              >
+                {t("forgotPassword")}
+              </Link>
+            </div>
           </div>
 
           <button

@@ -1,20 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ProgressCurve } from "@/components/ui/ProgressCurve";
 import { LifeStageCard } from "@/components/ui/LifeStageCard";
-import { FloatingInput } from "@/components/ui/FloatingInput";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { OrganicSelect } from "@/components/ui/OrganicSelect";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import {
   DEFAULT_TRANSCRIPTION_LANGUAGE,
   VALID_TRANSCRIPTION_LANGUAGES,
 } from "@/lib/transcription/constants";
-import { Baby, GraduationCap, Briefcase, Users, Heart, CheckCircle2 } from "lucide-react";
+import { Baby, GraduationCap, Briefcase, Users, Heart, CheckCircle2, ArrowRight } from "lucide-react";
 
 const STEPS = 2;
 
@@ -22,12 +21,13 @@ export default function OnboardingPage() {
   const t = useTranslations("onboarding");
   const tCommon = useTranslations("common");
   const [currentStep, setCurrentStep] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [lifeStage, setLifeStage] = useState<string>("");
   const [timezone, setTimezone] = useState<string>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   );
   const [loading, setLoading] = useState(false);
-  const [completed, setCompleted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const router = useRouter();
   const params = useParams();
   const locale = params.locale as string;
@@ -37,6 +37,11 @@ export default function OnboardingPage() {
   )
     ? locale
     : DEFAULT_TRANSCRIPTION_LANGUAGE;
+
+  const timezoneOptions = useMemo(
+    () => Intl.supportedValuesOf("timeZone").map((tz) => ({ value: tz, label: tz })),
+    []
+  );
 
   const lifeStages = [
     { value: "teen", label: t("lifeStageTeen"), icon: <Baby className="w-6 h-6" /> },
@@ -48,13 +53,17 @@ export default function OnboardingPage() {
 
   const handleNext = () => {
     if (currentStep < STEPS - 1) {
+      setIsTransitioning(true);
       setCurrentStep(currentStep + 1);
+      setTimeout(() => setIsTransitioning(false), 400);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
+      setIsTransitioning(true);
       setCurrentStep(currentStep - 1);
+      setTimeout(() => setIsTransitioning(false), 400);
     }
   };
 
@@ -88,45 +97,50 @@ export default function OnboardingPage() {
       console.error("Error updating profile:", error);
       setLoading(false);
     } else {
-      // Marcamos el onboarding como completado y dejamos que la persona decida cuándo continuar
-      setCompleted(true);
-      setLoading(false);
+      setIsCompleted(true);
+      setTimeout(() => {
+        router.push(`/${locale}/app/today`);
+        router.refresh();
+      }, 2000);
     }
   };
 
-  if (completed) {
+  if (isCompleted) {
     return (
-      <motion.div
-        className="max-w-2xl mx-auto text-center space-y-8 py-16"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-      >
+      <div className="max-w-3xl mx-auto flex flex-col items-center justify-center min-h-[50vh] space-y-6 text-center">
         <motion.div
-          className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--accent-sage)] flex items-center justify-center"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 2, ease: "easeInOut" }}
-        >
-          <CheckCircle2 className="w-12 h-12 text-white" />
-        </motion.div>
-        <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)]">
-          {t("welcomeTitle")}
-        </h2>
-        <p className="text-[var(--text-secondary)] text-lg">
-          {t("preparingExperience")}
-        </p>
-        <GlowButton
-          type="button"
-          variant="primary"
-          glow
-          className="mt-4"
-          onClick={() => {
-            router.push(`/${locale}/app/today`);
-            router.refresh();
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 15,
+            delay: 0.1
           }}
+          className="w-24 h-24 rounded-full bg-[var(--primary-terracotta)] flex items-center justify-center text-white shadow-xl shadow-[var(--primary-terracotta)]/20"
         >
-          {t("continue")}
-        </GlowButton>
-      </motion.div>
+          <CheckCircle2 className="w-12 h-12" />
+        </motion.div>
+
+        <div className="space-y-3">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-4xl font-serif text-[var(--text-primary)]"
+          >
+            Welcome to Recall
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="text-lg text-[var(--text-secondary)]"
+          >
+            Your personal space is ready.
+          </motion.p>
+        </div>
+      </div>
     );
   }
 
@@ -194,50 +208,55 @@ export default function OnboardingPage() {
                 <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-6">
                   {t("timezone")}
                 </h2>
-                <FloatingInput
-                  id="timezone"
-                  label={t("timezone")}
-                  type="text"
-                  value={timezone}
-                  onChange={(e) => setTimezone(e.target.value)}
-                  required
-                />
+                <div className="h-[250px]">
+                  <OrganicSelect
+                    id="timezone"
+                    label={t("timezone")}
+                    value={timezone}
+                    onChange={setTimezone}
+                    options={timezoneOptions}
+                    required
+                  />
+                </div>
               </AnimatedCard>
             </motion.div>
           )}
         </AnimatePresence>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 pt-4">
           {currentStep > 0 && (
-            <GlowButton
+            <button
               type="button"
-              variant="ghost"
               onClick={handleBack}
-              className="flex-1"
+              disabled={isTransitioning}
+              className="flex-1 inline-flex items-center justify-center px-8 py-4 text-base font-medium text-[var(--text-primary)] border border-[#D4C5B0] bg-transparent hover:border-[var(--text-primary)] hover:bg-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-terracotta)] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {tCommon("back")}
-            </GlowButton>
+            </button>
           )}
           {currentStep < STEPS - 1 ? (
-            <GlowButton
+            <button
               type="button"
-              variant="primary"
               onClick={handleNext}
-              disabled={currentStep === 0 && !lifeStage}
-              className="flex-1"
+              disabled={isTransitioning || (currentStep === 0 && !lifeStage)}
+              className="group flex-1 inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[var(--text-primary)] hover:bg-[var(--text-secondary)] transition-colors duration-300 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--primary-terracotta)] focus:ring-offset-2"
             >
               {t("continue")}
-            </GlowButton>
+              <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 w-0 overflow-hidden group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out" />
+            </button>
           ) : (
-            <GlowButton
+            <button
               type="submit"
-              variant="primary"
-              disabled={loading || !lifeStage || !timezone}
-              glow={!loading && !!lifeStage && !!timezone}
-              className="flex-1"
+              disabled={isTransitioning || loading || !lifeStage || !timezone}
+              className="group flex-1 inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[var(--text-primary)] hover:bg-[var(--text-secondary)] transition-colors duration-300 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[var(--primary-terracotta)] focus:ring-offset-2"
             >
-              {loading ? t("saving") : t("continue")}
-            </GlowButton>
+              <span className="relative">
+                {loading ? t("saving") : t("continue")}
+              </span>
+              {!loading && (
+                <ArrowRight className="w-4 h-4 ml-2 opacity-0 -translate-x-2 w-0 overflow-hidden group-hover:w-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out" />
+              )}
+            </button>
           )}
         </div>
       </form>

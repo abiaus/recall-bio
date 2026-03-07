@@ -3,11 +3,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
 import { ArrowLeft, Quote, Calendar, Music2 } from "lucide-react";
 import { TranscriptDisplay } from "./TranscriptDisplay";
 import { MemoryImageGallery } from "./MemoryImageGallery";
+import { deleteMemory } from "@/server/actions/memories";
+import { Trash2 } from "lucide-react";
 
 interface Question {
     text: string;
@@ -46,6 +48,7 @@ const moodConfig: Record<string, { emoji: string; label: string; color: string }
 export function MemoryDetail({ memory }: MemoryDetailProps) {
     const t = useTranslations("memories");
     const tMood = useTranslations("today");
+    const tCommon = useTranslations("common");
     const locale = useLocale();
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
     const [transcript, setTranscript] = useState<string | null>(null);
@@ -53,6 +56,8 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
         "pending" | "processing" | "completed" | "failed" | null
     >(null);
     const [isAudioLoading, setIsAudioLoading] = useState(true);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const router = useRouter();
     const supabase = useMemo(() => createClient(), []);
 
     const loadAudio = useCallback(async () => {
@@ -114,11 +119,12 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
 
     return (
         <div className="min-h-[calc(100vh-120px)]">
-            {/* Back link */}
+            {/* Navigation and Actions */}
             <motion.div
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3 }}
+                className="flex items-center justify-between w-full"
             >
                 <Link
                     href="/app/memories"
@@ -127,6 +133,27 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     <span className="text-sm font-medium">{t("backToMemories")}</span>
                 </Link>
+
+                <button
+                    onClick={async () => {
+                        if (confirm(t("deleteConfirm", { defaultMessage: "¿Estás seguro de que deseas eliminar este recuerdo?" }))) {
+                            setIsDeleting(true);
+                            const result = await deleteMemory(memory.id);
+                            if (result.success) {
+                                router.push(`/${locale}/app/memories`);
+                                router.refresh();
+                            } else {
+                                alert(tCommon("deleteError", { defaultMessage: "Error al eliminar el recuerdo" }));
+                                setIsDeleting(false);
+                            }
+                        }
+                    }}
+                    disabled={isDeleting}
+                    className="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded-md cursor-pointer disabled:opacity-50"
+                >
+                    <Trash2 className="w-4 h-4" />
+                    <span className="text-sm font-medium">{isDeleting ? tCommon("deleting", { defaultMessage: "Eliminando..." }) : tCommon("delete")}</span>
+                </button>
             </motion.div>
 
             {/* Date header */}

@@ -118,14 +118,16 @@ export async function getOrAssignDailyPrompt(
 
   if (error) {
     // Handle race condition: if another request already inserted, fetch the existing record
+    // We add .eq("prompt_index", 1) and re-order the select to bypass React's fetch memoization 
+    // which would otherwise return the cached `null` from the earlier check in this exact request tree.
     if (error.code === "23505") {
       const { data: racePrompt } = await supabase
         .schema("public")
         .from("daily_prompts")
-        .select("question_id, prompt_index, questions!inner(text, text_es)")
+        .select("prompt_index, question_id, questions!inner(text, text_es)")
         .eq("user_id", userId)
         .eq("prompt_date", isoDate)
-        .order("prompt_index", { ascending: false })
+        .eq("prompt_index", 1)
         .limit(1)
         .maybeSingle();
 

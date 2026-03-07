@@ -67,10 +67,10 @@ export function NewPromptButton({ hasExistingPrompt = true }: NewPromptButtonPro
         onClick={handleNewPrompt}
         disabled={loading}
         variant="secondary"
-        className="flex items-center gap-2"
+        className="flex flex-row items-center justify-center gap-2"
       >
-        <Sparkles className="w-4 h-4" />
-        {loading ? t("newPromptLoading") : t("newPrompt")}
+        <Sparkles className="w-5 h-5 flex-shrink-0" />
+        <span>{loading ? t("newPromptLoading") : t("newPrompt")}</span>
       </GlowButton>
       {error && (
         <motion.p

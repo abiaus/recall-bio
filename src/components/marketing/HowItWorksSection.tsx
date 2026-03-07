@@ -37,9 +37,9 @@ export function HowItWorksSection() {
           {steps.map((step, index) => (
             <motion.div key={step.key} className="relative" variants={itemVariants}>
               <motion.div
-                className="absolute -top-4 -left-4 w-14 h-14 rounded-full bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--accent-sage)] text-white flex items-center justify-center font-bold text-xl shadow-lg z-10"
-                animate={isInView ? { scale: [0, 1.2, 1], rotate: [0, 360] } : {}}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
+                className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-[var(--primary-clay)] text-white flex items-center justify-center font-serif text-xl shadow-sm z-10"
+                animate={isInView ? { scale: [0, 1.1, 1] } : {}}
+                transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
               >
                 {step.number}
               </motion.div>

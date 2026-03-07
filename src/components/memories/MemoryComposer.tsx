@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/routing";
+import { useLocale, useTranslations } from "next-intl";
 import { Mic, Square, Pause, Play, Trash2, CheckCircle2, Pen, Music2, ImagePlus, X } from "lucide-react";
 import { queueMemoryTranscriptionAction } from "@/server/actions/transcription";
 
@@ -42,6 +42,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
     const t = useTranslations("today");
     const tRecording = useTranslations("recording");
     const tCommon = useTranslations("common");
+    const locale = useLocale();
     const [content, setContent] = useState("");
     const [mood, setMood] = useState("");
     const [loading, setLoading] = useState(false);
@@ -353,10 +354,13 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
             setImagePreviews([]);
             setImageErrors([]);
             setImageUploadError(null);
-            router.refresh();
+
+            // Delay redirect to allow user to see the success message
+            setTimeout(() => {
+                router.push(`/app/memories`);
+            }, 2000);
         } catch (err) {
             console.error("Error saving memory:", err);
-        } finally {
             setLoading(false);
         }
     };
@@ -364,346 +368,370 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
     const hasContent = content.trim().length > 0 || audioBlob !== null || imageFiles.length > 0;
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-            <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Tab Switcher */}
-                <div className="flex gap-2 p-1.5 bg-[var(--bg-warm)]/60 rounded-2xl w-fit">
-                    <button
-                        type="button"
-                        onClick={() => setActiveTab("write")}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${activeTab === "write"
-                            ? "bg-white text-[var(--text-primary)] shadow-sm"
-                            : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-                            }`}
-                    >
-                        <Pen className="w-4 h-4" />
-                        {t("writeTab")}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setActiveTab("record")}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${activeTab === "record"
-                            ? "bg-white text-[var(--text-primary)] shadow-sm"
-                            : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
-                            }`}
-                    >
-                        <Music2 className="w-4 h-4" />
-                        {t("recordTab")}
-                    </button>
-                </div>
-
-                {/* Content Area */}
-                <AnimatePresence mode="wait">
-                    {activeTab === "write" ? (
-                        <motion.div
-                            key="write"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 20 }}
-                            transition={{ duration: 0.3 }}
-                            className="relative"
-                        >
-                            <div className="relative group">
-                                <div className="absolute -inset-1 bg-gradient-to-r from-[var(--primary-terracotta)]/20 via-[var(--accent-dusty-rose)]/20 to-[var(--accent-lavender)]/20 rounded-3xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
-                                <textarea
-                                    ref={textareaRef}
-                                    id="content"
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    className="relative w-full px-6 py-5 rounded-2xl border-2 border-[var(--bg-warm)] bg-white/80 backdrop-blur-sm text-[var(--text-primary)] text-lg leading-relaxed focus:outline-none focus:border-[var(--primary-terracotta)]/30 resize-none transition-all duration-300 placeholder:text-[var(--text-muted)]/60"
-                                    placeholder={t("answerPlaceholder")}
-                                    style={{ minHeight: "180px" }}
-                                />
-                                <div className="absolute bottom-4 right-4 text-xs text-[var(--text-muted)]">
-                                    {content.length} {t("characters")}
-                                </div>
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="record"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[var(--bg-warm)] to-white border-2 border-[var(--bg-warm)] p-8">
-                                {/* Background decoration */}
-                                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[var(--blob-peach)] to-transparent opacity-40 rounded-bl-full" />
-
-                                <div className="relative flex flex-col items-center justify-center min-h-[180px]">
-                                    {!isRecording && !audioBlob && (
-                                        <motion.div
-                                            initial={{ scale: 0.9, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            className="flex flex-col items-center gap-6"
-                                        >
-                                            <button
-                                                type="button"
-                                                onClick={startRecording}
-                                                className="group relative w-24 h-24 min-w-[44px] min-h-[44px] rounded-full bg-gradient-to-br from-[var(--primary-terracotta)] to-[var(--primary-clay)] text-white shadow-lg shadow-[var(--primary-terracotta)]/30 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/40 transition-all duration-300 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
-                                            >
-                                                <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                                <Mic className="w-10 h-10 mx-auto" />
-                                            </button>
-                                            <p className="text-[var(--text-muted)] text-sm">
-                                                {tRecording("tapToRecord")}
-                                            </p>
-                                        </motion.div>
-                                    )}
-
-                                    {isRecording && (
-                                        <motion.div
-                                            initial={{ scale: 0.9, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            className="flex flex-col items-center gap-6"
-                                        >
-                                            {/* Animated recording indicator */}
-                                            <div className="relative">
-                                                <motion.div
-                                                    animate={{ scale: [1, 1.2, 1] }}
-                                                    transition={{ repeat: Infinity, duration: 1.5 }}
-                                                    className="absolute inset-0 rounded-full bg-red-500/20"
-                                                />
-                                                <motion.div
-                                                    animate={{ scale: [1, 1.1, 1] }}
-                                                    transition={{ repeat: Infinity, duration: 1.5, delay: 0.2 }}
-                                                    className="absolute inset-[-8px] rounded-full bg-red-500/10"
-                                                />
-                                                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
-                                                    <div className="w-4 h-4 bg-white rounded-sm" />
-                                                </div>
-                                            </div>
-
-                                            <div className="text-center">
-                                                <p className="text-3xl font-light text-[var(--text-primary)] tabular-nums">
-                                                    {formatTime(duration)}
-                                                </p>
-                                                <p className="text-sm text-[var(--text-muted)] mt-1">
-                                                    {isPaused ? tRecording("paused") : tRecording("recording")}
-                                                </p>
-                                            </div>
-
-                                            <div className="flex items-center gap-3">
-                                                {!isPaused ? (
-                                                    <button
-                                                        type="button"
-                                                        onClick={pauseRecording}
-                                                        className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
-                                                    >
-                                                        <Pause className="w-5 h-5" />
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        type="button"
-                                                        onClick={resumeRecording}
-                                                        className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
-                                                    >
-                                                        <Play className="w-5 h-5" />
-                                                    </button>
-                                                )}
-                                                <button
-                                                    type="button"
-                                                    onClick={stopRecording}
-                                                    className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 cursor-pointer"
-                                                >
-                                                    <Square className="w-5 h-5" />
-                                                </button>
-                                            </div>
-                                        </motion.div>
-                                    )}
-
-                                    {audioBlob && !isRecording && (
-                                        <motion.div
-                                            initial={{ scale: 0.9, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            className="w-full space-y-4"
-                                        >
-                                            <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-[var(--bg-warm)]">
-                                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--accent-sage)] to-emerald-500 flex items-center justify-center text-white">
-                                                    <Music2 className="w-6 h-6" />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <p className="font-medium text-[var(--text-primary)]">
-                                                        {tRecording("recordingReady")}
-                                                    </p>
-                                                    <p className="text-sm text-[var(--text-muted)]">
-                                                        {formatTime(duration)}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            {audioUrl && (
-                                                <audio src={audioUrl} controls className="w-full rounded-lg" />
-                                            )}
-
-                                            <button
-                                                type="button"
-                                                onClick={discardAudio}
-                                                className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 cursor-pointer"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                                {tRecording("discard")}
-                                            </button>
-                                        </motion.div>
-                                    )}
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                {/* Image Upload */}
+        <AnimatePresence mode="wait">
+            {!savedMemoryId ? (
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.65 }}
-                    className="space-y-2"
+                    key="composer-form"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
+                    transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <label className="block text-sm font-medium text-[var(--text-secondary)]">
-                        {t("imagesAddLabel")}
-                    </label>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        multiple
-                        className="sr-only"
-                        aria-label={t("imagesAdd")}
-                        onChange={(e) => {
-                            validateAndAddImages(e.target.files);
-                            e.target.value = "";
-                        }}
-                    />
-                    <div className="flex flex-wrap gap-3">
-                        {imagePreviews.map((url, i) => (
-                            <motion.div
-                                key={url}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className="relative group"
-                            >
-                                <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-[var(--bg-warm)] bg-[var(--bg-warm)]/50">
-                                    <img
-                                        src={url}
-                                        alt=""
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => removeImage(i)}
-                                    className="absolute -top-1.5 -right-1.5 w-11 h-11 rounded-full bg-red-500 text-white flex items-center justify-center shadow-md hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
-                                    aria-label={t("imagesRemove")}
-                                >
-                                    <X className="w-4 h-4" />
-                                </button>
-                            </motion.div>
-                        ))}
-                        {imageFiles.length < MAX_IMAGES && (
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Tab Switcher */}
+                        <div className="flex gap-2 p-1.5 bg-[var(--bg-warm)]/60 rounded-2xl w-fit">
                             <button
                                 type="button"
-                                onClick={() => fileInputRef.current?.click()}
-                                className="w-20 h-20 min-w-[44px] min-h-[44px] rounded-xl border-2 border-dashed border-[var(--bg-warm)] bg-white/50 hover:bg-[var(--bg-warm)]/30 hover:border-[var(--primary-terracotta)]/30 flex items-center justify-center transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2"
-                                aria-label={t("imagesAdd")}
-                            >
-                                <ImagePlus className="w-8 h-8 text-[var(--text-muted)]" />
-                            </button>
-                        )}
-                    </div>
-                    {imageErrors.length > 0 && (
-                        <div
-                            role="alert"
-                            className="flex flex-wrap gap-2 text-sm text-red-600"
-                        >
-                            {imageErrors.map((err, i) => (
-                                <span key={i}>{err}</span>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={clearImageErrors}
-                                className="text-red-500 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded cursor-pointer"
-                            >
-                                {tCommon("close")}
-                            </button>
-                        </div>
-                    )}
-                </motion.div>
-
-                {/* Mood Selector */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                >
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-3">
-                        {t("mood")}
-                    </label>
-                    <div className="flex flex-wrap gap-2">
-                        {moodOptions.map((option) => (
-                            <button
-                                key={option.value}
-                                type="button"
-                                onClick={() => setMood(mood === option.value ? "" : option.value)}
-                                className={`flex items-center gap-2 px-4 py-3 min-h-[44px] rounded-xl border-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${mood === option.value
-                                    ? `border-transparent bg-gradient-to-r ${option.color} text-white shadow-md`
-                                    : "border-[var(--bg-warm)] bg-white hover:border-[var(--primary-terracotta)]/30 text-[var(--text-secondary)]"
+                                onClick={() => setActiveTab("write")}
+                                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${activeTab === "write"
+                                    ? "bg-white text-[var(--text-primary)] shadow-sm"
+                                    : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
                                     }`}
                             >
-                                <span className="text-lg">{option.emoji}</span>
-                                <span className="text-sm font-medium">{t(`mood${option.value.charAt(0).toUpperCase() + option.value.slice(1)}`)}</span>
+                                <Pen className="w-4 h-4" />
+                                {t("writeTab")}
                             </button>
-                        ))}
-                    </div>
-                </motion.div>
+                            <button
+                                type="button"
+                                onClick={() => setActiveTab("record")}
+                                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${activeTab === "record"
+                                    ? "bg-white text-[var(--text-primary)] shadow-sm"
+                                    : "text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
+                                    }`}
+                            >
+                                <Music2 className="w-4 h-4" />
+                                {t("recordTab")}
+                            </button>
+                        </div>
 
-                {/* Submit Button */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="pt-4"
-                >
-                    <button
-                        type="submit"
-                        disabled={loading || !hasContent}
-                        className="group relative w-full sm:w-auto px-8 py-4 min-h-[44px] rounded-2xl bg-gradient-to-r from-[var(--primary-terracotta)] to-[var(--primary-clay)] text-white font-semibold text-lg shadow-lg shadow-[var(--primary-terracotta)]/25 hover:shadow-xl hover:shadow-[var(--primary-terracotta)]/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-lg transition-all duration-300 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                        <span className="relative">
-                            {loading ? t("savingMemory") : t("saveMemory")}
-                        </span>
-                    </button>
-                </motion.div>
+                        {/* Content Area */}
+                        <AnimatePresence mode="wait">
+                            {activeTab === "write" ? (
+                                <motion.div
+                                    key="write"
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="relative"
+                                >
+                                    <div className="relative group">
+                                        <textarea
+                                            ref={textareaRef}
+                                            id="content"
+                                            value={content}
+                                            onChange={(e) => setContent(e.target.value)}
+                                            className="relative w-full px-6 py-5 rounded-sm border border-[#D4C5B0]/50 bg-white text-[var(--text-primary)] text-lg leading-relaxed focus:outline-none focus:border-[var(--primary-terracotta)] ring-0 focus:ring-1 focus:ring-[var(--primary-terracotta)] resize-none transition-colors duration-200 placeholder:text-[var(--text-muted)]/60 shadow-inner"
+                                            placeholder={t("answerPlaceholder")}
+                                            style={{ minHeight: "180px" }}
+                                        />
+                                        <div className="absolute bottom-4 right-4 text-xs text-[var(--text-muted)]">
+                                            {content.length} {t("characters")}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="record"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <div className="relative overflow-hidden rounded-2xl bg-[var(--bg-warm)]/30 border border-[#D4C5B0]/30 p-8">
+                                        {/* Clean solid background format */}
 
-                {/* Success Message */}
-                <AnimatePresence>
-                    {savedMemoryId && (
+                                        <div className="relative flex flex-col items-center justify-center min-h-[180px]">
+                                            {!isRecording && !audioBlob && (
+                                                <motion.div
+                                                    initial={{ scale: 0.9, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                    className="flex flex-col items-center gap-6"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        onClick={startRecording}
+                                                        className="group relative w-24 h-24 min-w-[44px] min-h-[44px] rounded-full bg-[var(--primary-terracotta)] text-white shadow-sm hover:shadow-md hover:bg-[var(--primary-clay)] transition-all duration-200 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer flex items-center justify-center"
+                                                    >
+                                                        <Mic className="w-10 h-10" />
+                                                    </button>
+                                                    <p className="text-[var(--text-muted)] text-sm">
+                                                        {tRecording("tapToRecord")}
+                                                    </p>
+                                                </motion.div>
+                                            )}
+
+                                            {isRecording && (
+                                                <motion.div
+                                                    initial={{ scale: 0.9, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                    className="flex flex-col items-center gap-6"
+                                                >
+                                                    {/* Animated recording indicator */}
+                                                    <div className="relative">
+                                                        <motion.div
+                                                            animate={{ scale: [1, 1.2, 1] }}
+                                                            transition={{ repeat: Infinity, duration: 1.5 }}
+                                                            className="absolute inset-0 rounded-full bg-red-500/20"
+                                                        />
+                                                        <motion.div
+                                                            animate={{ scale: [1, 1.1, 1] }}
+                                                            transition={{ repeat: Infinity, duration: 1.5, delay: 0.2 }}
+                                                            className="absolute inset-[-8px] rounded-full bg-red-500/10"
+                                                        />
+                                                        <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+                                                            <div className="w-4 h-4 bg-white rounded-sm" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="text-center">
+                                                        <p className="text-3xl font-light text-[var(--text-primary)] tabular-nums">
+                                                            {formatTime(duration)}
+                                                        </p>
+                                                        <p className="text-sm text-[var(--text-muted)] mt-1">
+                                                            {isPaused ? tRecording("paused") : tRecording("recording")}
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-3">
+                                                        {!isPaused ? (
+                                                            <button
+                                                                type="button"
+                                                                onClick={pauseRecording}
+                                                                className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
+                                                            >
+                                                                <Pause className="w-5 h-5" />
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                type="button"
+                                                                onClick={resumeRecording}
+                                                                className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-white border-2 border-[var(--bg-warm)] text-[var(--text-secondary)] hover:bg-[var(--bg-warm)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
+                                                            >
+                                                                <Play className="w-5 h-5" />
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            type="button"
+                                                            onClick={stopRecording}
+                                                            className="p-3 min-w-[44px] min-h-[44px] rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 cursor-pointer"
+                                                        >
+                                                            <Square className="w-5 h-5" />
+                                                        </button>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
+                                            {audioBlob && !isRecording && (
+                                                <motion.div
+                                                    initial={{ scale: 0.9, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                    className="w-full space-y-4"
+                                                >
+                                                    <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-[var(--bg-warm)]">
+                                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--accent-sage)] to-emerald-500 flex items-center justify-center text-white">
+                                                            <Music2 className="w-6 h-6" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <p className="font-medium text-[var(--text-primary)]">
+                                                                {tRecording("recordingReady")}
+                                                            </p>
+                                                            <p className="text-sm text-[var(--text-muted)]">
+                                                                {formatTime(duration)}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    {audioUrl && (
+                                                        <audio src={audioUrl} controls className="w-full rounded-lg" />
+                                                    )}
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={discardAudio}
+                                                        className="flex items-center gap-2 px-4 py-2 min-h-[44px] text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 cursor-pointer"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                        {tRecording("discard")}
+                                                    </button>
+                                                </motion.div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Image Upload */}
                         <motion.div
-                            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                            className={`flex items-center gap-4 p-5 rounded-2xl border ${imageUploadError ? "bg-amber-50 border-amber-200/50" : "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200/50"}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.65 }}
+                            className="space-y-2"
                         >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white ${imageUploadError ? "bg-amber-500" : "bg-gradient-to-br from-emerald-400 to-teal-500"}`}>
-                                <CheckCircle2 className="w-6 h-6" />
+                            <label className="block text-sm font-medium text-[var(--text-secondary)]">
+                                {t("imagesAddLabel")}
+                            </label>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                multiple
+                                className="sr-only"
+                                aria-label={t("imagesAdd")}
+                                onChange={(e) => {
+                                    validateAndAddImages(e.target.files);
+                                    e.target.value = "";
+                                }}
+                            />
+                            <div className="flex flex-wrap gap-3">
+                                {imagePreviews.map((url, i) => (
+                                    <motion.div
+                                        key={url}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="relative group"
+                                    >
+                                        <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-[var(--bg-warm)] bg-[var(--bg-warm)]/50">
+                                            <img
+                                                src={url}
+                                                alt=""
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(i)}
+                                            className="absolute -top-1.5 -right-1.5 w-11 h-11 rounded-full bg-red-500 text-white flex items-center justify-center shadow-md hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
+                                            aria-label={t("imagesRemove")}
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </motion.div>
+                                ))}
+                                {imageFiles.length < MAX_IMAGES && (
+                                    <button
+                                        type="button"
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className="w-20 h-20 min-w-[44px] min-h-[44px] rounded-xl border-2 border-dashed border-[var(--bg-warm)] bg-white/50 hover:bg-[var(--bg-warm)]/30 hover:border-[var(--primary-terracotta)]/30 flex items-center justify-center transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2"
+                                        aria-label={t("imagesAdd")}
+                                    >
+                                        <ImagePlus className="w-8 h-8 text-[var(--text-muted)]" />
+                                    </button>
+                                )}
                             </div>
-                            <div>
-                                <p className={`font-medium ${imageUploadError ? "text-amber-800" : "text-emerald-800"}`}>
-                                    {t("memorySaved").split(".")[0]}
-                                </p>
-                                <p className={`text-sm ${imageUploadError ? "text-amber-600/80" : "text-emerald-600/80"}`}>
-                                    {imageUploadError ?? t("memorySavedSubtext")}
-                                </p>
+                            {imageErrors.length > 0 && (
+                                <div
+                                    role="alert"
+                                    className="flex flex-wrap gap-2 text-sm text-red-600"
+                                >
+                                    {imageErrors.map((err, i) => (
+                                        <span key={i}>{err}</span>
+                                    ))}
+                                    <button
+                                        type="button"
+                                        onClick={clearImageErrors}
+                                        className="text-red-500 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 rounded cursor-pointer"
+                                    >
+                                        {tCommon("close")}
+                                    </button>
+                                </div>
+                            )}
+                        </motion.div>
+
+                        {/* Mood Selector */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.7 }}
+                        >
+                            <label className="block text-sm font-medium text-[var(--text-secondary)] mb-3">
+                                {t("mood")}
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {moodOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        type="button"
+                                        onClick={() => setMood(mood === option.value ? "" : option.value)}
+                                        className={`flex items-center gap-2 px-4 py-3 min-h-[44px] rounded-xl border-2 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 ${mood === option.value
+                                            ? `border-transparent bg-gradient-to-r ${option.color} text-white shadow-md`
+                                            : "border-[var(--bg-warm)] bg-white hover:border-[var(--primary-terracotta)]/30 text-[var(--text-secondary)]"
+                                            }`}
+                                    >
+                                        <span className="text-lg">{option.emoji}</span>
+                                        <span className="text-sm font-medium">{t(`mood${option.value.charAt(0).toUpperCase() + option.value.slice(1)}`)}</span>
+                                    </button>
+                                ))}
                             </div>
                         </motion.div>
-                    )}
-                </AnimatePresence>
-            </form>
-        </motion.div>
+
+                        {/* Submit Button */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8 }}
+                            className="pt-4 space-y-4"
+                        >
+                            {(content.trim().length > 0 && audioBlob !== null) && (
+                                <div className="text-sm text-[var(--primary-terracotta)] bg-[var(--primary-terracotta)]/10 px-4 py-3 rounded-xl flex items-center justify-center text-center">
+                                    {t("bothMediaNotice")}
+                                </div>
+                            )}
+                            <button
+                                type="submit"
+                                disabled={loading || !hasContent}
+                                className="group relative w-full sm:w-auto px-8 py-4 min-h-[44px] rounded-sm bg-[var(--primary-terracotta)] hover:bg-[var(--primary-clay)] text-white font-medium text-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-terracotta)] focus-visible:ring-offset-2 cursor-pointer"
+                            >
+                                <span className="relative">
+                                    {loading ? t("savingMemory") : t("saveMemory")}
+                                </span>
+                            </button>
+                        </motion.div>
+                    </form>
+                </motion.div>
+            ) : (
+                <motion.div
+                    key="success-message"
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex flex-col items-center justify-center min-h-[40vh] space-y-6 text-center"
+                >
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 15,
+                            delay: 0.2
+                        }}
+                        className={`w-20 h-20 rounded-full flex items-center justify-center text-white shadow-xl ${imageUploadError ? "bg-amber-500 shadow-amber-200" : "bg-[var(--primary-terracotta)] shadow-[var(--primary-terracotta)]/20"}`}
+                    >
+                        <CheckCircle2 className="w-10 h-10" />
+                    </motion.div>
+
+                    <div className="space-y-2">
+                        <motion.h3
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className={`text-2xl font-serif ${imageUploadError ? "text-amber-800" : "text-[var(--text-primary)]"}`}
+                        >
+                            {t("memorySaved").split(".")[0]}
+                        </motion.h3>
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4, duration: 0.5 }}
+                            className={`text-base ${imageUploadError ? "text-amber-600/80" : "text-[var(--text-secondary)]"}`}
+                        >
+                            {imageUploadError ?? t("memorySavedSubtext")}
+                        </motion.p>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 }
