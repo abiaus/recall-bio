@@ -12,6 +12,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -112,9 +113,34 @@ export default function SignupPage() {
             />
           </div>
 
+          <div className="flex items-start gap-3 pt-2">
+            <input
+              id="terms"
+              type="checkbox"
+              required
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-[#D4C5B0] text-[#8B7355] focus:ring-[#8B7355]"
+            />
+            <label htmlFor="terms" className="text-sm text-[#5A4A3A]">
+              {t.rich("termsAcceptance", {
+                terms: (chunks) => (
+                  <Link href="/terms" target="_blank" className="font-medium text-[#8B7355] hover:underline">
+                    {chunks}
+                  </Link>
+                ),
+                privacy: (chunks) => (
+                  <Link href="/privacy" target="_blank" className="font-medium text-[#8B7355] hover:underline">
+                    {chunks}
+                  </Link>
+                ),
+              })}
+            </label>
+          </div>
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !acceptedTerms}
             className="w-full py-3 rounded-lg bg-[#8B7355] text-white font-medium hover:bg-[#7A6345] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? t("creatingAccount") : t("signup")}

@@ -67,7 +67,8 @@
         "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
         "continueWithGoogle": "Continuar con Google",
         "or": "o",
-        "signingInWithGoogle": "Iniciando sesión con Google..."
+        "signingInWithGoogle": "Iniciando sesión con Google...",
+        "termsAcceptance": "Acepto los <terms>Términos de Servicio</terms> y la <privacy>Política de Privacidad</privacy>"
     },
     "onboarding": {
         "title": "Bienvenido a Recall",
