@@ -23,7 +23,9 @@
         "today": "Today",
         "memories": "Memories",
         "legacy": "Legacy",
-        "settings": "Settings"
+        "settings": "Settings",
+        "streakActive": "Daily goal completed!",
+        "streakPending": "Answer today's question to extend your streak"
     },
     "auth": {
         "login": "Sign In",
@@ -223,7 +225,7 @@
             "stackSmellQuestion": "What is a smell that brings you peace?",
             "stackAdviceQuestion": "What advice would you give your younger self?",
             "stackAdviceAnswer": "Take the photos even if you feel awkward. Write down the recipes your grandmother cooks by heart. The small, quiet moments you think you'll remember forever are precisely the ones that fade first. Don't rush so much.",
-            "stackDate": "May 14, 2024",
+            "stackDate": "FEBRUARY 14, 2026",
             "stackToday": "Today",
             "stackTextEntry": "Text Entry"
         },
@@ -252,6 +254,23 @@
             "feature4": {
                 "title": "Complete Privacy",
                 "description": "Your memories are encrypted and only you control who has access."
+            },
+            "mockups": {
+                "dailyQuestion": {
+                    "date": "FEBRUARY 14, 2026",
+                    "question": "\"What is a smell that brings you peace?\"",
+                    "placeholder": "Start typing..."
+                },
+                "audio": {
+                    "status": "Recording Memory..."
+                },
+                "legacy": {
+                    "badge": "Shared Legacy",
+                    "title": "For my daughter, Sofia"
+                },
+                "privacy": {
+                    "badge": "Your memories are under lock and key"
+                }
             }
         },
         "howItWorks": {
@@ -296,9 +315,9 @@
             "q1": "What about my privacy?",
             "a1": "Your privacy is our priority. All data is encrypted and only you control who has access to your memories.",
             "q2": "Can I export my data?",
-            "a2": "Export functionality is coming soon! You'll be able to export all your memories in JSON or PDF format.",
+            "a2": "You can export all your memories in JSON or PDF format, including your audio files. At Anytime",
             "q3": "What if I forget to answer one day?",
-            "a3": "No problem. You can answer previous questions at any time or simply continue with today's question.",
+            "a3": "No problem. You can continue with today's question.",
             "q4": "How do I share my legacy?",
             "a4": "You can designate one or more trusted people at any time. You can activate access immediately or schedule it for the future.",
             "q5": "How much does it cost?",
@@ -394,6 +413,96 @@
         "startLegacyTitle": "Start preserving your legacy",
         "startLegacySubtitle": "Join Recall.bio and start your emotional archive today with your first daily question.",
         "startFree": "Start for free"
+    },
+    "footer": {
+        "description": "Preserve your story, one day at a time. The emotional archive for you and the people you choose.",
+        "product": "Product",
+        "home": "Home",
+        "blog": "Blog",
+        "legal": "Legal",
+        "terms": "Terms of Service",
+        "privacy": "Privacy Policy",
+        "contact": "Contact",
+        "contactEmail": "hello@recall.bio",
+        "copyright": "© {year} Recall.bio. All rights reserved."
+    },
+    "terms": {
+        "title": "Terms of Service",
+        "lastUpdated": "Last Updated: March 8, 2026",
+        "description": "Please read these Terms of Service carefully before using Recall.bio.",
+        "acceptance": {
+            "title": "1. Acceptance of Terms",
+            "content": "By accessing or using Recall.bio (the \"Service\"), you agree to be bound by these Terms. If you disagree with any part of the terms, you do not have permission to access the Service."
+        },
+        "description_service": {
+            "title": "2. Description of Service",
+            "content": "Recall.bio is a digital platform that allows users to answer daily prompts, record audio or text life updates, and save them securely as a digital legacy. We provide tools to designate heirs who can access this archive in the future."
+        },
+        "obligations": {
+            "title": "3. User Obligations",
+            "content": "You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password. You agree not to disclose your password to any third party. You must notify us immediately upon becoming aware of any breach of security or unauthorized use of your account."
+        },
+        "content_ownership": {
+            "title": "4. Your Content and Privacy",
+            "content": "You retain all rights and ownership to the thoughts, memories, audio recordings, and text you submit to Recall.bio. We do not claim ownership over your data. We only use your data to provide the Service as described in our Privacy Policy. All user content is encrypted to ensure privacy."
+        },
+        "intellectual_property": {
+            "title": "5. Intellectual Property",
+            "content": "The Service and its original content, features, and functionality (excluding user-provided memories) are and will remain the exclusive property of Recall.bio and its licensors."
+        },
+        "liability": {
+            "title": "6. Limitation of Liability",
+            "content": "In no event shall Recall.bio be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service."
+        },
+        "termination": {
+            "title": "7. Termination",
+            "content": "We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the Service will immediately cease."
+        },
+        "changes": {
+            "title": "8. Changes to Terms",
+            "content": "We reserve the right to modify or replace these Terms at any time. We will provide notice of any significant changes. By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms."
+        },
+        "contact": {
+            "title": "9. Contact Us",
+            "content": "If you have any questions about these Terms, please contact us at {contactEmail}."
+        }
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "lastUpdated": "Last Updated: March 8, 2026",
+        "description": "At Recall.bio, your privacy is our priority. We are committed to protecting your personal data and ensuring your memories remain secure.",
+        "collect": {
+            "title": "1. Information We Collect",
+            "content": "We collect information you provide directly to us when you create an account (name, email), answer daily prompts (text, audio, images), update your profile, and designate legacy heirs (their names and emails). We also automatically collect some usage data and device information when you access our service."
+        },
+        "use": {
+            "title": "2. How We Use Your Information",
+            "content": "We use your information to provide, maintain, and improve our Service. This includes saving your memories, processing audio transcriptions, authenticating your account, and sending legacy invitations to your designated heirs when you choose to do so."
+        },
+        "storage": {
+            "title": "3. Data Storage and Security",
+            "content": "Your memories are encrypted at rest and in transit. We use industry-standard security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. You are the only one who controls who has access to your legacy."
+        },
+        "retention": {
+            "title": "4. Data Retention",
+            "content": "We keep your personal information and memories for as long as your account is active. If you choose to delete your account, or specific memories, they will be permanently removed from our active databases, though some data may remain in secure backups for a limited time."
+        },
+        "third_parties": {
+            "title": "5. Third-Party Services",
+            "content": "We do not sell your personal data. We may share information with trusted third-party service providers (such as hosting or database providers like Supabase, or AI transcription services) strictly for the purpose of operating our Service. These providers are bound by strict confidentiality agreements."
+        },
+        "cookies": {
+            "title": "6. Cookies and Tracking",
+            "content": "We use cookies and similar tracking technologies to track activity on our Service and hold certain information, primarily to keep you logged in and understand how users interact with our platform to improve the experience."
+        },
+        "rights": {
+            "title": "7. Your Rights",
+            "content": "You have the right to access, update, or delete your personal information and memories at any time through your account settings. You can also request a full export of your data. If you wish to exercise these rights and need assistance, please contact us."
+        },
+        "contact": {
+            "title": "8. Contact Us",
+            "content": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at {contactEmail}."
+        }
     },
     "notFound": {
         "title": "Lost Memory",

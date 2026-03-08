@@ -357,6 +357,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
 
             // Delay redirect to allow user to see the success message
             setTimeout(() => {
+                router.refresh();
                 router.push(`/app/memories`);
             }, 2000);
         } catch (err) {

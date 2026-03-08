@@ -23,7 +23,9 @@
         "today": "Hoy",
         "memories": "Recuerdos",
         "legacy": "Legado",
-        "settings": "Configuración"
+        "settings": "Configuración",
+        "streakActive": "¡Objetivo diario completado!",
+        "streakPending": "Responde la pregunta de hoy para mantener tu racha"
     },
     "auth": {
         "login": "Iniciar Sesión",
@@ -220,10 +222,10 @@
             "getStarted": "Comenzar Gratis",
             "signIn": "Iniciar Sesión",
             "trustedBy": "Confianza de miles de personas",
-            "stackSmellQuestion": "¿Cuál es un olor que te da paz?",
+            "stackSmellQuestion": "¿Qué aroma te da paz?",
             "stackAdviceQuestion": "¿Qué consejo le darías a tu yo más joven?",
             "stackAdviceAnswer": "Saca las fotos por más que te sientas incómodo. Anotá las recetas que tu abuela sabe de memoria. Los pequeños y silenciosos momentos que creés que vas a recordar siempre son precisamente los primeros en desaparecer. No te apures tanto.",
-            "stackDate": "14 de mayo, 2024",
+            "stackDate": "14 de febrero, 2026",
             "stackToday": "Hoy",
             "stackTextEntry": "Entrada de Texto"
         },
@@ -239,7 +241,7 @@
             "description": "Recall.bio te ayuda a documentar tu vida de manera simple y significativa. Cada día, responde una pregunta reflexiva y construye un archivo emocional que vos y las personas que elijas atesorarán para siempre.",
             "feature1": {
                 "title": "Preguntas Diarias",
-                "description": "Recibe una pregunta única cada día diseñada para inspirar reflexión y conexión contigo mismo."
+                "description": "Recibe una pregunta cada día diseñada para inspirar reflexión y conexión contigo mismo."
             },
             "feature2": {
                 "title": "Audio y Texto",
@@ -252,6 +254,23 @@
             "feature4": {
                 "title": "Privacidad Total",
                 "description": "Tus recuerdos están encriptados y solo vos controlás quién tiene acceso."
+            },
+            "mockups": {
+                "dailyQuestion": {
+                    "date": "14 DE FEBRERO, 2026",
+                    "question": "\"¿Qué aroma te recuerda a tu niñez?\"",
+                    "placeholder": "Empieza a escribir..."
+                },
+                "audio": {
+                    "status": "Grabando Recuerdo..."
+                },
+                "legacy": {
+                    "badge": "Legado Compartido",
+                    "title": "Para mi hija, Sofía"
+                },
+                "privacy": {
+                    "badge": "Memorias bajo llave"
+                }
             }
         },
         "howItWorks": {
@@ -296,9 +315,9 @@
             "q1": "¿Qué pasa con mi privacidad?",
             "a1": "Tu privacidad es nuestra prioridad. Todos los datos están encriptados y solo vos controlás quién tiene acceso a tus recuerdos.",
             "q2": "¿Puedo exportar mis datos?",
-            "a2": "¡La funcionalidad de exportación estará disponible próximamente! Podrás exportar todos tus recuerdos en formato JSON o PDF.",
+            "a2": "Podés exportar todos tus recuerdos en formato JSON o PDF. Cuando tú quieras.",
             "q3": "¿Qué pasa si olvido responder un día?",
-            "a3": "No hay problema. Podés responder preguntas anteriores en cualquier momento o simplemente continuar con la pregunta del día actual.",
+            "a3": "No hay problema. Podés continuar con la pregunta del día actual.",
             "q4": "¿Cómo comparto mi legado?",
             "a4": "Podés designar una o más personas de confianza en cualquier momento. Podés activar el acceso inmediatamente o programarlo para el futuro.",
             "q5": "¿Cuánto cuesta?",
@@ -308,7 +327,7 @@
             "title": "Comienza a Documentar Tu Vida Hoy",
             "subtitle": "Únete a miles de personas que están preservando sus historias, reflexionando sobre su vida y construyendo su legado.",
             "getStarted": "Comenzar Gratis",
-            "noCreditCard": "Sin tarjeta de crédito requerida"
+            "noCreditCard": "No necesitas tarjeta de crédito"
         }
     },
     "settings": {
@@ -394,6 +413,96 @@
         "startLegacyTitle": "Empieza a preservar tu legado",
         "startLegacySubtitle": "Únete a Recall.bio y comienza tu archivo emocional hoy mismo con tu primera pregunta diaria.",
         "startFree": "Comenzar gratis"
+    },
+    "footer": {
+        "description": "Preserva tu historia, un día a la vez. El archivo emocional para vos y las personas que elijas.",
+        "product": "Producto",
+        "home": "Inicio",
+        "blog": "Blog",
+        "legal": "Legal",
+        "terms": "Términos de Servicio",
+        "privacy": "Política de Privacidad",
+        "contact": "Contacto",
+        "contactEmail": "hello@recall.bio",
+        "copyright": "© {year} Recall.bio. Todos los derechos reservados."
+    },
+    "terms": {
+        "title": "Términos de Servicio",
+        "lastUpdated": "Última actualización: 8 de marzo, 2026",
+        "description": "Por favor, lee estos Términos de Servicio cuidadosamente antes de usar Recall.bio.",
+        "acceptance": {
+            "title": "1. Aceptación de los Términos",
+            "content": "Al acceder o usar Recall.bio (el \"Servicio\"), aceptas estar sujeto a estos Términos. Si no estás de acuerdo con alguna parte de los términos, no tienes permiso para acceder al Servicio."
+        },
+        "description_service": {
+            "title": "2. Descripción del Servicio",
+            "content": "Recall.bio es una plataforma digital que permite a los usuarios responder a preguntas diarias, grabar audios o textos sobre su vida, y guardarlos de forma segura como un legado digital. Brindamos herramientas para designar herederos que puedan acceder a este archivo en el futuro."
+        },
+        "obligations": {
+            "title": "3. Obligaciones del Usuario",
+            "content": "Eres responsable de salvaguardar la contraseña que utilizas para acceder al Servicio y de cualquier actividad o acción bajo tu contraseña. Aceptas no revelar tu contraseña a terceros. Debes notificarnos inmediatamente si tienes conocimiento de cualquier brecha de seguridad o uso no autorizado de tu cuenta."
+        },
+        "content_ownership": {
+            "title": "4. Tu Contenido y Privacidad",
+            "content": "Conservas todos los derechos y la propiedad de los pensamientos, recuerdos, grabaciones de audio y textos que envías a Recall.bio. No reclamamos la propiedad sobre tus datos. Solo utilizamos tus datos para proporcionar el Servicio tal como se describe en nuestra Política de Privacidad. Todo el contenido del usuario está encriptado para garantizar su privacidad."
+        },
+        "intellectual_property": {
+            "title": "5. Propiedad Intelectual",
+            "content": "El Servicio y su contenido original, características y funcionalidad (excluyendo los recuerdos proporcionados por los usuarios) son y seguirán siendo propiedad exclusiva de Recall.bio y sus licenciantes."
+        },
+        "liability": {
+            "title": "6. Limitación de Responsabilidad",
+            "content": "En ningún caso Recall.bio será responsable de ningún daño indirecto, incidental, especial, consecuente o punitivo, incluyendo sin limitación, pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles, resultantes de tu acceso, uso o incapacidad para acceder o usar el Servicio."
+        },
+        "termination": {
+            "title": "7. Terminación",
+            "content": "Podemos terminar o suspender tu cuenta inmediatamente, sin previo aviso o responsabilidad, por cualquier motivo, incluyendo sin limitación si incumples los Términos. Tras la terminación, tu derecho a utilizar el Servicio cesará inmediatamente."
+        },
+        "changes": {
+            "title": "8. Cambios a los Términos",
+            "content": "Nos reservamos el derecho de modificar o reemplazar estos Términos en cualquier momento. Notificaremos sobre cambios significativos. Al continuar accediendo o utilizando nuestro Servicio después de que esas revisiones entren en vigor, aceptas estar sujeto a los términos revisados."
+        },
+        "contact": {
+            "title": "9. Contáctanos",
+            "content": "Si tienes alguna pregunta sobre estos Términos, por favor contáctanos en {contactEmail}."
+        }
+    },
+    "privacy": {
+        "title": "Política de Privacidad",
+        "lastUpdated": "Última actualización: 8 de marzo, 2026",
+        "description": "En Recall.bio, tu privacidad es nuestra prioridad. Estamos comprometidos a proteger tus datos personales y asegurar que tus recuerdos permanezcan seguros.",
+        "collect": {
+            "title": "1. Información que Recopilamos",
+            "content": "Recopilamos información que nos proporcionas directamente al crear una cuenta (nombre, email), responder preguntas diarias (texto, audio, imágenes), actualizar tu perfil y designar herederos de tu legado (sus nombres y emails). También recopilamos automáticamente algunos datos de uso e información del dispositivo al acceder a nuestro servicio."
+        },
+        "use": {
+            "title": "2. Cómo Usamos tu Información",
+            "content": "Usamos tu información para proporcionar, mantener y mejorar nuestro Servicio. Esto incluye guardar tus recuerdos, procesar transcripciones de audio, autenticar tu cuenta y enviar invitaciones a tus herederos designados cuando decidas hacerlo."
+        },
+        "storage": {
+            "title": "3. Almacenamiento y Seguridad de Datos",
+            "content": "Tus recuerdos están encriptados en reposo y en tránsito. Usamos medidas de seguridad estándar de la industria para proteger tu información personal contra acceso, alteración, divulgación o destrucción no autorizados. Eres el único que controla quién tiene acceso a tu legado."
+        },
+        "retention": {
+            "title": "4. Retención de Datos",
+            "content": "Conservamos tu información personal y recuerdos mientras tu cuenta esté activa. Si decides eliminar tu cuenta o recuerdos específicos, se eliminarán permanentemente de nuestras bases de datos activas, aunque algunos datos pueden permanecer en copias de seguridad seguras por tiempo limitado."
+        },
+        "third_parties": {
+            "title": "5. Servicios de Terceros",
+            "content": "No vendemos tus datos personales. Podemos compartir información con proveedores de servicios de terceros de confianza (como proveedores de alojamiento o bases de datos como Supabase, o servicios de transcripción de IA) estrictamente con el propósito de operar nuestro Servicio. Estos proveedores están obligados por estrictos acuerdos de confidencialidad."
+        },
+        "cookies": {
+            "title": "6. Cookies y Seguimiento",
+            "content": "Usamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro Servicio y mantener cierta información, principalmente para mantenerte conectado y entender cómo los usuarios interactúan con nuestra plataforma para mejorar la experiencia."
+        },
+        "rights": {
+            "title": "7. Tus Derechos",
+            "content": "Tienes derecho a acceder, actualizar o eliminar tu información personal y recuerdos en cualquier momento a través de la configuración de tu cuenta. También puedes solicitar una exportación completa de tus datos. Si deseas ejercer estos derechos y necesitas ayuda, por favor contáctanos."
+        },
+        "contact": {
+            "title": "8. Contáctanos",
+            "content": "Si tienes alguna pregunta o inquietud sobre esta Política de Privacidad o nuestras prácticas de datos, por favor contáctanos en {contactEmail}."
+        }
     },
     "notFound": {
         "title": "Recuerdo Perdido",

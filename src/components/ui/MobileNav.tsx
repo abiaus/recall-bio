@@ -7,6 +7,9 @@ import { AnimatedNavLink } from "./AnimatedNavLink";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { itemVariants } from "./animations";
 
+import { StreakInfo } from "@/lib/streak";
+import { StreakDisplay } from "./StreakDisplay";
+
 interface NavItem {
   href: string;
   label: string;
@@ -14,9 +17,10 @@ interface NavItem {
 
 interface MobileNavProps {
   navItems: NavItem[];
+  streak?: StreakInfo;
 }
 
-export function MobileNav({ navItems }: MobileNavProps) {
+export function MobileNav({ navItems, streak }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Prevenir scroll del body cuando el drawer está abierto
@@ -111,7 +115,12 @@ export function MobileNav({ navItems }: MobileNavProps) {
                       className="space-y-3"
                     >
 
-                      <LanguageSwitcher />
+                      <div className="flex items-center gap-4 border-b border-[#D4C5B0]/30 pb-4 mb-2">
+                        {streak && (
+                          <StreakDisplay count={streak.count} isActiveToday={streak.isActiveToday} />
+                        )}
+                        <LanguageSwitcher />
+                      </div>
                     </motion.div>
                   </div>
                 </nav>

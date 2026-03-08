@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/marketing/HeroSection";
+import { Footer } from "@/components/marketing/Footer";
 
 const ProblemSection = dynamic(() => import("@/components/marketing/ProblemSection").then(mod => mod.ProblemSection));
 const SolutionSection = dynamic(() => import("@/components/marketing/SolutionSection").then(mod => mod.SolutionSection));
@@ -18,6 +19,7 @@ export default function HomePage() {
             <TestimonialsSection />
             <FAQSection />
             <CTASection />
+            <Footer />
         </main>
     );
 }

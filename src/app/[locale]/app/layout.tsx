@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { AppHeader } from "@/components/ui/AppHeader";
 import { PageWrapper } from "@/components/ui/PageWrapper";
 import { BlobBackground } from "@/components/ui/BlobBackground";
+import { calculateEffectiveStreak } from "@/lib/streak";
 
 export default async function AppLayout({
   children,
@@ -24,6 +25,18 @@ export default async function AppLayout({
     redirect(`/${locale}/auth/login`);
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("current_streak, last_activity_date, timezone")
+    .eq("id", user.id)
+    .single();
+
+  const streakInfo = calculateEffectiveStreak(
+    profile?.current_streak || 0,
+    profile?.last_activity_date,
+    profile?.timezone
+  );
+
   return (
     <div className="min-h-dvh relative overflow-hidden" style={{ background: "var(--bg-cream)" }}>
       <BlobBackground count={3} />
@@ -36,6 +49,7 @@ export default async function AppLayout({
             { href: "/app/legacy", label: t("legacy") },
             { href: "/app/settings", label: t("settings") },
           ]}
+          streak={streakInfo}
         />
 
         <PageWrapper>

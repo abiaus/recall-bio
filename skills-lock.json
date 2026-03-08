@@ -56,6 +56,11 @@
       "sourceType": "github",
       "computedHash": "d3f5281a0299aa4808bbfd4afbfac0e28ff38fb0006c5cde9c4630f372573921"
     },
+    "gamification-loops": {
+      "source": "omer-metin/skills-for-antigravity",
+      "sourceType": "github",
+      "computedHash": "5c6d90890a2bb618ded9387244dd9d146c2d9f56933208875942038601d489b6"
+    },
     "harden": {
       "source": "pbakaus/impeccable",
       "sourceType": "github",
@@ -81,6 +86,11 @@
       "sourceType": "github",
       "computedHash": "3e101ab23d322abd2de3b8a783009e034f85b46d4b86c36e58389f8670edac21"
     },
+    "privacy-page-generator": {
+      "source": "kostja94/marketing-skills",
+      "sourceType": "github",
+      "computedHash": "716fba18bb3afe467c93af7fe6ee257a59342e6e084808615d30ae82b4252d1e"
+    },
     "quieter": {
       "source": "pbakaus/impeccable",
       "sourceType": "github",
@@ -90,6 +100,11 @@
       "source": "pbakaus/impeccable",
       "sourceType": "github",
       "computedHash": "5921e7a8c215a14b3adec87675fa608acb578c6782b99a47b02b2742e554f51a"
+    },
+    "terms-page-generator": {
+      "source": "kostja94/marketing-skills",
+      "sourceType": "github",
+      "computedHash": "56a9c83e29d5971356d697b60c462e9f41e769da5c7cff9bfbe9965a31e12172"
     }
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function FAQSection() {
   const t = useTranslations("marketing.faq");
@@ -29,41 +30,55 @@ export function FAQSection() {
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-24 md:py-32 px-4 bg-[#F9F7F4]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="max-w-4xl mx-auto">
-        <h2 className="font-serif text-4xl md:text-5xl font-bold text-[#2B241B] text-center mb-16">
-          {t("title")}
-        </h2>
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={faq.q}
-              className="border border-[#D4C5B0]/30 rounded-lg overflow-hidden bg-[#F6F1E7]/30"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-[#F6F1E7]/50 transition-colors"
-              >
-                <span className="font-semibold text-[#2B241B] pr-4">
-                  {t(faq.q)}
-                </span>
-                <span className="text-[#8B7355] text-xl flex-shrink-0">
-                  {openIndex === index ? "−" : "+"}
-                </span>
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-4">
-                  <p className="text-[#5A4A3A] leading-relaxed">{t(faq.a)}</p>
+       <div className="max-w-3xl mx-auto">
+          <motion.h2 
+             className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-[#2B241B] mb-16 leading-[1.1] tracking-tight"
+          >
+            {t("title")}
+          </motion.h2>
+          <div className="space-y-0 border-t border-[#D4C5B0]/50">
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div key={faq.q} className="border-b border-[#D4C5B0]/50 overflow-hidden">
+                   <button
+                     onClick={() => setOpenIndex(isOpen ? null : index)}
+                     className="w-full py-8 text-left flex items-start justify-between hover:text-[var(--primary-terracotta)] transition-colors group"
+                   >
+                     <span className="font-serif text-xl md:text-2xl text-[#2B241B] pr-8 group-hover:text-[var(--primary-terracotta)] transition-colors">
+                       {t(faq.q)}
+                     </span>
+                     <motion.span 
+                       animate={{ rotate: isOpen ? 45 : 0 }}
+                       className="text-[#8B7355] text-3xl font-light mt-[-4px]"
+                     >
+                       +
+                     </motion.span>
+                   </button>
+                   <AnimatePresence>
+                     {isOpen && (
+                       <motion.div 
+                         initial={{ height: 0, opacity: 0 }}
+                         animate={{ height: "auto", opacity: 1 }}
+                         exit={{ height: 0, opacity: 0 }}
+                         transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                       >
+                         <div className="pb-8 pr-12">
+                           <p className="text-lg text-[#5A4A3A] leading-relaxed font-sans">{t(faq.a)}</p>
+                         </div>
+                       </motion.div>
+                     )}
+                   </AnimatePresence>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
+              );
+            })}
+          </div>
+       </div>
     </section>
   );
 }
