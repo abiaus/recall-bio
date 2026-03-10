@@ -525,8 +525,8 @@
                 "price": "$0",
                 "description": "Start preserving your memories today.",
                 "features": [
-                    "2 memory entries per week",
-                    "1 minute audio recording limit",
+                    "1 memory per day",
+                    "2 minute audio recording limit",
                     "Standard text formatting",
                     "Basic photo uploads"
                 ],
@@ -542,7 +542,7 @@
                     "Advanced AI transcription & narrative editing",
                     "Unlimited photos & gallery",
                     "Invite family members to collaborate",
-                    "High-quality digital export (PDF/EPUB)"
+                    "High-quality digital export (PDF/EPUB)(coming soon)"
                 ],
                 "buttonText": "Upgrade to Premium"
             },

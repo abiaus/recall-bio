@@ -525,8 +525,8 @@
                 "price": "$0",
                 "description": "Comienza a preservar tus recuerdos hoy mismo.",
                 "features": [
-                    "2 recuerdos por semana",
-                    "Límite de audio de 1 minuto",
+                    "1 recuerdo cada día",
+                    "Límite de audio de 2 minutos",
                     "Formato de texto estándar",
                     "Subida de fotos básica"
                 ],
@@ -542,7 +542,7 @@
                     "Transcripción avanzada y edición narrativa con IA",
                     "Fotos y galería ilimitadas",
                     "Invita a familiares a colaborar",
-                    "Exportación digital de alta calidad (PDF/EPUB)"
+                    "Exportación digital de alta calidad (PDF/EPUB)(próximamente)"
                 ],
                 "buttonText": "Actualizar a Premium"
             },
