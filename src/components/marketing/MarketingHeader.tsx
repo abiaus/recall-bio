@@ -52,6 +52,9 @@ export function MarketingHeader() {
                 <AnimatedLogoLanding />
             </Link>
             <div className="static md:absolute md:right-4 lg:right-8 md:top-8 flex items-center gap-4 sm:gap-6">
+                <Link href="/pricing" className="text-sm font-medium text-[var(--primary-terracotta)] hover:text-[var(--primary-clay)] transition-colors">
+                    {t("pricing")}
+                </Link>
                 <Link href="/blog" className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-terracotta)] transition-colors">
                     Blog
                 </Link>

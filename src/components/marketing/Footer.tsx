@@ -30,6 +30,9 @@ export function Footer() {
                         <Link href="/" className="text-[var(--text-secondary)] hover:text-[var(--primary-terracotta)] text-sm transition-colors">
                             {t("home")}
                         </Link>
+                        <Link href="/pricing" className="text-[var(--text-secondary)] hover:text-[var(--primary-terracotta)] text-sm transition-colors">
+                            {t("pricing")}
+                        </Link>
                         <Link href="/blog" className="text-[var(--text-secondary)] hover:text-[var(--primary-terracotta)] text-sm transition-colors">
                             {t("blog")}
                         </Link>

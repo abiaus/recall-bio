@@ -8,7 +8,8 @@ import { Accordion } from "@/components/ui/Accordion";
 import { ProfileSettingsForm } from "./ProfileSettingsForm";
 import { PasswordSettingsForm } from "./PasswordSettingsForm";
 import { LogoutSection } from "./LogoutSection";
-import { User, Lock, LogOut, Loader2 } from "lucide-react";
+import { SubscriptionSettings } from "./SubscriptionSettings";
+import { User, Lock, LogOut, Loader2, CreditCard } from "lucide-react";
 import { containerVariants, itemVariants } from "@/components/ui/animations";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 
@@ -16,6 +17,7 @@ export function SettingsContent() {
   const t = useTranslations("nav");
   const tSettings = useTranslations("settings.profile");
   const tTranscription = useTranslations("settings.transcription");
+  const tSubscription = useTranslations("settings.subscription");
   const tAccount = useTranslations("settings.account");
   const tSession = useTranslations("settings.session");
   const [profile, setProfile] = useState<{
@@ -180,6 +182,16 @@ export function SettingsContent() {
                     })}
               </p>
             </div>
+          </Accordion>
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <Accordion
+            title={tSubscription("title")}
+            subtitle={tSubscription("subtitle")}
+            icon={<CreditCard className="w-5 h-5" />}
+          >
+            <SubscriptionSettings plan={profile.plan} />
           </Accordion>
         </motion.div>
 

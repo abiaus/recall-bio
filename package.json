@@ -12,6 +12,7 @@
     "import:questions:no-translation": "tsx scripts/importQuestions.ts --skip-translation"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^8.9.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.97.0",
     "@tailwindcss/typography": "^0.5.19",
@@ -29,6 +30,7 @@
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "resend": "^6.9.1",
+    "stripe": "^20.4.1",
     "tailwind-merge": "^3.4.0",
     "yet-another-react-lightbox": "^3.28.0"
   },

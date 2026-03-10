@@ -384,6 +384,15 @@
             "subtitle": "Manage your current session",
             "logout": "Sign out",
             "logoutDescription": "You will be signed out and redirected to the login page"
+        },
+        "subscription": {
+            "title": "Subscription & Billing",
+            "subtitle": "Manage your Recall premium plan features",
+            "subscriptionPlan": "Subscription Plan",
+            "currentPlan": "Current Plan:",
+            "manageSubscription": "Manage Subscription",
+            "upgradeToPremium": "Upgrade to Premium",
+            "redirecting": "Redirecting..."
         }
     },
     "email": {
@@ -413,7 +422,8 @@
         "backToBlog": "Back to blog",
         "startLegacyTitle": "Start preserving your legacy",
         "startLegacySubtitle": "Join Recall.bio and start your emotional archive today with your first daily question.",
-        "startFree": "Start for free"
+        "startFree": "Start for free",
+        "pricing": "Pricing"
     },
     "footer": {
         "description": "Preserve your story, one day at a time. The emotional archive for you and the people you choose.",
@@ -423,6 +433,7 @@
         "legal": "Legal",
         "terms": "Terms of Service",
         "privacy": "Privacy Policy",
+        "pricing": "Pricing",
         "contact": "Contact",
         "contactEmail": "hello@recall.bio",
         "copyright": "© {year} Recall.bio. All rights reserved."
@@ -504,6 +515,53 @@
             "title": "8. Contact Us",
             "content": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at {contactEmail}."
         }
+    },
+    "pricingPage": {
+        "title": "Preserve Your Legacy",
+        "subtitle": "Choose the plan that fits your storytelling journey. Start for free, upgrade to unlock AI magic, and eventually print your story.",
+        "tiers": {
+            "free": {
+                "name": "Free",
+                "price": "$0",
+                "description": "Start preserving your memories today.",
+                "features": [
+                    "2 memory entries per week",
+                    "1 minute audio recording limit",
+                    "Standard text formatting",
+                    "Basic photo uploads"
+                ],
+                "buttonText": "Current Plan"
+            },
+            "premium": {
+                "name": "Recall Premium",
+                "price": "$6.99/mo",
+                "description": "Unlock the full storytelling experience with AI.",
+                "features": [
+                    "Unlimited memory entries",
+                    "Unlimited audio recording length",
+                    "Advanced AI transcription & narrative editing",
+                    "Unlimited photos & gallery",
+                    "Invite family members to collaborate",
+                    "High-quality digital export (PDF/EPUB)"
+                ],
+                "buttonText": "Upgrade to Premium"
+            },
+            "book": {
+                "name": "The Physical Book",
+                "price": "from $49",
+                "description": "Your legacy, printed in a beautiful hardcover book.",
+                "features": [
+                    "Premium hardcover printing",
+                    "Full-color pages",
+                    "Custom layout & design",
+                    "Great gift for family members",
+                    "Delivered to your door"
+                ],
+                "buttonText": "Coming Soon"
+            }
+        },
+        "mostPopular": "Most Popular",
+        "redirecting": "Redirecting..."
     },
     "notFound": {
         "title": "Lost Memory",

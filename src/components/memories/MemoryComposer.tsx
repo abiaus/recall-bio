@@ -62,6 +62,30 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
     const [imageErrors, setImageErrors] = useState<string[]>([]);
     const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
+    const [audioLimit, setAudioLimit] = useState<number | null>(null);
+    const [maxImagesLimit, setMaxImagesLimit] = useState<number>(MAX_IMAGES);
+
+    useEffect(() => {
+        const fetchPlanLimits = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data } = await supabase.from("profiles").select("plan").eq("id", user.id).maybeSingle();
+                if (data?.plan === "free") {
+                    setAudioLimit(60); // 1 minute free limit
+                    setMaxImagesLimit(1); // 1 photo max free limit
+                }
+            }
+        };
+        fetchPlanLimits();
+    }, [supabase]);
+
+    useEffect(() => {
+        if (audioLimit && duration >= audioLimit && isRecording) {
+            stopRecording();
+            alert("Maximum 1-minute audio recording reached for the Free plan. Upgrade to Premium for unlimited recordings.");
+        }
+    }, [duration, audioLimit, isRecording]);
+
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
     const streamRef = useRef<MediaStream | null>(null);
@@ -186,8 +210,8 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            if (imageFiles.length + newFiles.length >= MAX_IMAGES) {
-                newErrors.push(t("imageCountExceeded"));
+            if (imageFiles.length + newFiles.length >= maxImagesLimit) {
+                newErrors.push(`${t("imageCountExceeded")} (Limit: ${maxImagesLimit})`);
                 break;
             }
             if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
@@ -207,8 +231,8 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
             addedBytes += file.size;
         }
         setImageErrors((prev) => [...prev, ...newErrors].slice(-5));
-        setImageFiles((prev) => [...prev, ...newFiles].slice(0, MAX_IMAGES));
-        setImagePreviews((prev) => [...prev, ...newPreviews].slice(0, MAX_IMAGES));
+        setImageFiles((prev) => [...prev, ...newFiles].slice(0, maxImagesLimit));
+        setImagePreviews((prev) => [...prev, ...newPreviews].slice(0, maxImagesLimit));
     };
 
     const removeImage = (index: number) => {
@@ -610,7 +634,7 @@ export function MemoryComposer({ questionId }: MemoryComposerProps) {
                                         </button>
                                     </motion.div>
                                 ))}
-                                {imageFiles.length < MAX_IMAGES && (
+                                {imageFiles.length < maxImagesLimit && (
                                     <button
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}

@@ -384,6 +384,15 @@
             "subtitle": "Gestiona tu sesión actual",
             "logout": "Cerrar sesión",
             "logoutDescription": "Cerrarás tu sesión y serás redirigido al inicio de sesión"
+        },
+        "subscription": {
+            "title": "Suscripción y Facturación",
+            "subtitle": "Gestiona las funciones de tu plan premium de Recall",
+            "subscriptionPlan": "Plan de Suscripción",
+            "currentPlan": "Plan Actual:",
+            "manageSubscription": "Gestionar Suscripción",
+            "upgradeToPremium": "Actualizar a Premium",
+            "redirecting": "Redirigiendo..."
         }
     },
     "email": {
@@ -413,7 +422,8 @@
         "backToBlog": "Volver al blog",
         "startLegacyTitle": "Empieza a preservar tu legado",
         "startLegacySubtitle": "Únete a Recall.bio y comienza tu archivo emocional hoy mismo con tu primera pregunta diaria.",
-        "startFree": "Comenzar gratis"
+        "startFree": "Comenzar gratis",
+        "pricing": "Precios"
     },
     "footer": {
         "description": "Preserva tu historia, un día a la vez. El archivo emocional para vos y las personas que elijas.",
@@ -423,6 +433,7 @@
         "legal": "Legal",
         "terms": "Términos de Servicio",
         "privacy": "Política de Privacidad",
+        "pricing": "Precios",
         "contact": "Contacto",
         "contactEmail": "hello@recall.bio",
         "copyright": "© {year} Recall.bio. Todos los derechos reservados."
@@ -504,6 +515,53 @@
             "title": "8. Contáctanos",
             "content": "Si tienes alguna pregunta o inquietud sobre esta Política de Privacidad o nuestras prácticas de datos, por favor contáctanos en {contactEmail}."
         }
+    },
+    "pricingPage": {
+        "title": "Preserva Tu Legado",
+        "subtitle": "Elige el plan que se adapte a tu viaje narrativo. Comienza gratis, actualiza para desbloquear la magia de la IA y, eventualmente, imprime tu historia.",
+        "tiers": {
+            "free": {
+                "name": "Gratis",
+                "price": "$0",
+                "description": "Comienza a preservar tus recuerdos hoy mismo.",
+                "features": [
+                    "2 recuerdos por semana",
+                    "Límite de audio de 1 minuto",
+                    "Formato de texto estándar",
+                    "Subida de fotos básica"
+                ],
+                "buttonText": "Plan Actual"
+            },
+            "premium": {
+                "name": "Recall Premium",
+                "price": "$6.99/mes",
+                "description": "Desbloquea la experiencia narrativa completa con IA.",
+                "features": [
+                    "Recuerdos ilimitados",
+                    "Grabación de audio sin límite",
+                    "Transcripción avanzada y edición narrativa con IA",
+                    "Fotos y galería ilimitadas",
+                    "Invita a familiares a colaborar",
+                    "Exportación digital de alta calidad (PDF/EPUB)"
+                ],
+                "buttonText": "Actualizar a Premium"
+            },
+            "book": {
+                "name": "El Libro Físico",
+                "price": "desde $49",
+                "description": "Tu legado, impreso en un hermoso libro de tapa dura.",
+                "features": [
+                    "Impresión premium en tapa dura",
+                    "Páginas a todo color",
+                    "Diseño y maquetación personalizados",
+                    "Gran regalo para familiares",
+                    "Entregado en tu puerta"
+                ],
+                "buttonText": "Próximamente"
+            }
+        },
+        "mostPopular": "Más Popular",
+        "redirecting": "Redirigiendo..."
     },
     "notFound": {
         "title": "Recuerdo Perdido",
