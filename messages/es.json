@@ -219,7 +219,8 @@
     "marketing": {
         "hero": {
             "title": "Tu Vida, Tu Voz, Tu Legado",
-            "subtitle": "Cada día, una pregunta que invita a reflexionar. Documenta tu historia en tu propia voz y construye un tesoro de sabiduría y recuerdos.",
+            "heroSubtitle": "La app más fácil para documentar tu historia de vida — una pregunta al día.",
+            "subtitle": "Recall hace que documentar tu historia de vida sea sin esfuerzo. Responde una pregunta diaria en voz o texto y construye un archivo duradero de memorias y sabiduría para compartir con tu familia.",
             "getStarted": "Comenzar Gratis",
             "signIn": "Iniciar Sesión",
             "trustedBy": "Confianza de miles de personas",

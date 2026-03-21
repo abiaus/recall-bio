@@ -18,7 +18,7 @@ export async function generateMetadata({
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "marketing.hero" });
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-    const url = `${baseUrl}/${locale === routing.defaultLocale ? "" : locale}`;
+    const url = `${baseUrl}/${locale}`;
     const domain = new URL(baseUrl).hostname;
 
     return {
@@ -29,17 +29,22 @@ export async function generateMetadata({
         },
         description: t("subtitle"),
         keywords: [
+            "life story documentation",
+            "personal memoir app",
+            "voice journaling",
+            "family legacy",
+            "oral history tool",
+            "digital legacy",
+            "memories",
+            "family history",
+            "personal journal",
+            "emotional archive",
             "legado digital",
             "recuerdos",
             "memorias",
             "historia familiar",
             "diario personal",
             "archivo emocional",
-            "digital legacy",
-            "memories",
-            "family history",
-            "personal journal",
-            "emotional archive",
         ],
         authors: [{ name: "Recall.bio" }],
         creator: "Recall.bio",
@@ -54,7 +59,7 @@ export async function generateMetadata({
             languages: {
                 en: `${baseUrl}/en`,
                 es: `${baseUrl}/es`,
-                "x-default": baseUrl,
+                "x-default": `${baseUrl}/`,
             },
         },
         openGraph: {

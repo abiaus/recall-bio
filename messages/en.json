@@ -219,7 +219,8 @@
     "marketing": {
         "hero": {
             "title": "Your Life, Your Voice, Your Legacy",
-            "subtitle": "Each day, a question that invites reflection. Document your story in your own voice and build a treasure of wisdom and memories.",
+            "heroSubtitle": "The easiest life story documentation app — one question a day.",
+            "subtitle": "Recall makes life story documentation effortless. Answer one daily question by voice or text and build a lasting archive of memories and wisdom to share with family.",
             "getStarted": "Get Started Free",
             "signIn": "Sign In",
             "trustedBy": "Trusted by thousands of people",
