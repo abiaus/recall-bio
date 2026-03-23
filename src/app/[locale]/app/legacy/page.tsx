@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 import { LegacyPageContent } from "@/components/legacy/LegacyPageContent";
 
 export default async function LegacyPage({
@@ -16,7 +17,7 @@ export default async function LegacyPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/auth/login`);
+    redirect(localePath("/auth/login", locale));
   }
 
   const { data: ownedLegacy } = await supabase

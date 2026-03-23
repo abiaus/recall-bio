@@ -18,7 +18,10 @@ export async function generateMetadata({
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "marketing.hero" });
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-    const url = `${baseUrl}/${locale}`;
+    const url =
+        locale === routing.defaultLocale
+            ? baseUrl
+            : `${baseUrl}/${locale}`;
     const domain = new URL(baseUrl).hostname;
 
     return {
@@ -57,9 +60,9 @@ export async function generateMetadata({
         alternates: {
             canonical: url,
             languages: {
-                en: `${baseUrl}/en`,
+                en: baseUrl,
                 es: `${baseUrl}/es`,
-                "x-default": `${baseUrl}/`,
+                "x-default": baseUrl,
             },
         },
         openGraph: {

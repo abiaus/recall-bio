@@ -2,10 +2,15 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useRouter, useParams } from "next/navigation";
-import { Link } from "@/i18n/routing";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { Link, localePath } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+
+function safeRedirectPath(value: string | null): string | null {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) return null;
+  return value;
+}
 
 export default function LoginPage() {
   const t = useTranslations("auth");
@@ -15,6 +20,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const locale = params.locale as string;
   const supabase = createClient();
 
@@ -36,7 +42,10 @@ export default function LoginPage() {
       }
       setLoading(false);
     } else {
-      router.push(`/${locale}/app/today`);
+      const next =
+        safeRedirectPath(searchParams.get("redirect")) ??
+        localePath("/app/today", locale);
+      router.push(next);
       router.refresh();
     }
   };

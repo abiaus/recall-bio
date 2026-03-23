@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useParams } from "next/navigation";
-import { Link } from "@/i18n/routing";
+import { Link, localePath } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
 export default function ResetPasswordPage() {
@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
       setLoading(false);
       // Redirigir después de 2 segundos
       setTimeout(() => {
-        router.push(`/${locale}/auth/login`);
+        router.push(localePath("/auth/login", locale));
       }, 2000);
     }
   };

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { localePath } from "@/i18n/routing";
 
 export function GoogleSignInButton() {
   const t = useTranslations("auth");
@@ -15,7 +16,7 @@ export function GoogleSignInButton() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
 
-    const redirectTo = `${window.location.origin}/${locale}/auth/callback`;
+    const redirectTo = `${window.location.origin}${localePath("/auth/callback", locale)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 import { MemoriesPageContent } from "@/components/memories/MemoriesPageContent";
 
 export default async function MemoriesPage({
@@ -16,7 +17,7 @@ export default async function MemoriesPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/auth/login`);
+    redirect(localePath("/auth/login", locale));
   }
 
   const { data: memories } = await supabase

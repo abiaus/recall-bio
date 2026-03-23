@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { routing } from "@/i18n/routing";
+import { localeFromPathname, localePath } from "@/i18n/routing";
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const locale = requestUrl.pathname.split("/")[1] || routing.defaultLocale;
+  const locale = localeFromPathname(requestUrl.pathname);
 
   if (code) {
     const supabase = await createClient();
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     if (error) {
       console.error("Error exchanging code for session:", error);
       const url = new URL(requestUrl.toString());
-      url.pathname = `/${locale}/auth/login`;
+      url.pathname = localePath("/auth/login", locale);
       url.searchParams.set("error", "auth_failed");
       return NextResponse.redirect(url);
     }
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     if (!user) {
       const url = new URL(requestUrl.toString());
-      url.pathname = `/${locale}/auth/login`;
+      url.pathname = localePath("/auth/login", locale);
       url.searchParams.set("error", "no_user");
       return NextResponse.redirect(url);
     }
@@ -44,20 +44,17 @@ export async function GET(request: NextRequest) {
     // Redirigir según si tiene perfil o no
     const url = new URL(requestUrl.toString());
     if (profile) {
-      // Usuario existente, redirigir a today
-      url.pathname = `/${locale}/app/today`;
+      url.pathname = localePath("/app/today", locale);
     } else {
-      // Usuario nuevo, redirigir a onboarding
-      url.pathname = `/${locale}/app/onboarding`;
+      url.pathname = localePath("/app/onboarding", locale);
     }
     url.search = ""; // Limpiar query params
 
     return NextResponse.redirect(url);
   }
 
-  // Si no hay código, redirigir a login
   const url = new URL(requestUrl.toString());
-  url.pathname = `/${locale}/auth/login`;
+  url.pathname = localePath("/auth/login", locale);
   url.searchParams.set("error", "no_code");
   return NextResponse.redirect(url);
 }

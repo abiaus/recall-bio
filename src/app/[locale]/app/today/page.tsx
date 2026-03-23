@@ -6,6 +6,7 @@ import { NewPromptButton } from "@/components/today/NewPromptButton";
 import { TodayHero } from "@/components/today/TodayHero";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 
 export default async function TodayPage({
   params,
@@ -20,7 +21,7 @@ export default async function TodayPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/auth/login`);
+    redirect(localePath("/auth/login", locale));
   }
 
   const promptResult = await getOrAssignDailyPrompt(user.id, new Date(), locale);
