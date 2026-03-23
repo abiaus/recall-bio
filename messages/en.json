@@ -135,7 +135,7 @@
         "pageTitle": "Rate Questions",
         "pageSubtitle": "Help us improve the quality of our prompt library.",
         "questionLabel": "Question",
-        "difficultyToAnswer": "Is this question difficult to answer?",
+        "difficultyToAnswer": "Is this question easy to answer?",
         "clarity": "How clearly is this question written?",
         "categoryMatch": "This question is categorized as \"{category}\". Is this correct?",
         "scaleVeryEasy": "Very easy",

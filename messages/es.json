@@ -135,7 +135,7 @@
         "pageTitle": "Calificar preguntas",
         "pageSubtitle": "Ayúdanos a mejorar la calidad de nuestra biblioteca de preguntas.",
         "questionLabel": "Pregunta",
-        "difficultyToAnswer": "¿Qué tan difícil es responder esta pregunta?",
+        "difficultyToAnswer": "¿Qué tan fácil es responder esta pregunta?",
         "clarity": "¿Qué tan clara está redactada esta pregunta?",
         "categoryMatch": "Esta pregunta está categorizada como \"{category}\". ¿Es correcto?",
         "scaleVeryEasy": "Muy fácil",
