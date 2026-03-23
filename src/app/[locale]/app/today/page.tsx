@@ -1,9 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { getOrAssignDailyPrompt } from "@/server/actions/dailyPrompt";
 import { getQuestionFeedback } from "@/server/actions/questionFeedback";
+import { getUserRatingStats } from "@/server/actions/questionRatings";
 import { MemoryComposer } from "@/components/memories/MemoryComposer";
 import { NewPromptButton } from "@/components/today/NewPromptButton";
 import { TodayHero } from "@/components/today/TodayHero";
+import { RatingBanner } from "@/components/ratings/RatingBanner";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { localePath } from "@/i18n/routing";
@@ -27,6 +29,7 @@ export default async function TodayPage({
   const promptResult = await getOrAssignDailyPrompt(user.id, new Date(), locale);
   const prompt = promptResult.status === "assigned" ? promptResult : null;
   const canRequestNewPrompt = promptResult.status !== "no_questions";
+  const ratingStatsResult = await getUserRatingStats();
 
   // Obtener feedback inicial si hay un prompt
   let initialFeedback: "up" | "down" | null = null;
@@ -39,6 +42,10 @@ export default async function TodayPage({
 
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col">
+      <RatingBanner
+        ratedCount={ratingStatsResult.success ? ratingStatsResult.ratedCount : 0}
+        totalQuestions={ratingStatsResult.success ? ratingStatsResult.totalQuestions : 0}
+      />
       {prompt ? (
         <>
           <TodayHero 
