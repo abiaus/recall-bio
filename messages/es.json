@@ -131,6 +131,28 @@
         "imagesTotalExceeded": "El tamaño total supera 20MB",
         "imageUploadPartialError": "Algunas fotos no se pudieron subir. El recuerdo fue guardado."
     },
+    "questionRating": {
+        "pageTitle": "Calificar preguntas",
+        "pageSubtitle": "Ayúdanos a mejorar la calidad de nuestra biblioteca de preguntas.",
+        "questionLabel": "Pregunta",
+        "difficultyToAnswer": "¿Qué tan difícil es responder esta pregunta?",
+        "clarity": "¿Qué tan clara está redactada esta pregunta?",
+        "categoryMatch": "Esta pregunta está categorizada como \"{category}\". ¿Es correcto?",
+        "scaleVeryEasy": "Muy fácil",
+        "scaleVeryHard": "Muy difícil",
+        "scaleVeryClear": "Muy clara",
+        "scaleVeryConfusing": "Muy confusa",
+        "yes": "Sí",
+        "no": "No",
+        "submit": "Enviar y siguiente",
+        "submitting": "Guardando...",
+        "allRated": "Ya calificaste todas las preguntas disponibles. ¡Gracias!",
+        "bannerTitle": "Ayúdanos a mejorar las preguntas",
+        "bannerSubtitle": "Te tomará alrededor de 2 minutos.",
+        "bannerCta": "Comenzar",
+        "bannerDismiss": "Descartar banner",
+        "genericError": "Ocurrió un error. Por favor, intenta nuevamente."
+    },
     "memories": {
         "title": "Mis Recuerdos",
         "deleteConfirm": "¿Estás seguro de que deseas eliminar este recuerdo? Esta acción no se puede deshacer.",

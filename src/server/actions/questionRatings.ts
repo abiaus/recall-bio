@@ -1,6 +1,5 @@
 "use server";
 
-import { formatSupabaseError } from "@/lib/supabase/formatError";
 import { createClient } from "@/lib/supabase/server";
 
 type QuestionToRate = {
@@ -59,10 +58,7 @@ export async function getNextQuestionToRate(
       .eq("user_id", user.id);
 
     if (ratedRowsError) {
-      console.error(
-        "Error fetching rated question ids:",
-        formatSupabaseError(ratedRowsError)
-      );
+      console.error("Error fetching rated question ids:", ratedRowsError);
       return {
         success: false,
         question: null,
@@ -81,10 +77,7 @@ export async function getNextQuestionToRate(
       .limit(1000);
 
     if (error) {
-      console.error(
-        "Error fetching next question to rate:",
-        formatSupabaseError(error)
-      );
+      console.error("Error fetching next question to rate:", error);
       return {
         success: false,
         question: null,
@@ -173,10 +166,7 @@ export async function submitQuestionRating(
       );
 
     if (error) {
-      console.error(
-        "Error submitting question rating:",
-        formatSupabaseError(error)
-      );
+      console.error("Error submitting question rating:", error);
       return {
         success: false,
         error: "Error al guardar la calificación. Por favor, intenta de nuevo.",
@@ -225,8 +215,8 @@ export async function getUserRatingStats(): Promise<QuestionRatingStatsResult> {
 
     if (ratedResult.error || totalResult.error) {
       console.error("Error fetching question rating stats:", {
-        ratedError: formatSupabaseError(ratedResult.error),
-        totalError: formatSupabaseError(totalResult.error),
+        ratedError: ratedResult.error,
+        totalError: totalResult.error,
       });
       return {
         success: false,

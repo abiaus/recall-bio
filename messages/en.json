@@ -131,6 +131,28 @@
         "imagesTotalExceeded": "Total size exceeds 20MB",
         "imageUploadPartialError": "Some images could not be uploaded. The memory was saved."
     },
+    "questionRating": {
+        "pageTitle": "Rate Questions",
+        "pageSubtitle": "Help us improve the quality of our prompt library.",
+        "questionLabel": "Question",
+        "difficultyToAnswer": "Is this question difficult to answer?",
+        "clarity": "How clearly is this question written?",
+        "categoryMatch": "This question is categorized as \"{category}\". Is this correct?",
+        "scaleVeryEasy": "Very easy",
+        "scaleVeryHard": "Very hard",
+        "scaleVeryClear": "Very clear",
+        "scaleVeryConfusing": "Very confusing",
+        "yes": "Yes",
+        "no": "No",
+        "submit": "Submit and next",
+        "submitting": "Saving...",
+        "allRated": "You have already rated all available questions. Thank you!",
+        "bannerTitle": "Help us improve our questions",
+        "bannerSubtitle": "Takes around 2 minutes.",
+        "bannerCta": "Start rating",
+        "bannerDismiss": "Dismiss banner",
+        "genericError": "An error occurred. Please try again."
+    },
     "memories": {
         "title": "My Memories",
         "deleteConfirm": "Are you sure you want to delete this memory? This action cannot be undone.",
