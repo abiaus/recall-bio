@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/routing";
+import { Link, localePath } from "@/i18n/routing";
 import { acceptInvitationByToken, verifyInvitationToken } from "@/server/actions/legacy";
 import { createClient } from "@/lib/supabase/client";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
@@ -44,7 +44,7 @@ export default function InviteAcceptPage() {
       if (result.success) {
         setStatus("accepted");
         setTimeout(() => {
-          router.push(`/${locale}/app/legacy`);
+          router.push(localePath("/app/legacy", locale));
           router.refresh();
         }, 2000);
       } else if (result.error?.includes("email")) {
@@ -151,7 +151,7 @@ export default function InviteAcceptPage() {
               <p className="text-[var(--text-secondary)] mb-6">
                 {errorMessage || t("invalidTokenDescription")}
               </p>
-              <Link href={`/${locale}`}>
+              <Link href="/">
                 <GlowButton variant="primary">
                   {tAuth("backToLogin")}
                 </GlowButton>
@@ -185,12 +185,12 @@ export default function InviteAcceptPage() {
                 })}
               </p>
               <div className="space-y-3">
-                <Link href={`/${locale}/auth/logout`}>
+                <Link href="/auth/logout">
                   <GlowButton variant="secondary" className="w-full">
                     {tAuth("logout")}
                   </GlowButton>
                 </Link>
-                <Link href={`/${locale}`}>
+                <Link href="/">
                   <GlowButton variant="ghost" className="w-full">
                     {tAuth("backToLogin")}
                   </GlowButton>
@@ -229,12 +229,16 @@ export default function InviteAcceptPage() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="space-y-3">
-            <Link href={`/${locale}/auth/login?redirect=/invite/${token}`}>
+            <Link
+              href={`/auth/login?redirect=${encodeURIComponent(localePath(`/invite/${token}`, locale))}`}
+            >
               <GlowButton variant="primary" className="w-full">
                 {t("signInToAccept")}
               </GlowButton>
             </Link>
-            <Link href={`/${locale}/auth/signup?email=${encodeURIComponent(heirEmail || "")}&redirect=/invite/${token}`}>
+            <Link
+              href={`/auth/signup?email=${encodeURIComponent(heirEmail || "")}&redirect=${encodeURIComponent(localePath(`/invite/${token}`, locale))}`}
+            >
               <GlowButton variant="secondary" className="w-full">
                 {t("signUpToAccept")}
               </GlowButton>

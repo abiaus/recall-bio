@@ -6,6 +6,7 @@ import { AppHeader } from "@/components/ui/AppHeader";
 import { PageWrapper } from "@/components/ui/PageWrapper";
 import { BlobBackground } from "@/components/ui/BlobBackground";
 import { calculateEffectiveStreak } from "@/lib/streak";
+import { localePath } from "@/i18n/routing";
 
 export default async function AppLayout({
   children,
@@ -22,7 +23,7 @@ export default async function AppLayout({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/auth/login`);
+    redirect(localePath("/auth/login", locale));
   }
 
   const { data: profile } = await supabase

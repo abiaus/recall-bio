@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { localePath, routing } from "@/i18n/routing";
 
 export async function generateStaticParams({
     params,
@@ -31,8 +32,7 @@ export async function generateMetadata({
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-    const path = locale === "en" ? "" : `/${locale}`;
-    const url = `${baseUrl}${path}/blog/${post.slug}`;
+    const url = `${baseUrl}${localePath(`/blog/${post.slug}`, locale)}`;
 
     return {
         title: post.title,
@@ -41,9 +41,9 @@ export async function generateMetadata({
         alternates: {
             canonical: url,
             languages: {
-                en: `${baseUrl}/blog/${post.slug}`,
-                es: `${baseUrl}/es/blog/${post.slug}`,
-                "x-default": `${baseUrl}/blog/${post.slug}`,
+                en: `${baseUrl}${localePath(`/blog/${post.slug}`, routing.defaultLocale)}`,
+                es: `${baseUrl}${localePath(`/blog/${post.slug}`, "es")}`,
+                "x-default": `${baseUrl}${localePath(`/blog/${post.slug}`, routing.defaultLocale)}`,
             }
         },
         openGraph: {
@@ -71,8 +71,7 @@ export default async function BlogPostPage({
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-    const pathLocale = locale === "en" ? "" : `/${locale}`;
-    const url = `${baseUrl}${pathLocale}/blog/${post.slug}`;
+    const url = `${baseUrl}${localePath(`/blog/${post.slug}`, locale)}`;
 
     // Generate Article JSON-LD Schema for rich results 
     const jsonLd = {

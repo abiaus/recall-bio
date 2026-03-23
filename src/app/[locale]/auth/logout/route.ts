@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 
 export async function GET(request: Request, { params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -7,5 +8,5 @@ export async function GET(request: Request, { params }: { params: Promise<{ loca
 
   await supabase.auth.signOut();
 
-  redirect(`/${locale}/auth/login`);
+  redirect(localePath("/auth/login", locale));
 }

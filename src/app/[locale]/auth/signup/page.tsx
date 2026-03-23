@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useParams } from "next/navigation";
-import { Link } from "@/i18n/routing";
+import { Link, localePath } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
@@ -39,7 +39,7 @@ export default function SignupPage() {
       setError(signUpError.message);
       setLoading(false);
     } else {
-      router.push(`/${locale}/app/onboarding`);
+      router.push(localePath("/app/onboarding", locale));
       router.refresh();
     }
   };

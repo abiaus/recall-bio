@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { routing } from "./i18n/routing";
+import { localePath, routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -25,9 +25,14 @@ export async function middleware(request: NextRequest) {
         }
       ).auth.getUser();
 
-      const locale = pathname === "/" ? routing.defaultLocale : pathname.slice(1);
+      const locale =
+        pathname === "/" || pathname === "/en"
+          ? routing.defaultLocale
+          : pathname.slice(1);
       const url = request.nextUrl.clone();
-      url.pathname = user ? `/${locale}/app/today` : `/${locale}/auth/login`;
+      url.pathname = user
+        ? localePath("/app/today", locale)
+        : localePath("/auth/login", locale);
       return NextResponse.redirect(url);
     }
   }
@@ -79,7 +84,7 @@ export async function middleware(request: NextRequest) {
 
   if (pathWithoutLocale.startsWith("/app") && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${locale}/auth/login`;
+    url.pathname = localePath("/auth/login", locale);
     return NextResponse.redirect(url);
   }
 
@@ -90,7 +95,7 @@ export async function middleware(request: NextRequest) {
     pathWithoutLocale !== "/auth/callback"
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${locale}/app/today`;
+    url.pathname = localePath("/app/today", locale);
     return NextResponse.redirect(url);
   }
 

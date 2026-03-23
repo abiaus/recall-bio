@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 import { SettingsContent } from "@/components/settings/SettingsContent";
 
 export default async function SettingsPage({
@@ -14,7 +15,7 @@ export default async function SettingsPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/auth/login`);
+    redirect(localePath("/auth/login", locale));
   }
 
   return <SettingsContent />;

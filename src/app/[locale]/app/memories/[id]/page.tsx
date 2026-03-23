@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound, redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 import { MemoryDetail } from "@/components/memories/MemoryDetail";
 
 export default async function MemoryDetailPage({
@@ -14,7 +15,7 @@ export default async function MemoryDetailPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/auth/login`);
+    redirect(localePath("/auth/login", locale));
   }
 
   const { data: memory } = await supabase

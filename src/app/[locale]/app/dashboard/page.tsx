@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 
 export default async function DashboardPage({
   params,
@@ -6,5 +7,5 @@ export default async function DashboardPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  redirect(`/${locale}/app/today`);
+  redirect(localePath("/app/today", locale));
 }

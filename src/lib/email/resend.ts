@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { getTranslations } from "next-intl/server";
+import { localePath } from "@/i18n/routing";
 import { getLegacyInvitationEmailHtml, getLegacyInvitationEmailText, type LegacyInvitationEmailData } from "./templates/legacy-invitation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -33,7 +34,7 @@ export async function sendLegacyInvitationEmail(
 
   // Construir URL de aceptación con token
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-  const acceptUrl = `${baseUrl}/${locale}/invite/${invitationToken}`;
+  const acceptUrl = `${baseUrl}${localePath(`/invite/${invitationToken}`, locale)}`;
 
   // Preparar traducciones
   const translations = {

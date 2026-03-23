@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 
 export default function ForgotPasswordPage() {
   const t = useTranslations("auth");
@@ -22,7 +23,7 @@ export default function ForgotPasswordPage() {
     setError(null);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/${locale}/auth/reset-password`,
+      redirectTo: `${window.location.origin}${localePath("/auth/reset-password", locale)}`,
     });
 
     if (error) {

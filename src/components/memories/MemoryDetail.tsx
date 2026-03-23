@@ -140,7 +140,7 @@ export function MemoryDetail({ memory }: MemoryDetailProps) {
                             setIsDeleting(true);
                             const result = await deleteMemory(memory.id);
                             if (result.success) {
-                                router.push(`/${locale}/app/memories`);
+                                router.push("/app/memories");
                                 router.refresh();
                             } else {
                                 alert(tCommon("deleteError", { defaultMessage: "Error al eliminar el recuerdo" }));

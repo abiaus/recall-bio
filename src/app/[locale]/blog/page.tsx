@@ -1,6 +1,6 @@
 import { getBlogPosts } from "@/lib/blog";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/routing";
+import { Link, localePath, routing } from "@/i18n/routing";
 import { MoveRight } from "lucide-react";
 
 export async function generateMetadata({
@@ -11,8 +11,7 @@ export async function generateMetadata({
     const { locale } = await params;
     const t = await getTranslations({ locale });
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-    const pathLocale = locale === "en" ? "" : `/${locale}`;
-    const url = `${baseUrl}${pathLocale}/blog`;
+    const url = `${baseUrl}${localePath("/blog", locale)}`;
 
     return {
         title: t("marketing.hero.title") + " - Blog",
@@ -20,9 +19,9 @@ export async function generateMetadata({
         alternates: {
             canonical: url,
             languages: {
-                en: `${baseUrl}/blog`,
-                es: `${baseUrl}/es/blog`,
-                "x-default": `${baseUrl}/blog`,
+                en: `${baseUrl}${localePath("/blog", routing.defaultLocale)}`,
+                es: `${baseUrl}${localePath("/blog", "es")}`,
+                "x-default": `${baseUrl}${localePath("/blog", routing.defaultLocale)}`,
             }
         },
     };
@@ -37,8 +36,7 @@ export default async function BlogIndexPage({
     const posts = await getBlogPosts(locale);
     const t = await getTranslations({ locale });
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
-    const pathLocale = locale === "en" ? "" : `/${locale}`;
-    const url = `${baseUrl}${pathLocale}/blog`;
+    const url = `${baseUrl}${localePath("/blog", locale)}`;
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -57,7 +55,7 @@ export default async function BlogIndexPage({
         "blogPost": posts.map(post => ({
             "@type": "BlogPosting",
             "headline": post.title,
-            "url": `${baseUrl}${pathLocale}/blog/${post.slug}`,
+            "url": `${baseUrl}${localePath(`/blog/${post.slug}`, locale)}`,
             "datePublished": post.date,
             "description": post.description
         }))

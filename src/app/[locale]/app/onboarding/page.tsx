@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useParams } from "next/navigation";
+import { localePath } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { ProgressCurve } from "@/components/ui/ProgressCurve";
 import { LifeStageCard } from "@/components/ui/LifeStageCard";
@@ -76,7 +77,7 @@ export default function OnboardingPage() {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      router.push(`/${locale}/auth/login`);
+      router.push(localePath("/auth/login", locale));
       return;
     }
 
@@ -99,7 +100,7 @@ export default function OnboardingPage() {
     } else {
       setIsCompleted(true);
       setTimeout(() => {
-        router.push(`/${locale}/app/today`);
+        router.push(localePath("/app/today", locale));
         router.refresh();
       }, 2000);
     }
