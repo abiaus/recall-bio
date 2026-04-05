@@ -37,9 +37,10 @@ export function HeirMemoryArticle({ memory, isFirst = false }: { memory: Memory;
     year: "numeric"
   }).format(dateObj);
     
-  const questionText = locale === "es" && memory.questions?.text_es 
-    ? memory.questions.text_es 
-    : memory.questions?.text;
+  const questionsObj = Array.isArray(memory.questions) ? memory.questions[0] : memory.questions;
+  const questionText = locale === "es" && questionsObj?.text_es 
+    ? questionsObj.text_es 
+    : questionsObj?.text;
 
   // Find transcript if there's any audio media
   const audioMedia = memory.memory_media?.find(m => m.kind === 'audio' || m.kind === 'audio/webm');

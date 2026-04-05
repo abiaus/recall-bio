@@ -52,7 +52,7 @@ export default async function LegacyViewPage({
   return (
     <HeirMemoriesView
       ownerName={ownerName}
-      memories={memories || []}
+      memories={memories as any || []}
     />
   );
 }
