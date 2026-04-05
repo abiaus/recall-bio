@@ -204,6 +204,7 @@
         "statusActive": "Activo",
         "statusRevoked": "Revocado",
         "statusPaused": "Pausado",
+        "viewMemories": "Leer Memorias",
         "inviteAccept": {
             "title": "Aceptar Invitación de Legado",
             "description": "Has sido invitado a acceder a un legado digital. Inicia sesión o crea una cuenta para aceptar esta invitación.",

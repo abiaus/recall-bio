@@ -204,6 +204,7 @@
         "statusActive": "Active",
         "statusRevoked": "Revoked",
         "statusPaused": "Paused",
+        "viewMemories": "Read Memories",
         "inviteAccept": {
             "title": "Accept Legacy Invitation",
             "description": "You've been invited to access a digital legacy. Sign in or create an account to accept this invitation.",

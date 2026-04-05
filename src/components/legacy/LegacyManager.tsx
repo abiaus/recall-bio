@@ -286,6 +286,15 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                         {t("accept")}
                       </GlowButton>
                     )}
+                    {legacy.status === "active" && (
+                      <GlowButton
+                        onClick={() => router.push(`/${locale}/app/legacy/view/${legacy.id}`)}
+                        variant="primary"
+                        className="flex items-center gap-2"
+                      >
+                        {t("viewMemories")}
+                      </GlowButton>
+                    )}
                   </div>
                 </AnimatedCard>
               </motion.div>
