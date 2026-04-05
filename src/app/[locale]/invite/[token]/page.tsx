@@ -49,7 +49,7 @@ export default function InviteAcceptPage() {
         }, 2000);
       } else if (result.error?.includes("email")) {
         setStatus("emailMismatch");
-        setAccountEmail(result.error.match(/accountEmail: (\S+)/)?.[1] || null);
+        setAccountEmail(result.accountEmail || null);
         setHeirEmail(result.heirEmail || null);
       } else {
         setStatus("invalid");

@@ -26,6 +26,8 @@ interface LegacyAccess {
   release_mode: string;
   effective_at: string | null;
   created_at: string;
+  owner?: { display_name: string | null };
+  heir?: { display_name: string | null };
 }
 
 interface LegacyManagerProps {
@@ -213,7 +215,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <p className="font-medium text-[var(--text-primary)] text-lg mb-1">
-                        {legacy.heir_email}
+                        {legacy.heir?.display_name || legacy.heir_email}
                       </p>
                       {legacy.relationship && (
                         <p className="text-sm text-[var(--text-secondary)] mb-3">
@@ -271,7 +273,7 @@ export function LegacyManager({ ownedLegacy, heirLegacy }: LegacyManagerProps) {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-[var(--text-primary)] text-lg mb-3">
-                        {t("invitationFrom")} {legacy.owner_user_id}
+                        {t("invitationFrom")} {legacy.owner?.display_name || legacy.owner_user_id}
                       </p>
                       {getStatusBadge(legacy.status)}
                     </div>

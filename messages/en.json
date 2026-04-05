@@ -595,5 +595,13 @@
         "description": "The page you're looking for doesn't exist or has been moved.",
         "backHome": "Return Home",
         "backToHomepage": "Back to homepage"
+    },
+    "heirView": {
+        "backToLegacy": "Back to Legacy",
+        "ownerMemories": "{name}'s Memories",
+        "subtitle": "A digital legacy preserved for you.",
+        "noMemories": "No memories have been documented yet.",
+        "noText": "No text available for this memory.",
+        "attachedMedia": "[ Attached Media ]"
     }
 }

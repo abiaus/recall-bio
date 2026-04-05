@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { sendLegacyInvitationEmail } from "@/lib/email/resend";
 
 export async function inviteHeir(
@@ -75,8 +76,9 @@ export async function acceptInvitation(
         .schema("public")
         .from("legacy_access")
         .update({
-            status: "accepted",
+            status: "active",
             heir_user_id: user.id,
+            effective_at: new Date().toISOString(),
         })
         .eq("id", legacyAccessId)
         .eq("heir_email", user.email!);
@@ -175,12 +177,17 @@ export async function verifyInvitationToken(
     const supabase = await createClient();
 
     // Buscar invitación por token
-    const { data: invitation, error: fetchError } = await supabase
+    const adminSupabase = createAdminClient();
+    const { data: invitation, error: fetchError } = await adminSupabase
         .schema("public")
         .from("legacy_access")
         .select("id, heir_email, status, invitation_expires_at")
         .eq("invitation_token", token)
         .single();
+        
+    if (fetchError) {
+        console.error("Admin fetchError:", fetchError);
+    }
 
     if (fetchError || !invitation) {
         return { valid: false, error: "Invitación no encontrada o inválida" };
@@ -204,11 +211,12 @@ export async function verifyInvitationToken(
 
 export async function acceptInvitationByToken(
     token: string
-): Promise<{ success: boolean; error?: string; legacyId?: string; requiresAuth?: boolean; heirEmail?: string }> {
+): Promise<{ success: boolean; error?: string; legacyId?: string; requiresAuth?: boolean; heirEmail?: string; accountEmail?: string }> {
     const supabase = await createClient();
+    const adminSupabase = createAdminClient();
 
-    // Buscar invitación por token
-    const { data: invitation, error: fetchError } = await supabase
+    // Buscar invitación por token (bypassing RLS because user might not be logged in yet)
+    const { data: invitation, error: fetchError } = await adminSupabase
         .schema("public")
         .from("legacy_access")
         .select("id, heir_email, status, invitation_expires_at")
@@ -254,6 +262,7 @@ export async function acceptInvitationByToken(
             success: false,
             error: `El email de tu cuenta (${user.email}) no coincide con el email de la invitación (${invitation.heir_email})`,
             heirEmail: invitation.heir_email,
+            accountEmail: user.email,
         };
     }
 
@@ -262,8 +271,9 @@ export async function acceptInvitationByToken(
         .schema("public")
         .from("legacy_access")
         .update({
-            status: "accepted",
+            status: "active",
             heir_user_id: user.id,
+            effective_at: new Date().toISOString(),
             invitation_token: null, // Invalidar token (single-use)
         })
         .eq("id", invitation.id)

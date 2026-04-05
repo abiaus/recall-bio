@@ -23,14 +23,14 @@ export default async function LegacyPage({
   const { data: ownedLegacy } = await supabase
     .schema("public")
     .from("legacy_access")
-    .select("*")
+    .select("*, heir:profiles!heir_user_id(display_name)")
     .eq("owner_user_id", user.id)
     .order("created_at", { ascending: false });
 
   const { data: heirLegacy } = await supabase
     .schema("public")
     .from("legacy_access")
-    .select("*")
+    .select("*, owner:profiles!owner_user_id(display_name)")
     .eq("heir_user_id", user.id)
     .order("created_at", { ascending: false });
 

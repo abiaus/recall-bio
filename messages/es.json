@@ -595,5 +595,13 @@
         "description": "La página que buscas no existe o ha sido movida.",
         "backHome": "Volver al Inicio",
         "backToHomepage": "Volver a la página principal"
+    },
+    "heirView": {
+        "backToLegacy": "Volver a Legado",
+        "ownerMemories": "Recuerdos de {name}",
+        "subtitle": "Un legado digital preservado para ti.",
+        "noMemories": "Aún no se han documentado recuerdos.",
+        "noText": "No hay texto disponible para este recuerdo.",
+        "attachedMedia": "[ Archivo adjunto ]"
     }
 }
