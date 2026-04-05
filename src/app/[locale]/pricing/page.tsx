@@ -7,6 +7,7 @@ import { PageWrapper } from "@/components/ui/PageWrapper";
 import { MarketingHeader } from "@/components/marketing/MarketingHeader";
 import { Footer } from "@/components/marketing/Footer";
 import { useTranslations } from "next-intl";
+import { createCheckoutSession } from "@/server/actions/stripe";
 
 export default function PricingPage() {
   const t = useTranslations("pricingPage");
@@ -29,7 +30,7 @@ export default function PricingPage() {
       description: t("tiers.premium.description"),
       features: t.raw("tiers.premium.features") as string[],
       buttonText: t("tiers.premium.buttonText"),
-      priceId: "prod_U7SO6d9p3OOlSB",
+      priceId: "price_1T9DTIGGmM9ytcu4GLfAsn2q",
       popular: true,
       icon: <Sparkles className="w-5 h-5 text-[var(--primary-clay)]" />,
     },
@@ -50,12 +51,7 @@ export default function PricingPage() {
     if (!priceId) return;
     try {
       setLoading(priceId);
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId }),
-      });
-      const data = await res.json();
+      const data = await createCheckoutSession(priceId);
       
       let dataUrl = null;
       if (data.sessionId) {

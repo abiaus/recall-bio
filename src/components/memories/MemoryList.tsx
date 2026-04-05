@@ -17,6 +17,7 @@ interface Memory {
   prompt_date: string | null;
   created_at: string;
   questions: Question | Question[];
+  messaging_events?: { provider: string }[] | null;
 }
 
 interface MemoryListProps {

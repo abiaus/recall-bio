@@ -84,7 +84,9 @@
         "saving": "Saving...",
         "continue": "Continue",
         "welcomeTitle": "Welcome to Recall!",
-        "preparingExperience": "We're preparing your experience..."
+        "preparingExperience": "We're preparing your experience...",
+        "readyTitle": "Welcome to Recall",
+        "readySubtitle": "Your personal space is ready."
     },
     "today": {
         "title": "Your Daily Prompt",

@@ -130,7 +130,7 @@ export default function OnboardingPage() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="text-4xl font-serif text-[var(--text-primary)]"
           >
-            Welcome to Recall
+            {t("readyTitle")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -138,7 +138,7 @@ export default function OnboardingPage() {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-lg text-[var(--text-secondary)]"
           >
-            Your personal space is ready.
+            {t("readySubtitle")}
           </motion.p>
         </div>
       </div>

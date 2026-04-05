@@ -84,7 +84,9 @@
         "saving": "Guardando...",
         "continue": "Continuar",
         "welcomeTitle": "¡Bienvenido a Recall!",
-        "preparingExperience": "Estamos preparando tu experiencia..."
+        "preparingExperience": "Estamos preparando tu experiencia...",
+        "readyTitle": "Bienvenido a Recall",
+        "readySubtitle": "Tu espacio personal está listo."
     },
     "today": {
         "title": "Tu Pregunta del Día",

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { CreditCard, Loader2 } from "lucide-react";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { useRouter } from "next/navigation";
+import { createPortalSession } from "@/server/actions/stripe";
 
 interface SubscriptionSettingsProps {
   plan: string;
@@ -24,10 +25,9 @@ export function SubscriptionSettings({ plan }: SubscriptionSettingsProps) {
     setLoading(true);
     try {
       if (plan === "free") {
-        router.push("/app/pricing");
+        router.push("/pricing");
       } else {
-        const res = await fetch("/api/stripe/portal", { method: "POST" });
-        const data = await res.json();
+        const data = await createPortalSession();
         if (data.url) {
           window.location.href = data.url;
         } else {

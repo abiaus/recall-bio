@@ -13,6 +13,7 @@ interface Memory {
   prompt_date: string | null;
   created_at: string;
   questions: { text: string; text_es?: string | null } | Array<{ text: string; text_es?: string | null }>;
+  messaging_events?: { provider: string }[] | null;
 }
 
 interface MemoriesPageContentProps {

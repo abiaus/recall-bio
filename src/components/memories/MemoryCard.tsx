@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { MoodBadge } from "@/components/ui/MoodBadge";
+import { Send } from "lucide-react";
 import { itemVariants } from "@/components/ui/animations";
 
 interface Question {
@@ -22,6 +23,7 @@ interface Memory {
     prompt_date: string | null;
     created_at: string;
     questions: Question | Question[];
+    messaging_events?: { provider: string }[] | null;
 }
 
 interface MemoryCardProps {
@@ -138,14 +140,19 @@ export function MemoryCard({ memory }: MemoryCardProps) {
                         )}
 
                         <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#D4C5B0]/50">
-                            <motion.span
-                                className="text-xs text-[var(--text-muted)] font-medium"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
-                            >
-                                {formatDate(memory.created_at)}
-                            </motion.span>
+                            <div className="flex items-center gap-2">
+                                <motion.span
+                                    className="text-xs text-[var(--text-muted)] font-medium"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                >
+                                    {formatDate(memory.created_at)}
+                                </motion.span>
+                                {memory.messaging_events && memory.messaging_events.some(e => e.provider === 'telegram') && (
+                                    <Send className="w-3.5 h-3.5 text-[#2AABEE] opacity-70" aria-label="Telegram Bot" />
+                                )}
+                            </div>
                             {memory.mood && (
                                 <MoodBadge mood={memory.mood} size="sm" />
                             )}

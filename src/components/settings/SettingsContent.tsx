@@ -12,6 +12,7 @@ import { SubscriptionSettings } from "./SubscriptionSettings";
 import { User, Lock, LogOut, Loader2, CreditCard } from "lucide-react";
 import { containerVariants, itemVariants } from "@/components/ui/animations";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
+import { TelegramConnectionCard } from "./TelegramConnectionCard";
 
 export function SettingsContent() {
   const t = useTranslations("nav");

@@ -24,7 +24,7 @@ export default async function MemoriesPage({
     .schema("public")
     .from("memories")
     .select(
-      "id, title, content_text, mood, prompt_date, created_at, questions!inner(text, text_es)"
+      "id, title, content_text, mood, prompt_date, created_at, questions!inner(text, text_es), messaging_events(provider)"
     )
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
