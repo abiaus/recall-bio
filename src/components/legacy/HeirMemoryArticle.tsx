@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import { itemVariants } from "@/components/ui/animations";
 import { useLocale } from "next-intl";
-import { format } from "date-fns";
-import { es, enUS } from "date-fns/locale";
 import ReactMarkdown from "react-markdown";
 
 interface MemoryMedia {
@@ -31,11 +29,13 @@ interface Memory {
 
 export function HeirMemoryArticle({ memory, isFirst = false }: { memory: Memory; isFirst?: boolean }) {
   const locale = useLocale() as "en" | "es";
-  const dateLocale = locale === "es" ? es : enUS;
   
-  const formattedDate = memory.prompt_date
-    ? format(new Date(memory.prompt_date), "MMMM d, yyyy", { locale: dateLocale })
-    : format(new Date(memory.created_at), "MMMM d, yyyy", { locale: dateLocale });
+  const dateObj = memory.prompt_date ? new Date(memory.prompt_date) : new Date(memory.created_at);
+  const formattedDate = new Intl.DateTimeFormat(locale, {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  }).format(dateObj);
     
   const questionText = locale === "es" && memory.questions?.text_es 
     ? memory.questions.text_es 
