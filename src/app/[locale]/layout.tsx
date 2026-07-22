@@ -70,7 +70,7 @@ export async function generateMetadata({
             locale: locale,
             url: url,
             siteName: "Recall.bio",
-            title: "\u200B", // Zero-width space - oculta título superpuesto en X
+            title: t("title"),
             description: t("subtitle"),
             images: [
                 {
@@ -83,11 +83,12 @@ export async function generateMetadata({
         },
         twitter: {
             card: "summary_large_image",
-            title: "\u200B", // Zero-width space - oculta título superpuesto en X
+            title: t("title"),
             description: t("subtitle"),
             creator: "@recallbio",
             images: ["/og.png"],
         },
+
         other: {
             "twitter:domain": domain,
             "twitter:url": url,

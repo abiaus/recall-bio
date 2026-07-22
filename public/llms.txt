@@ -1,0 +1,16 @@
+# Recall.bio
+
+> Recall.bio is a digital legacy and emotional archiving platform that helps individuals document their life stories through daily prompts, voice recordings, text reflections, and photos.
+
+## Core Value & Concept
+- **Daily Reflection**: Users receive a personalized daily prompt tailored to their life stage to inspire meaningful reflection.
+- **Multi-Modal Memory Capture**: Supports rich text, voice recordings with multi-language AI transcription, and photo attachments.
+- **Digital Legacy & Heirs**: Users can invite designated heirs (children, family, friends) and configure when access to their emotional archive is unlocked.
+- **Privacy & Security**: End-to-end user privacy with row-level security and private media storage.
+
+## Key Links & Resources
+- Main Platform: https://recall.bio
+- Pricing & Plans: https://recall.bio/pricing.md
+- Blog & Guides: https://recall.bio/en/blog
+- Terms of Service: https://recall.bio/en/terms
+- Privacy Policy: https://recall.bio/en/privacy
