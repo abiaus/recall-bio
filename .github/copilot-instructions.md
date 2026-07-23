@@ -1,0 +1,29 @@
+# Copilot Instructions — Recall.bio
+
+## Design Context
+
+### Users
+- **Target Audience**: Individuals across various life stages (teen, young adult, adult, midlife, senior) documenting their memories and life stories daily, as well as family members/heirs receiving their digital legacy.
+- **Context & Need**: Fast-passing lives, loss of personal history, voice, and life lessons over time. Users need an intimate, serene space for daily reflection and memory preservation via text, audio recordings, and photos.
+- **Key Demographics**: Includes seniors and family members requiring intuitive, accessible interactions and high visual legibility.
+
+### Brand Personality
+- **3-Word Tone**: Warm, Organic, Intimate.
+- **Tagline**: *"Tu vida, tu voz, tu legado."* ("Your life, your voice, your legacy.")
+- **Emotional Goals**: Nostalgia, serenity, warmth, trust, and connection. It should feel like a cherished personal journal or heirloom, not a cold utility.
+
+### Aesthetic Direction
+- **Visual Style**: Soft organic design system with warm earth tones, gentle gradients, subtle floating decorative elements, and generous rounded corners (`1.5rem` / `24px`).
+- **Color Palette**:
+  - **Backgrounds**: Cream (`#FDF8F3`), Warm Sand (`#F7EDE4`), Sage (`#E8EDE5`).
+  - **Primary Accents**: Terracotta (`#C4907C`), Clay (`#A67B5B`), Earth (`#8B6F4E`).
+  - **Secondary Accents**: Sage (`#9CAF88`), Dusty Rose (`#D4A5A5`), Lavender (`#B8A9C9`).
+  - **Typography Colors**: Deep warm brown (`#3D3229`), Muted brown (`#6B5D4D`, `#9B8B7A`).
+- **References & Inspiration**: Reflective, human-centered applications (e.g. Day One, Headspace, Notion journaling spaces).
+- **Anti-References**: Cold corporate SaaS dashboards, harsh neon colors, dense technical tables, micro-typography, or sterile monochrome interfaces.
+
+### Design Principles
+1. **Human & Nostalgic First**: Every element should feel inviting, organic, and personal. Use warm colors, soft shadows, rounded shapes, and thoughtful micro-interactions.
+2. **Accessible Across Generations**: Prioritize high legibility, generous font sizes, clear contrast against warm backgrounds, and large, effortless tap/click targets for voice recording and text input.
+3. **Calm & Uncluttered Layouts**: Avoid overwhelming options. Focus the UI around the single daily prompt, reflection input, and cherished memory cards.
+4. **Rich Emotional Feedback**: Honor memory creation with expressive audio visualizations, lightbox galleries, smooth transitions, and tactile button states.

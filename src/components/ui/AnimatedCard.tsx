@@ -29,7 +29,7 @@ export function AnimatedCard({
 
   return (
     <motion.div
-      className={`rounded-xl bg-white border border-[#D4C5B0]/30 shadow-sm ${className}`}
+      className={`rounded-3xl bg-white border border-[var(--bg-warm)] shadow-sm ${className}`}
       variants={variants}
       initial={isMounted ? "hidden" : false}
       animate={isMounted ? "visible" : false}

@@ -188,10 +188,10 @@ export function AudioRecorder({ memoryId, onUploadComplete }: AudioRecorderProps
                 )}
 
                 {isRecording && (
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4" aria-live="polite" aria-label="Audio recording in progress">
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                            <span className="text-[#2B241B] font-medium">
+                            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+                            <span className="text-[#2B241B] font-medium" aria-label={`Elapsed time ${formatTime(duration)}`}>
                                 {formatTime(duration)}
                             </span>
                         </div>

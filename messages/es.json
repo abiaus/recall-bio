@@ -158,7 +158,7 @@
     "memories": {
         "title": "Mis Recuerdos",
         "deleteConfirm": "¿Estás seguro de que deseas eliminar este recuerdo? Esta acción no se puede deshacer.",
-        "noMemories": "Aún no tienes recuerdos guardados. Comienza respondiendo tu prompt del día.",
+        "noMemories": "Tu archivo personal te espera. Responde la pregunta de hoy para preservar tu primera memoria para tus seres queridos.",
         "audio": "Grabación de Voz",
         "audioRecording": "Escucha tus pensamientos grabados",
         "transcriptTitle": "Transcripción",

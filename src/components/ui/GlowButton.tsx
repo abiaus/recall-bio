@@ -23,11 +23,11 @@ export function GlowButton({
   className = "",
   glow = false,
 }: GlowButtonProps) {
-  const baseStyles = "px-6 py-3 rounded-sm font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "px-6 py-3 rounded-2xl font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-[var(--primary-clay)] focus-visible:outline-none focus-visible:ring-offset-2";
 
   const variantStyles = {
-    primary: "bg-[var(--primary-terracotta)] text-white hover:bg-[var(--primary-clay)]",
-    secondary: "bg-[var(--accent-sage)] text-white hover:bg-[#8A9D78]",
+    primary: "bg-[#9E5D46] text-white hover:bg-[#854B36] shadow-sm",
+    secondary: "bg-[var(--accent-sage)] text-[var(--text-primary)] hover:bg-[var(--accent-sage)]/80 shadow-sm",
     ghost: "bg-transparent border border-[var(--primary-terracotta)] text-[var(--primary-terracotta)] hover:bg-[var(--primary-terracotta)]/10",
   };
 

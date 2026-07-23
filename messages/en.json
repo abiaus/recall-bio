@@ -158,7 +158,7 @@
     "memories": {
         "title": "My Memories",
         "deleteConfirm": "Are you sure you want to delete this memory? This action cannot be undone.",
-        "noMemories": "You don't have any saved memories yet. Start by answering your daily prompt.",
+        "noMemories": "Your archive is waiting. Answer today's prompt to preserve your first memory for your loved ones.",
         "audio": "Voice Recording",
         "audioRecording": "Listen to your recorded thoughts",
         "transcriptTitle": "Transcription",
