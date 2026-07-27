@@ -13,6 +13,7 @@ export interface BlogPost {
     tags: string[];
     content: string;
     locale: string;
+    alternateSlugs?: Record<string, string>;
 }
 
 export async function getBlogPosts(locale: string): Promise<BlogPost[]> {
@@ -50,6 +51,21 @@ export async function getBlogPostBySlug(slug: string, locale: string): Promise<B
         return null;
     }
 
+    const alternateSlugs: Record<string, string> = { [locale]: post.slug };
+
+    if (post.idea_id) {
+        const { data: siblings } = await supabase
+            .from('blog_posts')
+            .select('slug, language')
+            .eq('idea_id', post.idea_id);
+
+        if (siblings) {
+            siblings.forEach(s => {
+                alternateSlugs[s.language] = s.slug;
+            });
+        }
+    }
+
     return {
         slug: post.slug,
         title: post.title,
@@ -57,6 +73,7 @@ export async function getBlogPostBySlug(slug: string, locale: string): Promise<B
         date: new Date(post.date).toISOString().split('T')[0],
         tags: post.tags || [],
         locale: post.language,
-        content: post.content || ""
+        content: post.content || "",
+        alternateSlugs,
     };
 }

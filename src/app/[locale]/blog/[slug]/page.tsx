@@ -34,17 +34,22 @@ export async function generateMetadata({
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
     const url = `${baseUrl}${localePath(`/blog/${post.slug}`, locale)}`;
 
+    const languages: Record<string, string> = {};
+    if (post.alternateSlugs?.en) {
+        languages.en = `${baseUrl}${localePath(`/blog/${post.alternateSlugs.en}`, "en")}`;
+    }
+    if (post.alternateSlugs?.es) {
+        languages.es = `${baseUrl}${localePath(`/blog/${post.alternateSlugs.es}`, "es")}`;
+    }
+    languages["x-default"] = languages.en || languages.es || url;
+
     return {
         title: post.title,
         description: post.description,
         keywords: post.tags,
         alternates: {
             canonical: url,
-            languages: {
-                en: `${baseUrl}${localePath(`/blog/${post.slug}`, routing.defaultLocale)}`,
-                es: `${baseUrl}${localePath(`/blog/${post.slug}`, "es")}`,
-                "x-default": `${baseUrl}${localePath(`/blog/${post.slug}`, routing.defaultLocale)}`,
-            }
+            languages,
         },
         openGraph: {
             type: "article",

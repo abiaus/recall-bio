@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import { MarketingHeader } from "@/components/marketing/MarketingHeader";
 import { Footer } from "@/components/marketing/Footer";
 
+import { localePath, routing } from "@/i18n/routing";
+
 export async function generateMetadata({
     params,
 }: {
@@ -10,13 +12,23 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "privacy" });
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
+    const url = `${baseUrl}${localePath("/privacy", locale)}`;
     
     return {
         title: t("title"),
         description: t("description"),
         robots: {
-            index: false,
-            follow: false,
+            index: true,
+            follow: true,
+        },
+        alternates: {
+            canonical: url,
+            languages: {
+                en: `${baseUrl}${localePath("/privacy", routing.defaultLocale)}`,
+                es: `${baseUrl}${localePath("/privacy", "es")}`,
+                "x-default": `${baseUrl}${localePath("/privacy", routing.defaultLocale)}`,
+            },
         },
     };
 }
