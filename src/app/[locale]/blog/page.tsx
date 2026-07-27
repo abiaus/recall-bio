@@ -14,8 +14,8 @@ export async function generateMetadata({
     const url = `${baseUrl}${localePath("/blog", locale)}`;
 
     return {
-        title: t("marketing.hero.title") + " - Blog",
-        description: "Read the latest resources and guides on Recall.bio",
+        title: t("blog.title"),
+        description: t("blog.subtitle"),
         alternates: {
             canonical: url,
             languages: {
@@ -23,6 +23,20 @@ export async function generateMetadata({
                 es: `${baseUrl}${localePath("/blog", "es")}`,
                 "x-default": `${baseUrl}${localePath("/blog", routing.defaultLocale)}`,
             }
+        },
+        openGraph: {
+            type: "website",
+            title: t("blog.title"),
+            description: t("blog.subtitle"),
+            url: url,
+            images: [
+                {
+                    url: "/og.png",
+                    width: 1200,
+                    height: 600,
+                    alt: "Recall.bio Blog",
+                },
+            ],
         },
     };
 }

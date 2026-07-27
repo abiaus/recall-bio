@@ -10,14 +10,6 @@ export async function StructuredData({ locale }: { locale: string }) {
       ? "Documenta tu vida mediante respuestas diarias. Reflexiona, aprende y preserva tu voz para vos y las personas que elijas."
       : "Document your life through daily responses. Reflect, learn, and preserve your voice for yourself and the people you choose.",
     inLanguage: locale,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${baseUrl}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 
   const organizationSchema = {
@@ -25,19 +17,22 @@ export async function StructuredData({ locale }: { locale: string }) {
     "@type": "Organization",
     name: "Recall.bio",
     url: baseUrl,
-    logo: `${baseUrl}/logo.png`,
+    logo: `${baseUrl}/og.png`,
     description: locale === "es"
       ? "Plataforma para documentar tu vida, reflexionar y preservar tu legado mediante preguntas diarias y tu propia voz."
       : "Platform to document your life, reflect, and preserve your legacy through daily questions and your own voice.",
+    sameAs: [
+      "https://x.com/recallbio"
+    ],
   };
 
   const softwareSchema = {
-
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Recall.bio",
     operatingSystem: "All (Web App)",
     applicationCategory: "LifestyleApplication",
+    applicationSubCategory: "Personal Journal & Life Story Documentation",
     offers: {
       "@type": "Offer",
       price: "0",
@@ -46,6 +41,13 @@ export async function StructuredData({ locale }: { locale: string }) {
     description: locale === "es"
       ? "Plataforma de legado digital para documentar historias de vida mediante respuestas diarias, audio, fotos y transcripción de voz."
       : "Digital legacy platform to document life stories through daily prompts, audio, photos, and AI voice transcription.",
+    featureList: [
+      "Daily reflective prompts",
+      "Voice recording & AI transcription",
+      "Photo memory archives",
+      "Family legacy sharing",
+      "End-to-end privacy"
+    ],
   };
 
   const faqSchema = {

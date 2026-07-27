@@ -7,27 +7,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const sitemapEntries: MetadataRoute.Sitemap = [];
 
     const staticPages = [
-        '',
-        '/pricing',
-        '/blog',
-        '/privacy',
-        '/terms',
+        { path: '', priority: 1.0, changeFrequency: 'daily' as const },
+        { path: '/pricing', priority: 0.8, changeFrequency: 'weekly' as const },
+        { path: '/blog', priority: 0.8, changeFrequency: 'daily' as const },
+        { path: '/privacy', priority: 0.3, changeFrequency: 'monthly' as const },
+        { path: '/terms', priority: 0.3, changeFrequency: 'monthly' as const },
     ];
-
 
     for (const locale of routing.locales) {
         for (const page of staticPages) {
             const url =
-                page === ''
+                page.path === ''
                     ? locale === routing.defaultLocale
                         ? baseUrl
                         : `${baseUrl}/${locale}`
-                    : `${baseUrl}${localePath(page, locale)}`;
+                    : `${baseUrl}${localePath(page.path, locale)}`;
             sitemapEntries.push({
                 url,
                 lastModified: new Date(),
-                changeFrequency: 'daily',
-                priority: page === '' ? 1 : 0.8,
+                changeFrequency: page.changeFrequency,
+                priority: page.priority,
             });
         }
 
@@ -37,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 url: `${baseUrl}${localePath(`/blog/${post.slug}`, locale)}`,
                 lastModified: new Date(post.date),
                 changeFrequency: 'weekly',
-                priority: 0.6,
+                priority: 0.7,
             });
         }
     }

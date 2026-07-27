@@ -58,6 +58,14 @@ export async function generateMetadata({
             publishedTime: post.date,
             url: url,
             tags: post.tags,
+            images: [
+                {
+                    url: "/og.png",
+                    width: 1200,
+                    height: 600,
+                    alt: post.title,
+                },
+            ],
         },
     };
 }
