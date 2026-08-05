@@ -77,11 +77,14 @@ export default async function BlogPostPage({
 }) {
     const { locale, slug } = await params;
     const post = await getBlogPostBySlug(slug, locale);
+    const allPosts = await getBlogPosts(locale);
     const t = await getTranslations({ locale });
 
     if (!post) {
         notFound();
     }
+
+    const relatedPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 2);
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://recall.bio";
     const url = `${baseUrl}${localePath(`/blog/${post.slug}`, locale)}`;
@@ -113,11 +116,40 @@ export default async function BlogPostPage({
         },
     };
 
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": locale === "es" ? "Inicio" : "Home",
+                "item": locale === routing.defaultLocale ? baseUrl : `${baseUrl}/${locale}`
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": `${baseUrl}${localePath("/blog", locale)}`
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": post.title,
+                "item": url
+            }
+        ]
+    };
+
     return (
         <main className="min-h-screen pt-12 pb-16 px-6 lg:px-8 max-w-3xl mx-auto">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
 
             <div className="mb-8">
@@ -157,6 +189,35 @@ export default async function BlogPostPage({
                     </ReactMarkdown>
                 </div>
             </article>
+
+            {relatedPosts.length > 0 && (
+                <div className="mt-16 pt-8 border-t">
+                    <h3 className="text-2xl font-serif font-bold mb-6 text-foreground">
+                        {t("blog.relatedTitle")}
+                    </h3>
+                    <div className="grid gap-6 sm:grid-cols-2">
+                        {relatedPosts.map((related) => (
+                            <Link
+                                key={related.slug}
+                                href={`/blog/${related.slug}`}
+                                className="group block rounded-xl border bg-card p-5 shadow-sm transition-all hover:shadow-md hover:border-primary/50 flex flex-col justify-between"
+                            >
+                                <div>
+                                    <span className="text-xs text-muted-foreground font-medium block mb-2">
+                                        {related.date}
+                                    </span>
+                                    <h4 className="text-lg font-semibold group-hover:text-primary transition-colors line-clamp-2 mb-2">
+                                        {related.title}
+                                    </h4>
+                                    <p className="text-sm text-muted-foreground line-clamp-2">
+                                        {related.description}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <div className="mt-16 pt-8 border-t">
                 <div className="bg-primary/5 rounded-2xl p-8 text-center max-w-lg mx-auto border border-primary/10">

@@ -32,18 +32,18 @@ interface MoodSelectorProps {
 }
 
 const moodOptions: MoodOption[] = [
-  { value: "happy", label: "Happy", icon: <Smile className="w-5 h-5" />, color: "from-yellow-400 to-orange-400" },
-  { value: "grateful", label: "Grateful", icon: <Heart className="w-5 h-5" />, color: "from-pink-400 to-rose-400" },
-  { value: "contemplative", label: "Contemplative", icon: <Brain className="w-5 h-5" />, color: "from-blue-400 to-indigo-400" },
-  { value: "nostalgic", label: "Nostalgic", icon: <Sunset className="w-5 h-5" />, color: "from-purple-400 to-pink-400" },
-  { value: "peaceful", label: "Peaceful", icon: <Sparkles className="w-5 h-5" />, color: "from-green-400 to-emerald-400" },
-  { value: "excited", label: "Excited", icon: <Zap className="w-5 h-5" />, color: "from-orange-400 to-red-400" },
-  { value: "sad", label: "Sad", icon: <Frown className="w-5 h-5" />, color: "from-blue-500 to-indigo-600" },
-  { value: "anxious", label: "Anxious", icon: <AlertCircle className="w-5 h-5" />, color: "from-yellow-500 to-orange-500" },
-  { value: "stressed", label: "Stressed", icon: <AlertTriangle className="w-5 h-5" />, color: "from-red-500 to-orange-600" },
-  { value: "angry", label: "Angry", icon: <Flame className="w-5 h-5" />, color: "from-red-600 to-red-800" },
-  { value: "lonely", label: "Lonely", icon: <UserX className="w-5 h-5" />, color: "from-gray-500 to-gray-700" },
-  { value: "tired", label: "Tired", icon: <Moon className="w-5 h-5" />, color: "from-slate-500 to-slate-700" },
+  { value: "happy", label: "Happy", icon: <Smile className="w-5 h-5" />, color: "from-amber-500 to-amber-600" },
+  { value: "grateful", label: "Grateful", icon: <Heart className="w-5 h-5" />, color: "from-[#9CAF88] to-[#6B8E60]" },
+  { value: "contemplative", label: "Contemplative", icon: <Brain className="w-5 h-5" />, color: "from-[#B8A9C9] to-[#8B6F4E]" },
+  { value: "nostalgic", label: "Nostalgic", icon: <Sunset className="w-5 h-5" />, color: "from-[#D4A5A5] to-[#C4907C]" },
+  { value: "peaceful", label: "Peaceful", icon: <Sparkles className="w-5 h-5" />, color: "from-[#9CAF88] to-[#80996D]" },
+  { value: "excited", label: "Excited", icon: <Zap className="w-5 h-5" />, color: "from-[#C4907C] to-[#A67B5B]" },
+  { value: "sad", label: "Sad", icon: <Frown className="w-5 h-5" />, color: "from-[#6B5D4D] to-[#3D3229]" },
+  { value: "anxious", label: "Anxious", icon: <AlertCircle className="w-5 h-5" />, color: "from-[#A67B5B] to-[#6B5D4D]" },
+  { value: "stressed", label: "Stressed", icon: <AlertTriangle className="w-5 h-5" />, color: "from-[#C4907C] to-[#8B6F4E]" },
+  { value: "angry", label: "Angry", icon: <Flame className="w-5 h-5" />, color: "from-[#8B6F4E] to-[#3D3229]" },
+  { value: "lonely", label: "Lonely", icon: <UserX className="w-5 h-5" />, color: "from-[#7C6C5B] to-[#524538]" },
+  { value: "tired", label: "Tired", icon: <Moon className="w-5 h-5" />, color: "from-[#7C6C5B] to-[#3D3229]" },
 ];
 
 export function MoodSelector({ value, onChange, t }: MoodSelectorProps) {

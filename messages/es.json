@@ -443,6 +443,10 @@
     "blog": {
         "title": "Recursos y Guías",
         "subtitle": "Explora nuestros artículos enfocados en el bienestar emocional, memoria familiar y el legado digital.",
+        "featuredTitle": "Desde Nuestro Blog y Guías",
+        "featuredSubtitle": "Ideas, reflexiones y consejos para ayudarte a documentar tu historia y preservar la memoria familiar.",
+        "viewAllPosts": "Explorar Todos los Artículos",
+        "relatedTitle": "Artículos Relacionados",
         "readMore": "Leer más",
         "noArticles": "No se encontraron artículos. ¡Vuelve pronto!",
         "backToBlog": "Volver al blog",

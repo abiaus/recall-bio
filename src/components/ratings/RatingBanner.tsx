@@ -41,7 +41,7 @@ export function RatingBanner({ ratedCount, totalQuestions }: RatingBannerProps) 
 
   return (
     <section
-      className="mb-6 rounded-xl border border-[var(--primary-terracotta)]/20 border-l-4 bg-[var(--primary-terracotta)]/8 p-4 sm:p-5"
+      className="mb-6 rounded-2xl border border-[var(--primary-terracotta)]/20 bg-[var(--primary-terracotta)]/5 p-4 sm:p-5 shadow-sm"
       aria-label={t("bannerTitle")}
     >
       <div className="flex items-start justify-between gap-3">

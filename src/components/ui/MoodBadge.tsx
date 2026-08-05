@@ -9,18 +9,18 @@ interface MoodBadgeProps {
 }
 
 const moodConfig: Record<string, { icon: React.ReactNode; color: string; label: string }> = {
-  happy: { icon: <Smile className="w-4 h-4" />, color: "from-yellow-400 to-orange-400", label: "Happy" },
-  grateful: { icon: <Heart className="w-4 h-4" />, color: "from-pink-400 to-rose-400", label: "Grateful" },
-  contemplative: { icon: <Brain className="w-4 h-4" />, color: "from-blue-400 to-indigo-400", label: "Contemplative" },
-  nostalgic: { icon: <Sunset className="w-4 h-4" />, color: "from-purple-400 to-pink-400", label: "Nostalgic" },
-  peaceful: { icon: <Sparkles className="w-4 h-4" />, color: "from-green-400 to-emerald-400", label: "Peaceful" },
-  excited: { icon: <Zap className="w-4 h-4" />, color: "from-orange-400 to-red-400", label: "Excited" },
-  sad: { icon: <Frown className="w-4 h-4" />, color: "from-blue-500 to-indigo-600", label: "Sad" },
-  anxious: { icon: <AlertCircle className="w-4 h-4" />, color: "from-yellow-500 to-orange-500", label: "Anxious" },
-  stressed: { icon: <AlertTriangle className="w-4 h-4" />, color: "from-red-500 to-orange-600", label: "Stressed" },
-  angry: { icon: <Flame className="w-4 h-4" />, color: "from-red-600 to-red-800", label: "Angry" },
-  lonely: { icon: <UserX className="w-4 h-4" />, color: "from-gray-500 to-gray-700", label: "Lonely" },
-  tired: { icon: <Moon className="w-4 h-4" />, color: "from-slate-500 to-slate-700", label: "Tired" },
+  happy: { icon: <Smile className="w-4 h-4" />, color: "from-amber-500 to-amber-600", label: "Happy" },
+  grateful: { icon: <Heart className="w-4 h-4" />, color: "from-[#9CAF88] to-[#6B8E60]", label: "Grateful" },
+  contemplative: { icon: <Brain className="w-4 h-4" />, color: "from-[#B8A9C9] to-[#8B6F4E]", label: "Contemplative" },
+  nostalgic: { icon: <Sunset className="w-4 h-4" />, color: "from-[#D4A5A5] to-[#C4907C]", label: "Nostalgic" },
+  peaceful: { icon: <Sparkles className="w-4 h-4" />, color: "from-[#9CAF88] to-[#80996D]", label: "Peaceful" },
+  excited: { icon: <Zap className="w-4 h-4" />, color: "from-[#C4907C] to-[#A67B5B]", label: "Excited" },
+  sad: { icon: <Frown className="w-4 h-4" />, color: "from-[#6B5D4D] to-[#3D3229]", label: "Sad" },
+  anxious: { icon: <AlertCircle className="w-4 h-4" />, color: "from-[#A67B5B] to-[#6B5D4D]", label: "Anxious" },
+  stressed: { icon: <AlertTriangle className="w-4 h-4" />, color: "from-[#C4907C] to-[#8B6F4E]", label: "Stressed" },
+  angry: { icon: <Flame className="w-4 h-4" />, color: "from-[#8B6F4E] to-[#3D3229]", label: "Angry" },
+  lonely: { icon: <UserX className="w-4 h-4" />, color: "from-[#7C6C5B] to-[#524538]", label: "Lonely" },
+  tired: { icon: <Moon className="w-4 h-4" />, color: "from-[#7C6C5B] to-[#3D3229]", label: "Tired" },
 };
 
 export function MoodBadge({ mood, size = "md" }: MoodBadgeProps) {

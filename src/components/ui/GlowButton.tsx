@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ReactNode } from "react";
 import { pressVariants } from "./animations";
 
@@ -23,10 +23,11 @@ export function GlowButton({
   className = "",
   glow = false,
 }: GlowButtonProps) {
+  const shouldReduceMotion = useReducedMotion();
   const baseStyles = "px-6 py-3 rounded-2xl font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-[var(--primary-clay)] focus-visible:outline-none focus-visible:ring-offset-2";
 
   const variantStyles = {
-    primary: "bg-[#9E5D46] text-white hover:bg-[#854B36] shadow-sm",
+    primary: "bg-[var(--primary-terracotta)] text-white hover:bg-[var(--primary-earth)] shadow-sm",
     secondary: "bg-[var(--accent-sage)] text-[var(--text-primary)] hover:bg-[var(--accent-sage)]/80 shadow-sm",
     ghost: "bg-transparent border border-[var(--primary-terracotta)] text-[var(--primary-terracotta)] hover:bg-[var(--primary-terracotta)]/10",
   };
@@ -37,10 +38,10 @@ export function GlowButton({
       onClick={onClick}
       disabled={disabled}
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-      variants={pressVariants}
+      variants={shouldReduceMotion ? undefined : pressVariants}
       initial="rest"
-      whileHover="hover"
-      whileTap="press"
+      whileHover={shouldReduceMotion ? undefined : "hover"}
+      whileTap={shouldReduceMotion ? undefined : "press"}
     >
       <span className="relative z-10 flex items-center justify-center gap-2 w-full h-full">
         {children}

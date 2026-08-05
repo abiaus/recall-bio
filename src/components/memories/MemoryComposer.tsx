@@ -24,18 +24,18 @@ const MAX_TOTAL_IMAGE_BYTES = 20 * 1024 * 1024; // 20MB
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const moodOptions = [
-    { value: "happy", emoji: "😊", color: "from-amber-400 to-orange-400" },
-    { value: "grateful", emoji: "🙏", color: "from-emerald-400 to-teal-400" },
-    { value: "contemplative", emoji: "🤔", color: "from-indigo-400 to-purple-400" },
-    { value: "nostalgic", emoji: "💭", color: "from-rose-400 to-pink-400" },
-    { value: "peaceful", emoji: "😌", color: "from-sky-400 to-cyan-400" },
-    { value: "excited", emoji: "🎉", color: "from-yellow-400 to-amber-400" },
-    { value: "sad", emoji: "😢", color: "from-blue-500 to-indigo-600" },
-    { value: "anxious", emoji: "😰", color: "from-yellow-500 to-orange-500" },
-    { value: "stressed", emoji: "😓", color: "from-red-500 to-orange-600" },
-    { value: "angry", emoji: "😠", color: "from-red-600 to-red-800" },
-    { value: "lonely", emoji: "😔", color: "from-gray-500 to-gray-700" },
-    { value: "tired", emoji: "😴", color: "from-slate-500 to-slate-700" },
+    { value: "happy", emoji: "😊", color: "from-amber-500 to-amber-600" },
+    { value: "grateful", emoji: "🙏", color: "from-[#9CAF88] to-[#6B8E60]" },
+    { value: "contemplative", emoji: "🤔", color: "from-[#B8A9C9] to-[#8B6F4E]" },
+    { value: "nostalgic", emoji: "💭", color: "from-[#D4A5A5] to-[#C4907C]" },
+    { value: "peaceful", emoji: "😌", color: "from-[#9CAF88] to-[#80996D]" },
+    { value: "excited", emoji: "🎉", color: "from-[#C4907C] to-[#A67B5B]" },
+    { value: "sad", emoji: "😢", color: "from-[#6B5D4D] to-[#3D3229]" },
+    { value: "anxious", emoji: "😰", color: "from-[#A67B5B] to-[#6B5D4D]" },
+    { value: "stressed", emoji: "😓", color: "from-[#C4907C] to-[#8B6F4E]" },
+    { value: "angry", emoji: "😠", color: "from-[#8B6F4E] to-[#3D3229]" },
+    { value: "lonely", emoji: "😔", color: "from-[#7C6C5B] to-[#524538]" },
+    { value: "tired", emoji: "😴", color: "from-[#7C6C5B] to-[#3D3229]" },
 ];
 
 export function MemoryComposer({ questionId }: MemoryComposerProps) {

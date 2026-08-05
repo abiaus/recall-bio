@@ -30,18 +30,18 @@ interface HeirMemoryDetailProps {
 }
 
 const moodConfig: Record<string, { emoji: string; label: string; color: string }> = {
-    happy: { emoji: "😊", label: "Happy", color: "from-amber-400 to-orange-400" },
-    grateful: { emoji: "🙏", label: "Grateful", color: "from-emerald-400 to-teal-400" },
-    contemplative: { emoji: "🤔", label: "Contemplative", color: "from-indigo-400 to-purple-400" },
-    nostalgic: { emoji: "💭", label: "Nostalgic", color: "from-rose-400 to-pink-400" },
-    peaceful: { emoji: "😌", label: "Peaceful", color: "from-sky-400 to-cyan-400" },
-    excited: { emoji: "🎉", label: "Excited", color: "from-yellow-400 to-amber-400" },
-    sad: { emoji: "😢", label: "Sad", color: "from-blue-500 to-indigo-600" },
-    anxious: { emoji: "😰", label: "Anxious", color: "from-yellow-500 to-orange-500" },
-    stressed: { emoji: "😓", label: "Stressed", color: "from-red-500 to-orange-600" },
-    angry: { emoji: "😠", label: "Angry", color: "from-red-600 to-red-800" },
-    lonely: { emoji: "😔", label: "Lonely", color: "from-gray-500 to-gray-700" },
-    tired: { emoji: "😴", label: "Tired", color: "from-slate-500 to-slate-700" },
+    happy: { emoji: "😊", label: "Happy", color: "from-amber-500 to-amber-600" },
+    grateful: { emoji: "🙏", label: "Grateful", color: "from-[#9CAF88] to-[#6B8E60]" },
+    contemplative: { emoji: "🤔", label: "Contemplative", color: "from-[#B8A9C9] to-[#8B6F4E]" },
+    nostalgic: { emoji: "💭", label: "Nostalgic", color: "from-[#D4A5A5] to-[#C4907C]" },
+    peaceful: { emoji: "😌", label: "Peaceful", color: "from-[#9CAF88] to-[#80996D]" },
+    excited: { emoji: "🎉", label: "Excited", color: "from-[#C4907C] to-[#A67B5B]" },
+    sad: { emoji: "😢", label: "Sad", color: "from-[#6B5D4D] to-[#3D3229]" },
+    anxious: { emoji: "😰", label: "Anxious", color: "from-[#A67B5B] to-[#6B5D4D]" },
+    stressed: { emoji: "😓", label: "Stressed", color: "from-[#C4907C] to-[#8B6F4E]" },
+    angry: { emoji: "😠", label: "Angry", color: "from-[#8B6F4E] to-[#3D3229]" },
+    lonely: { emoji: "😔", label: "Lonely", color: "from-[#7C6C5B] to-[#524538]" },
+    tired: { emoji: "😴", label: "Tired", color: "from-[#7C6C5B] to-[#3D3229]" },
 };
 
 export function HeirMemoryDetail({ memory, legacyId }: HeirMemoryDetailProps) {

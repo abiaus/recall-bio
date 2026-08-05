@@ -75,11 +75,34 @@ export default async function BlogIndexPage({
         }))
     };
 
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": locale === "es" ? "Inicio" : "Home",
+                "item": locale === routing.defaultLocale ? baseUrl : `${baseUrl}/${locale}`
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": url
+            }
+        ]
+    };
+
     return (
         <main className="min-h-screen pt-12 pb-16 px-6 lg:px-8 max-w-5xl mx-auto">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
             <div className="space-y-4 mb-12">
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight">

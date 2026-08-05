@@ -443,6 +443,10 @@
     "blog": {
         "title": "Resources & Guides",
         "subtitle": "Explore our articles focused on emotional well-being, family memory, and digital legacy.",
+        "featuredTitle": "From Our Journal & Guides",
+        "featuredSubtitle": "Insights, prompts, and inspiration to help you document your story and preserve family memories.",
+        "viewAllPosts": "Explore All Articles",
+        "relatedTitle": "Related Articles",
         "readMore": "Read more",
         "noArticles": "No articles found. Check back soon!",
         "backToBlog": "Back to blog",

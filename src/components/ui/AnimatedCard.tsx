@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useLayoutEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ReactNode } from "react";
 import { cardHoverVariants, itemVariants } from "./animations";
 
@@ -19,6 +19,7 @@ export function AnimatedCard({
   hover = true
 }: AnimatedCardProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
   const variants = hover ? cardHoverVariants : itemVariants;
 
   useLayoutEffect(() => {
@@ -30,12 +31,12 @@ export function AnimatedCard({
   return (
     <motion.div
       className={`rounded-3xl bg-white border border-[var(--bg-warm)] shadow-sm ${className}`}
-      variants={variants}
-      initial={isMounted ? "hidden" : false}
-      animate={isMounted ? "visible" : false}
-      whileHover={hover && isMounted ? "hover" : undefined}
-      whileTap={hover && isMounted ? "press" : undefined}
-      transition={{
+      variants={shouldReduceMotion ? undefined : variants}
+      initial={isMounted && !shouldReduceMotion ? "hidden" : false}
+      animate={isMounted && !shouldReduceMotion ? "visible" : false}
+      whileHover={hover && isMounted && !shouldReduceMotion ? "hover" : undefined}
+      whileTap={hover && isMounted && !shouldReduceMotion ? "press" : undefined}
+      transition={shouldReduceMotion ? { duration: 0 } : {
         delay,
         type: "spring",
         damping: 20,

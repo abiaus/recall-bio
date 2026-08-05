@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/marketing/HeroSection";
 import { Footer } from "@/components/marketing/Footer";
+import { FeaturedArticlesSection } from "@/components/marketing/FeaturedArticlesSection";
+import { getBlogPosts } from "@/lib/blog";
 import { routing } from "@/i18n/routing";
 
 const ProblemSection = dynamic(() => import("@/components/marketing/ProblemSection").then(mod => mod.ProblemSection));
@@ -35,7 +37,14 @@ export async function generateMetadata({
     };
 }
 
-export default function HomePage() {
+export default async function HomePage({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    const { locale } = await params;
+    const posts = await getBlogPosts(locale);
+
     return (
         <main className="min-h-screen">
             <HeroSection />
@@ -43,6 +52,7 @@ export default function HomePage() {
             <SolutionSection />
             <HowItWorksSection />
             <TestimonialsSection />
+            <FeaturedArticlesSection locale={locale} posts={posts} />
             <FAQSection />
             <CTASection />
             <Footer />
